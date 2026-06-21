@@ -1,0 +1,28 @@
+# Abuse Handling — Response Style Guide
+
+> DNA สกัดจาก Brute Force / Phishing / Ban templates
+
+## Structure
+1. **เปิด:** "เรียน ผู้ใช้บริการ"
+2. **แจ้งตรวจพบ:** ระบุพฤติกรรม + หลักฐาน
+3. **ขอความร่วมมือ:** ขั้นตอนแก้ไข
+4. **แจ้งบทลงโทษ:** ถ้าเกิดซ้ำ → ระงับ/ban
+5. **อ้างอิง T&C:** https://openlandscape.cloud/policy/term_and_condition
+6. **ปิด:** "ขอบคุณครับ"
+
+## Tone
+- เป็นทางการ, หนักแน่น, ชัดเจนเรื่องผลกระทบ
+- "ทางทีมตรวจสอบพบพฤติกรรมการใช้งานที่เข้าข่าย..."
+- "เพื่อความปลอดภัยของระบบและป้องกันผลกระทบต่อผู้ใช้บริการรายอื่น"
+- "ทางทีมขอสงวนสิทธิ์ในการระงับ/จำกัดการให้บริการ"
+
+## Required Elements
+- ต้องอ้างอิง T&C เสมอ
+- ต้องระบุ instance name + public IP (ตัวแปร)
+- ต้องระบุช่วงเวลาที่ตรวจพบ (ตัวแปร)
+- ต้องแจ้งบทลงโทษที่จะเกิดขึ้นหากเกิดซ้ำ
+
+## Escalation Levels
+1. First offense → Warning + ขอให้แก้ไข
+2. Repeat within 30 days → Suspend 7 days
+3. Severe/Permanent → Ban account + bucket

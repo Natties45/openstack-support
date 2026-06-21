@@ -1,0 +1,289 @@
+categories:
+  account:
+    name: "Gate & Account"
+    sections:
+      registration:
+        name: "การสมัครสมาชิก (Registration)"
+        entries:
+          - id: acc-signup-how
+            keywords: [สมัครสมาชิก, sign up, register, registration, gate, สมัคร, ลงทะเบียน, สร้างบัญชี, create account]
+            intent: request
+            answer: |
+              เรียน ผู้ใช้บริการ
+              ผู้ใช้บริการสามารถดูวิธีการสมัครสมาชิกและการเข้าใช้งานระบบได้ตามลิงก์แนบครับ:
+              https://blog.openlandscape.cloud/sign-up-and-access-the-ekyc-system
+              ขอบคุณครับ
+            refs:
+              - title: "วิธีการสมัครสมาชิกและการเข้าใช้งานระบบ eKYC"
+                url: "https://blog.openlandscape.cloud/sign-up-and-access-the-ekyc-system"
+          - id: acc-signup-no-email
+            keywords: [ไม่ได้รับอีเมลยืนยัน, email verification, ไม่ได้รับอีเมล, ยืนยันอีเมล, ไม่มีอีเมล, junk, spam, signup email, confirm email]
+            intent: request
+            answer: |
+              เรียน ผู้ใช้บริการ
+              เบื้องต้นรบกวนตรวจสอบอีเมลในกล่อง Junk/Spam และค้นหาคำว่า Openlandscape หรือ OLS ครับ
+              หากยังไม่พบ รบกวนแจ้งอีเมลที่ใช้สมัครผ่าน Ticket เพื่อให้ทางทีมตรวจสอบเพิ่มเติมครับ
+              ขอบคุณครับ
+            refs:
+              - title: "การสมัครและเข้าใช้งานระบบ eKYC"
+                url: "https://blog.openlandscape.cloud/sign-up-and-access-the-ekyc-system"
+      login:
+        name: "การเข้าสู่ระบบ (Login)"
+        entries:
+          - id: acc-login-failed
+            keywords: [login ไม่ได้, เข้าไม่ได้, login failed, cannot login, ค้าง, วนลูป, error, เข้าสู่ระบบไม่ได้, หน้า gate, cannot access]
+            intent: incident
+            answer: |
+              เรียน ผู้ใช้บริการ
+              กรณีที่ไม่สามารถ Log in ได้ อาจเกิดจากข้อมูล Cache / Cookie ที่ค้างอยู่ใน Browser
+              แนะนำให้ลองล้างแคชและคุกกี้ก่อน แล้วทดสอบเข้าใช้งานใหม่
+              โดยกด Ctrl + Shift + Delete เลือกช่วงเวลาเป็น All time
+              ติ๊กเลือก Cookies and other site data และ Cached images and files
+              กด Clear data แล้วปิด/เปิด Browser ใหม่ จากนั้นลอง Log in อีกครั้ง
+              หากยังไม่หาย แนะนำลองเข้าแบบ Incognito/Private หรือทดลองผ่าน Browser อื่นชั่วคราวครับ
+            refs:
+              - title: "วิธีใช้งานหน้า Gate รูปแบบใหม่"
+                url: "https://blog.openlandscape.cloud/how-to-use-the-new-gate"
+          - id: acc-login-cors
+            keywords: [CORS, cross origin, login CORS, access control, CORS error, hard refresh, refresh, cross-origin]
+            intent: incident
+            answer: |
+              เรียน ผู้ใช้บริการ
+              กรณีที่ไม่สามารถ Log in ได้ เบื้องต้นคาดว่าอาจเกิดจาก CORS (Cross-Origin Resource Sharing)
+              แนะนำให้ลองทำการ Hard Refresh ก่อน โดยกด Ctrl + Shift + R (Windows) หรือ Cmd + Shift + R (Mac)
+              หลังจากนั้นให้ปิด/เปิด Browser ใหม่ และลอง Log in อีกครั้ง
+              หากยังไม่สามารถเข้าใช้งานได้ แนะนำให้ลองล้าง Cache / Cookie และทดลองผ่าน Incognito / Private Mode หรือ Browser อื่นครับ
+            refs: []
+          - id: acc-forgot-password
+            keywords: [ลืมรหัสผ่าน, forgot password, reset password, รีเซ็ตรหัสผ่าน, ตั้งรหัสผ่านใหม่, password, ลืม password, จำรหัสไม่ได้, Gate, เข้าระบบ, login, หน้าเว็บ, หน้า Gate]
+            intent: request
+            answer: |
+              เรียน ผู้ใช้บริการ
+              เบื้องต้นแนะนำให้ดำเนินการ Forgot Password ที่หน้าเข้าสู่ระบบ
+              และตรวจสอบอีเมลสำหรับตั้งรหัสผ่านใหม่ครับ
+              หากไม่ได้รับอีเมล รบกวนตรวจสอบ Junk/Spam
+              และแจ้งอีเมลบัญชีผู้ใช้บริการผ่าน Ticket เพื่อให้ทางทีมตรวจสอบเพิ่มเติมครับ
+              ขอบคุณครับ
+            refs:
+              - title: "การจัดการบัญชี (Manage Account)"
+                url: "https://blog.openlandscape.cloud/manage-account/"
+
+      account-management:
+        name: "การจัดการบัญชี (Account Management)"
+        entries:
+          - id: acc-change-email
+            keywords: [เปลี่ยนอีเมล, change email, email account, เปลี่ยน email, แก้ไขอีเมล, update email, อีเมลใหม่]
+            intent: request
+            answer: |
+              เรียน ผู้ใช้บริการ
+              ผู้ใช้บริการสามารถจัดการ Account และเปลี่ยนข้อมูลบัญชีได้ตามคู่มือครับ
+              รายละเอียดตามลิงก์แนบ:
+              https://blog.openlandscape.cloud/manage-account/
+              ขอบคุณครับ
+            refs:
+              - title: "การจัดการบัญชี (Manage Account)"
+                url: "https://blog.openlandscape.cloud/manage-account/"
+          - id: acc-edit-profile
+            keywords: [แก้ไขโปรไฟล์, ข้อมูลผู้ใช้, profile, edit profile, แก้ไขข้อมูล, update profile, account info, ข้อมูลส่วนตัว]
+            intent: request
+            answer: |
+              เรียน ผู้ใช้บริการ
+              ผู้ใช้บริการสามารถจัดการข้อมูลบัญชี (Account) ได้ตามคู่มือครับ
+              รายละเอียดตามลิงก์แนบ:
+              https://blog.openlandscape.cloud/manage-account/
+              ขอบคุณครับ
+            refs:
+              - title: "การจัดการบัญชี (Manage Account)"
+                url: "https://blog.openlandscape.cloud/manage-account/"
+
+      notifications:
+        name: "การแจ้งเตือน (Notifications)"
+        entries:
+          - id: acc-notifications-how
+            keywords: [เปิดปิดแจ้งเตือน, notifications, noti, การแจ้งเตือน, ตั้งค่าแจ้งเตือน, ดูแจ้งเตือนย้อนหลัง, notification settings, toggle notification]
+            intent: request
+            answer: |
+              เรียน ผู้ใช้บริการ
+              ผู้ใช้บริการสามารถตรวจสอบข้อมูลผ่านเมนู Notifications ภายในระบบได้ครับ
+              รายละเอียดตามลิงก์แนบ:
+              https://blog.openlandscape.cloud/notification-feature/
+              ขอบคุณครับ
+            refs:
+              - title: "ฟีเจอร์ Notification"
+                url: "https://blog.openlandscape.cloud/notification-feature/"
+          - id: acc-notifications-missing
+            keywords: [ไม่เห็น notifications, ไม่ขึ้นแจ้งเตือน, notification missing, noti ไม่ขึ้น, แจ้งเตือนหาย, ไม่มีการแจ้งเตือน, noti หาย]
+            intent: incident
+            answer: |
+              เรียน ผู้ใช้บริการ
+              เบื้องต้นแนะนำให้ Logout แล้ว Login ใหม่ และลองล้าง Cache/Cookies ของเบราว์เซอร์ครับ
+              หากยังไม่แสดงผล รบกวนแนบภาพหน้าจอเมนู Notifications
+              และแจ้งอีเมลบัญชีผู้ใช้บริการผ่าน Ticket เพื่อให้ทางทีมตรวจสอบเพิ่มเติมครับ
+              ขอบคุณครับ
+            refs:
+              - title: "ฟีเจอร์ Notification"
+                url: "https://blog.openlandscape.cloud/notification-feature/"
+
+      guides:
+        name: "คู่มือการใช้งาน (Guides & Documentation)"
+        entries:
+          - id: acc-getting-started
+            keywords: [คู่มือ, manual, guide, documentation, เอกสาร, วิธีใช้, user guide, getting started, beginner, help, ใช้งานเบื้องต้น]
+            intent: request
+            answer: |
+              เรียน ผู้ใช้บริการ
+              ผู้ใช้บริการสามารถดูคู่มือการใช้งานได้ที่หน้า gate.openlandscape.cloud
+              เมนู Support > Documentation > OLS Product Documentation
+              และสามารถดูบทความการใช้งานเพิ่มเติมได้ที่ https://blog.openlandscape.cloud
+              ขอบคุณครับ
+            refs:
+              - title: "OLS Knowledge Hub"
+                url: "https://blog.openlandscape.cloud"
+          - id: acc-new-gate-guide
+            keywords: [new gate, gate รูปแบบใหม่, หน้า gate ใหม่, new ui, interface ใหม่, ใช้งาน gate ใหม่, gate ใหม่]
+            intent: request
+            answer: |
+              เรียน ผู้ใช้บริการ
+              ทางทีมขออนุญาตแนบคู่มือการใช้งานหน้า gate รูปแบบใหม่ครับ
+              รายละเอียดตามลิงก์แนบ:
+              https://blog.openlandscape.cloud/how-to-use-the-new-gate
+              ขอบคุณครับ
+            refs:
+              - title: "วิธีใช้งานหน้า Gate รูปแบบใหม่"
+                url: "https://blog.openlandscape.cloud/how-to-use-the-new-gate"
+          - id: acc-report-problem
+            keywords: [แจ้งปัญหา, เปิด ticket, report problem, ติดต่อ, สร้าง ticket, open ticket, support ticket, ติดต่อ support]
+            intent: request
+            answer: |
+              เรียน ผู้ใช้บริการ
+              ผู้ใช้บริการสามารถแจ้งปัญหาผ่าน Ticket Support ได้ตามขั้นตอนในลิงก์แนบครับ:
+              https://blog.openlandscape.cloud/report-a-problem/
+              ขอบคุณครับ
+            refs:
+              - title: "การแจ้งปัญหา/เปิด Ticket"
+                url: "https://blog.openlandscape.cloud/report-a-problem/"
+
+      ranking:
+        name: "ระดับสมาชิก (Membership & Ranking)"
+        entries:
+          - id: acc-check-ranking
+            keywords: [ระดับสมาชิก, ranking, rank, membership, tier, level, ตรวจสอบ rank, ดูระดับ, member level]
+            intent: request
+            answer: |
+              เรียน ผู้ใช้บริการ
+              ผู้ใช้บริการสามารถตรวจสอบระดับสมาชิกได้ที่หน้า Account
+              และดูรายละเอียดเงื่อนไขเพิ่มเติมได้ตามลิงก์แนบครับ:
+              https://blog.openlandscape.cloud/ols-privilege
+              ขอบคุณครับ
+            refs:
+              - title: "สิทธิประโยชน์ระบบสมาชิก"
+                url: "https://blog.openlandscape.cloud/ols-privilege"
+          - id: acc-upgrade-rank
+            keywords: [upgrade rank, เพิ่ม rank, เลื่อนระดับ, เพิ่มระดับสมาชิก, อัพเกรด, upgrade, สะสมยอด, rank up]
+            intent: request
+            answer: |
+              เรียน ผู้ใช้บริการ
+              ผู้ใช้บริการสามารถสะสมยอดการเติมเงินตามเงื่อนไข
+              เพื่อปรับเพิ่มระดับสมาชิกและสิทธิประโยชน์ได้ครับ
+              รายละเอียดตามลิงก์แนบ:
+              https://blog.openlandscape.cloud/ols-privilege
+              ขอบคุณครับ
+            refs:
+              - title: "สิทธิประโยชน์ระบบสมาชิก"
+                url: "https://blog.openlandscape.cloud/ols-privilege"
+          - id: acc-rank-drop
+            keywords: [rank ลดลง, rank drop, ลด rank, demoted, rank ลด, ระดับลด, ทำไม rank ลด, membership decreased]
+            intent: request
+            answer: |
+              เรียน ผู้ใช้บริการ
+              ระดับสมาชิกอาจมีการปรับเพิ่ม-ลดตามเงื่อนไขยอดสะสมในแต่ละช่วงเวลา
+              ผู้ใช้บริการสามารถตรวจสอบรายละเอียดเงื่อนไขได้ตามลิงก์แนบครับ:
+              https://blog.openlandscape.cloud/ols-privilege
+              ขอบคุณครับ
+            refs:
+              - title: "สิทธิประโยชน์ระบบสมาชิก"
+                url: "https://blog.openlandscape.cloud/ols-privilege"
+          - id: acc-support-hours
+            keywords: [เวลาให้บริการ, ช่วงเวลาให้บริการ, support hours, เงื่อนไขบริการ, customer support, เวลาทำการ, เงื่อนไขสมาชิก, service hours]
+            intent: request
+            answer: |
+              เรียน ผู้ใช้บริการ
+              ผู้ใช้บริการสามารถดูเงื่อนไขการให้บริการตามระดับสมาชิกได้ตามลิงก์แนบครับ:
+              https://blog.openlandscape.cloud/customer-support
+              ขอบคุณครับ
+            refs:
+              - title: "ช่วงเวลาให้บริการตามระดับสมาชิก"
+                url: "https://blog.openlandscape.cloud/customer-support"
+
+      quota-instance:
+        name: "Quota & Instance"
+        entries:
+          - id: acc-quota-increase
+            keywords: [ขอเพิ่ม quota, instance quota, โควต้า, quota, เพิ่ม instance, request quota, เพิ่มเครื่อง, เพิ่มโควต้า, quota instance]
+            intent: request
+            answer: |
+              เรียน ผู้ใช้บริการ
+              การขอเพิ่มโควตา Instance สามารถกรอกแบบฟอร์มตามลิงก์นี้ได้ครับ:
+              https://form.typeform.com/to/ge5RrIh8
+              หลังกรอกข้อมูลเรียบร้อย รบกวนแจ้งกลับผ่าน Ticket ที่ท่านติดต่อเข้ามา
+              เพื่อให้ทีมที่เกี่ยวข้องพิจารณาภายใน 2 วันทำการครับ
+              ขอบคุณครับ
+            refs:
+              - title: "แบบฟอร์มขอเพิ่ม Quota Instance"
+                url: "https://form.typeform.com/to/ge5RrIh8"
+          - id: acc-quota-rank-drop
+            keywords: [quota ลดลง, rank ลดแล้วสร้างใหม่, โควต้าหลัง rank ลด, instance เดิมเกิน quota, ลบเครื่อง, create new instance, quota limit]
+            intent: request
+            answer: |
+              เรียน ผู้ใช้บริการ
+              จำนวน Instance ที่เกินจากจำนวนที่กำหนดในระดับสมาชิกปัจจุบันยังสามารถใช้งานได้ตามปกติครับ
+              อย่างไรก็ตาม หากผู้ใช้บริการลบ Instance ที่ใช้งานอยู่แล้ว
+              อาจไม่สามารถสร้าง Instance ใหม่เพิ่มได้ตามจำนวนเดิมครับ (ขึ้นกับโควตาปัจจุบัน)
+              ทั้งนี้ผู้ใช้บริการสามารถดูเงื่อนไขระดับสมาชิกได้ตามลิงก์แนบ:
+              https://blog.openlandscape.cloud/ols-privilege
+              ขอบคุณครับ
+            refs:
+              - title: "สิทธิประโยชน์ระบบสมาชิก"
+                url: "https://blog.openlandscape.cloud/ols-privilege"
+
+      ekyc:
+        name: "ระบบ eKYC"
+        entries:
+          - id: acc-ekyc-what
+            keywords: [eKYC, ekyc คืออะไร, e-kyc, kyc, electronic know your customer, รู้จักลูกค้า, verify identity, ยืนยันตัวตน]
+            intent: request
+            answer: |
+              เรียน ผู้ใช้บริการ
+              ทางทีมขออนุญาตแนบรายละเอียดเกี่ยวกับระบบ eKYC ครับ
+              รายละเอียดตามลิงก์แนบ:
+              https://blog.openlandscape.cloud/ekyc
+              ขอบคุณครับ
+            refs:
+              - title: "รายละเอียดระบบ eKYC"
+                url: "https://blog.openlandscape.cloud/ekyc"
+          - id: acc-ekyc-signup
+            keywords: [ekyc สมัคร, เข้าใช้งาน ekyc, ขั้นตอน ekyc, register ekyc, ekyc sign up, eKYC registration, วิธีสมัคร ekyc]
+            intent: request
+            answer: |
+              เรียน ผู้ใช้บริการ
+              ผู้ใช้บริการสามารถดูขั้นตอนการสมัครและเข้าใช้งานระบบ eKYC ได้ตามลิงก์แนบครับ:
+              https://blog.openlandscape.cloud/sign-up-and-access-the-ekyc-system
+              ขอบคุณครับ
+            refs:
+              - title: "การสมัครและเข้าใช้งานระบบ eKYC"
+                url: "https://blog.openlandscape.cloud/sign-up-and-access-the-ekyc-system"
+
+      packages:
+        name: "Package & Product"
+        entries:
+          - id: acc-package-not-available
+            keywords: [package not available, starter package, S.A, S.B, not available, ไม่สามารถสร้าง instance, package หาย, ไม่มี package, unable to create]
+            intent: request
+            answer: |
+              เรียน ผู้ใช้บริการ
+              จากการตรวจสอบพบว่า Package S.A และ S.B ในกลุ่ม Starter แสดงสถานะ Not Available
+              เนื่องจากปัจจุบันทาง OpenLandscape ไม่ได้เปิดให้บริการ Package ดังกล่าว
+              จึงทำให้ผู้ใช้บริการไม่สามารถสร้าง Instance ด้วย Package S.A และ S.B ได้ในขณะนี้ครับ
+              ทั้งนี้ Package อื่นในกลุ่ม Starter เช่น S.C ยังสามารถใช้งานได้ตามปกติครับ
+              ขออภัยในความไม่สะดวกครับ
+            refs: []

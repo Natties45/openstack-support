@@ -1,0 +1,284 @@
+categories:
+  network-security:
+    name: "Network & Security"
+    sections:
+      network-security:
+        name: "Network & Security"
+        entries:
+          - id: ns-open-port
+            keywords: [เปิดพอร์ต, เพิ่มพอร์ต, Security Group, Inbound, เปิด Port, เพิ่ม Port]
+            intent: request
+            answer: |
+              เรียน ผู้ใช้บริการ ผู้ใช้บริการสามารถเพิ่ม/เปิดพอร์ตได้โดยการตั้งค่า Security Group เพื่ออนุญาต Inbound ตามพอร์ตที่ต้องการ และกำหนด Source ให้เหมาะสมครับ
+            refs:
+              - title: "การเปิด Port / ตั้งค่า Security Group"
+                url: "https://blog.openlandscape.cloud/add-port/"
+
+          - id: ns-whitelist-ip
+            keywords: [Whitelist IP, จำกัดต้นทาง, เปิดพอร์ตเฉพาะ IP, กำหนด Source IP, CIDR]
+            intent: request
+            answer: |
+              เรียน ผู้ใช้บริการ สามารถทำได้ครับ โดยให้ผู้ใช้บริการเพิ่ม Rule ใน Security Group แล้วกำหนด Source เป็น IP/CIDR ต้นทางที่ต้องการอนุญาต (Whitelist) ครับ
+            refs:
+              - title: "การเปิด Port / ตั้งค่า Security Group"
+                url: "https://blog.openlandscape.cloud/add-port/"
+
+          - id: ns-close-port
+            keywords: [ปิดพอร์ต, ลบ Rule, Security Group, ปิด Port, ลบพอร์ต]
+            intent: request
+            answer: |
+              เรียน ผู้ใช้บริการ ผู้ใช้บริการสามารถแก้ไข Security Group โดยลบ Rule ที่ไม่ต้องการใช้งาน หรือปรับ Source ให้แคบลงได้ครับ (แนะนำให้ทดสอบการใช้งานหลังปรับทุกครั้ง)
+            refs:
+              - title: "การเปิด Port / ตั้งค่า Security Group"
+                url: "https://blog.openlandscape.cloud/add-port/"
+
+          - id: ns-port-not-working
+            keywords: [เปิดพอร์ตแล้วเข้าไม่ได้, Port ไม่ทำงาน, Service ไม่ Listen, เปิด Port แล้วไม่ได้]
+            intent: incident
+            answer: |
+              เรียน ผู้ใช้บริการ เบื้องต้นแนะนำให้ตรวจสอบ 2 ส่วนครับ (1) Security Group เปิดพอร์ตและ Source ถูกต้องหรือไม่ (2) Service ภายใน Instance เปิดใช้งานอยู่และ Listen ที่พอร์ตดังกล่าวหรือไม่ หากยังพบปัญหา รบกวนแนบภาพ Error/ผลทดสอบ และระบุพอร์ตที่ใช้งาน ผ่าน Ticket เพื่อให้ทางทีมช่วยตรวจสอบเพิ่มเติมครับ
+            refs:
+              - title: "การเปิด Port / ตั้งค่า Security Group"
+                url: "https://blog.openlandscape.cloud/add-port/"
+
+          - id: ns-manage-public-ip
+            keywords: [Public IP, Allocate, Attach, Detach, สร้าง IP, จัดการ IP, ผูก IP, ถอด IP]
+            intent: request
+            answer: |
+              เรียน ผู้ใช้บริการ ผู้ใช้บริการสามารถสร้างและจัดการ Network / IP (รวมถึง Public IP) ได้ตามขั้นตอนในคู่มือครับ
+            refs:
+              - title: "การจัดการ Network / IP"
+                url: "https://blog.openlandscape.cloud/network-ip"
+
+          - id: ns-generate-public-ip
+            keywords: [Generate Public IP, สร้าง Public IP เพิ่ม, เพิ่ม Public IP]
+            intent: request
+            answer: |
+              เรียน ผู้ใช้บริการ ผู้ใช้บริการสามารถสร้าง Public IP เพิ่มได้จากเมนู Network/IP ตามขั้นตอนในคู่มือครับ
+            refs:
+              - title: "การจัดการ Network / IP"
+                url: "https://blog.openlandscape.cloud/network-ip"
+
+          - id: ns-ping-not-working
+            keywords: [Ping ไม่เจอ, เข้า Service ไม่ได้, Ping ไม่ผ่าน, Tracert]
+            intent: incident
+            answer: |
+              เรียน ผู้ใช้บริการ เพื่อความรวดเร็วในการตรวจสอบ รบกวนแนบภาพผล Ping และ Tracert พร้อมระบุพอร์ตที่ใช้งาน และช่วงเวลาที่พบปัญหา ผ่าน Ticket เพื่อให้ทางทีมตรวจสอบเพิ่มเติมครับ
+            refs: []
+
+          - id: ns-ssh-rdp-http-cant-access
+            keywords: [SSH เข้าไม่ได้, RDP เข้าไม่ได้, HTTP เข้าไม่ได้, เข้าไม่ได้ทั้งที่ก่อนหน้านี้เข้าได้]
+            intent: incident
+            answer: |
+              เรียน ผู้ใช้บริการ เบื้องต้นให้ตรวจสอบ Security Group ว่ายังคงเปิดพอร์ตและจำกัด Source ถูกต้องหรือไม่ และตรวจสอบว่า Service ภายในเครื่องยังทำงานอยู่หรือไม่ครับ หากยังพบปัญหา รบกวนแนบภาพ Error และระบุพอร์ต/ช่วงเวลาที่พบปัญหา ผ่าน Ticket เพื่อให้ทางทีมตรวจสอบเพิ่มเติมครับ
+            refs:
+              - title: "การเปิด Port / ตั้งค่า Security Group"
+                url: "https://blog.openlandscape.cloud/add-port/"
+
+          - id: ns-change-ssh-port
+            keywords: [เปลี่ยน SSH Port, เปลี่ยนพอร์ต SSH, Linux SSH Port]
+            intent: request
+            answer: |
+              เรียน ผู้ใช้บริการ ผู้ใช้บริการสามารถเปลี่ยน SSH Port ภายในเครื่อง Linux ได้ตามคู่มือครับ และอย่าลืมเปิดพอร์ตใหม่ใน Security Group ด้วยครับ
+            refs:
+              - title: "วิธีเปลี่ยน SSH Port บน Linux"
+                url: "https://blog.openlandscape.cloud/how-to-change-ssh-port-linux"
+              - title: "การเปิด Port / ตั้งค่า Security Group"
+                url: "https://blog.openlandscape.cloud/add-port/"
+
+          - id: ns-change-rdp-port
+            keywords: [เปลี่ยน RDP Port, เปลี่ยนพอร์ต Remote Desktop, Windows RDP Port]
+            intent: request
+            answer: |
+              เรียน ผู้ใช้บริการ ผู้ใช้บริการสามารถเปลี่ยน Port สำหรับ Remote Desktop ภายใน Windows ได้ตามคู่มือครับ และต้องเปิดพอร์ตใหม่ใน Security Group ด้วยครับ
+            refs:
+              - title: "วิธีเปลี่ยน Port Remote Desktop (RDP)"
+                url: "https://blog.openlandscape.cloud/how-to-change-port-remote-desktop-connection"
+              - title: "การเปิด Port / ตั้งค่า Security Group"
+                url: "https://blog.openlandscape.cloud/add-port/"
+
+          - id: ns-dns-cache
+            keywords: [DNS ยังไม่เปลี่ยน, DNS Cache, เห็นค่าเดิม, DNS Propagation, Flush DNS]
+            intent: request
+            answer: |
+              เรียน ผู้ใช้บริการ อาการดังกล่าวมักเกิดจาก DNS Cache/TTL ครับ แนะนำให้ผู้ใช้บริการลองล้าง Cache หรือ Flush DNS แล้วทดสอบใหม่อีกครั้ง หากต้องการตั้งค่าให้เครื่อง Windows ทำ Flush DNS แบบอัตโนมัติ สามารถดูคู่มือได้ตามลิงก์แนบครับ
+            refs:
+              - title: "ตั้งเวลา Flush DNS อัตโนมัติ"
+                url: "https://blog.openlandscape.cloud/scheduler-flushdns"
+
+          - id: ns-brute-force
+            keywords: [Brute force, ใช้งานผิดปกติ, ถูกโจมตี, ถูกบุกรุก, ความปลอดภัย]
+            intent: incident
+            answer: |
+              เรียน ผู้ใช้บริการ ทางทีมแนะนำให้ผู้ใช้บริการตรวจสอบ Log และเสริมความปลอดภัยเบื้องต้น เช่น เปลี่ยนรหัสผ่าน/จำกัด IP ต้นทางด้วย Security Group/เปลี่ยนพอร์ตบริการ/เปิดใช้งาน Firewall ภายในเครื่อง และอัปเดตแพตช์ระบบครับ หากต้องการให้ทางทีมตรวจสอบเพิ่มเติม รบกวนแนบหลักฐาน/ช่วงเวลาที่พบเหตุผ่าน Ticket ครับ
+            refs:
+              - title: "การเปิด Port / ตั้งค่า Security Group"
+                url: "https://blog.openlandscape.cloud/add-port/"
+              - title: "วิธีเปลี่ยน SSH Port บน Linux"
+                url: "https://blog.openlandscape.cloud/how-to-change-ssh-port-linux"
+
+          - id: ns-ransomware
+            keywords: [Ransomware, เรียกค่าไถ่, มัลแวร์, ป้องกัน Ransomware, รับมือ Ransomware]
+            intent: request
+            answer: |
+              เรียน ผู้ใช้บริการ ทางทีมขออนุญาตแนบคำแนะนำการรับมือและป้องกัน Ransomware ตามลิงก์แนบครับ
+            refs:
+              - title: "Ransomware: วิธีรับมือและป้องกัน"
+                url: "https://blog.openlandscape.cloud/what-is-ransomware"
+
+      network-ip:
+        name: "Network & IP"
+        entries:
+          - id: ns-create-network-subnet
+            keywords: [สร้าง Network, สร้าง Subnet, จัดการ Network, จัดการ Subnet]
+            intent: request
+            answer: |
+              เรียน ผู้ใช้บริการ ผู้ใช้บริการสามารถสร้างและจัดการ Network/Subnet ได้จากเมนู Network ภายในหน้า Gate ครับ
+            refs:
+              - title: "การจัดการ Network / IP"
+                url: "https://blog.openlandscape.cloud/network-ip"
+
+          - id: ns-allocate-public-ip
+            keywords: [สร้าง Public IP, Allocate IP, เพิ่ม Public IP]
+            intent: request
+            answer: |
+              เรียน ผู้ใช้บริการ ผู้ใช้บริการสามารถสร้าง (Allocate) Public IP เพิ่มได้จากเมนู Network/IP ภายในหน้า Gate ครับ
+            refs:
+              - title: "การจัดการ Network / IP"
+                url: "https://blog.openlandscape.cloud/network-ip"
+
+          - id: ns-attach-public-ip
+            keywords: [Attach Public IP, ผูก IP, นำ IP ไปผูกกับ Instance, เชื่อม IP]
+            intent: request
+            answer: |
+              เรียน ผู้ใช้บริการ ผู้ใช้บริการสามารถนำ Public IP ที่สร้างไว้ไป Attach ให้กับ Instance ได้จากเมนู Network/IP หรือหน้า Instance ตามขั้นตอนในคู่มือครับ
+            refs:
+              - title: "การจัดการ Network / IP"
+                url: "https://blog.openlandscape.cloud/network-ip"
+
+          - id: ns-detach-public-ip
+            keywords: [Detach Public IP, ถอด IP, ถอด Public IP, เอาออก]
+            intent: request
+            answer: |
+              เรียน ผู้ใช้บริการ ผู้ใช้บริการสามารถ Detach Public IP ออกจาก Instance ได้จากเมนู Network/IP ครับ (แนะนำตรวจสอบการใช้งานบริการก่อนถอดทุกครั้ง)
+            refs:
+              - title: "การจัดการ Network / IP"
+                url: "https://blog.openlandscape.cloud/network-ip"
+
+          - id: ns-have-ip-cant-access
+            keywords: [มี Public IP แล้วเข้าไม่ได้, เข้าเว็บไม่ได้, เข้าเครื่องไม่ได้, Public IP แต่เข้าไม่ได้]
+            intent: request
+            answer: |
+              เรียน ผู้ใช้บริการ เบื้องต้นแนะนำตรวจสอบว่าได้เปิดพอร์ตที่ใช้งานใน Security Group และกำหนด Source ถูกต้องหรือไม่ (เช่น 80/443/22/3389) รวมถึงตรวจสอบว่า Service ภายใน Instance ทำงานอยู่ครับ
+            refs:
+              - title: "การเปิด Port / ตั้งค่า Security Group"
+                url: "https://blog.openlandscape.cloud/add-port/"
+
+          - id: ns-open-icmp
+            keywords: [เปิด ICMP, Ping, เปิดให้ Ping ได้, ICMP Rule]
+            intent: request
+            answer: |
+              เรียน ผู้ใช้บริการ ผู้ใช้บริการสามารถเพิ่ม Rule ใน Security Group เพื่ออนุญาต ICMP ได้ครับ (แนะนำจำกัด Source ให้เหมาะสมเพื่อความปลอดภัย)
+            refs:
+              - title: "การเปิด Port / ตั้งค่า Security Group"
+                url: "https://blog.openlandscape.cloud/add-port/"
+
+          - id: ns-ping-public-ip-fail
+            keywords: [Ping Public IP ไม่ได้, Ping ขาดหาย, Ping ไม่ผ่าน, Ping หาย]
+            intent: incident
+            answer: |
+              รบกวนแจ้ง Instance name และ Public IP พร้อมแนบภาพผล Ping และ Tracert (ระบุช่วงเวลาที่ทดสอบ) เพื่อให้ทางทีมตรวจสอบเครือข่ายเพิ่มเติมครับ
+            refs: []
+
+          - id: ns-cant-access-certain-sites
+            keywords: [เข้าเว็บไม่ได้, เข้าบางเว็บไม่ได้, บางประเทศ, บาง ISP, Traceroute]
+            intent: incident
+            answer: |
+              รบกวนแนบผล Tracert/Traceroute ไปยังปลายทาง และแจ้ง Public IP ของ Instance (ต้นทาง) + ชื่อโดเมน/ปลายทาง + ช่วงเวลาที่พบปัญหา เพื่อให้ทางทีมตรวจสอบเส้นทางเครือข่ายเพิ่มเติมครับ
+            refs: []
+
+          - id: ns-no-internet-from-instance
+            keywords: [ออกเน็ตไม่ได้, Internet ไม่ได้, Instance ต่อเน็ตไม่ได้, ไม่มี Internet]
+            intent: incident
+            answer: |
+              รบกวนแจ้ง Instance name และ Public IP/Private IP พร้อมแนบผลทดสอบ (เช่น ping 8.8.8.8, ping google.com, traceroute) และช่วงเวลาที่พบปัญหา เพื่อให้ทางทีมตรวจสอบเพิ่มเติมครับ
+            refs: []
+
+          - id: ns-slow-download-upload
+            keywords: [Download ช้า, Upload ช้า, ความเร็ว慢, โหลดช้า, อัปโหลดช้า]
+            intent: incident
+            answer: |
+              เรียน ผู้ใช้บริการ เนื่องจากการให้บริการ Internet เป็นแบบใช้งานร่วม (Share) ความเร็วอาจเปลี่ยนแปลงตามช่วงเวลาและปริมาณการใช้งานโดยรวมครับ หากต้องการให้ทางทีมช่วยตรวจสอบ รบกวนแจ้ง Public IP + ช่วงเวลาที่ทดสอบ + ผล Speedtest/ปลายทางที่ดาวน์โหลด เพื่อประกอบการตรวจสอบครับ
+            refs: []
+
+          - id: ns-internet-speed-package
+            keywords: [ความเร็ว Internet, แพ็กเกจ, bandwidth, ความเร็วเน็ต, Internet speed]
+            intent: request
+            answer: |
+              เรียน ผู้ใช้บริการ การให้บริการ Internet เป็นแบบใช้งานร่วม (Share) ภายใต้เงื่อนไขการใช้งานที่เหมาะสม ความเร็วอาจแตกต่างตามช่วงเวลาและปริมาณการใช้งานโดยรวมครับ โดย bandwidth นอกประเทศจะมีความเร็วสูงสุดที่ 600 Mbps และในประเทศสูงสุด 40 Gbps
+            refs: []
+
+          - id: ns-dns-propagation
+            keywords: [แก้ DNS แล้วไม่เปลี่ยน, DNS ยังไม่เปลี่ยน, DNS Propagation, เว็บยังไม่เปลี่ยน, อีเมลยังไม่เปลี่ยน]
+            intent: request
+            answer: |
+              เรียน ผู้ใช้บริการ อาการดังกล่าวมักเกิดจาก DNS Propagation และ DNS Cache ตามค่า TTL ครับ แนะนำให้รอสักระยะและลอง Flush DNS/ล้าง Cache แล้วทดสอบใหม่ หากต้องการตั้งเวลา Flush DNS อัตโนมัติสามารถดูคู่มือได้ตามลิงก์แนบครับ
+            refs:
+              - title: "ตั้งเวลา Flush DNS อัตโนมัติ"
+                url: "https://blog.openlandscape.cloud/scheduler-flushdns"
+
+          - id: ns-flush-dns
+            keywords: [Flush DNS, ล้าง DNS Cache, ตั้งเวลา Flush DNS, ล้าง Cache DNS]
+            intent: request
+            answer: |
+              เรียน ผู้ใช้บริการ ผู้ใช้บริการสามารถตั้งค่า Scheduler สำหรับเรียกใช้งาน Flush DNS ได้ตามคู่มือครับ
+            refs:
+              - title: "ตั้งเวลา Flush DNS อัตโนมัติ"
+                url: "https://blog.openlandscape.cloud/scheduler-flushdns"
+
+          - id: ns-check-public-ip
+            keywords: [ตรวจสอบ Public IP, IP ที่ใช้งาน, ดู Public IP, Public IP คืออะไร]
+            intent: request
+            answer: |
+              เรียน ผู้ใช้บริการ ผู้ใช้บริการสามารถตรวจสอบ Public IP ที่ผูกกับ Instance ได้จากหน้า Instance หรือเมนู Network/IP ภายในหน้า Gate ครับ (หากมีหลาย IP แนะนำตรวจสอบชื่อ Instance ประกอบ)
+            refs: []
+
+          - id: ns-private-communication
+            keywords: [สื่อสารในวง Private, Private Network, คุยกันในวง Private, หลาย Instance สื่อสารกัน, Private Subnet]
+            intent: request
+            answer: |
+              เรียน ผู้ใช้บริการ เบื้องต้นแนะนำให้ใช้งานอยู่ใน Network/Private Subnet เดียวกัน และเปิด Rule ที่จำเป็นใน Security Group (รวมถึง ICMP/Port ที่ใช้งาน) โดยจำกัด Source เป็นช่วง Private CIDR ที่เกี่ยวข้องครับ
+            refs:
+              - title: "การจัดการ Network / IP"
+                url: "https://blog.openlandscape.cloud/network-ip"
+              - title: "การเปิด Port / ตั้งค่า Security Group"
+                url: "https://blog.openlandscape.cloud/add-port/"
+
+          - id: ns-instances-cant-communicate
+            keywords: [Instance สื่อสารกันไม่ได้, Ping กันไม่ได้, Port กันเองไม่ได้, Private IP สื่อสารไม่ได้]
+            intent: incident
+            answer: |
+              รบกวนแจ้ง Private IP ต้นทาง/ปลายทาง + ชื่อ Network/Subnet (ถ้าทราบ) + แนบผล Ping/Tracert และพอร์ตที่ใช้งาน พร้อมช่วงเวลาที่พบปัญหา เพื่อให้ทางทีมตรวจสอบเพิ่มเติมครับ
+            refs: []
+
+          - id: ns-ip-whitelist-network
+            keywords: [IP Whitelist, จำกัดการเข้าถึง, Whitelist ระดับ Network, จำกัด IP]
+            intent: request
+            answer: |
+              เรียน ผู้ใช้บริการ ผู้ใช้บริการสามารถกำหนด IP Whitelist ได้โดยการตั้งค่า Security Group ให้อนุญาตเฉพาะ Source IP/CIDR ที่ต้องการครับ
+            refs:
+              - title: "การเปิด Port / ตั้งค่า Security Group"
+                url: "https://blog.openlandscape.cloud/add-port/"
+
+          - id: ns-reuse-ip-new-instance
+            keywords: [ใช้ IP เดิม, สร้างเครื่องใหม่ด้วย IP เดิม, ย้าย IP, IP เดิมกับ Instance ใหม่, Detach IP, Snapshot]
+            intent: request
+            answer: |
+              เรียน ผู้ใช้บริการ หากต้องการใช้งาน IP เดิมกับเครื่อง Instance เครื่องใหม่ จะต้องทำการ Shutoff Instance เครื่องเดิมก่อนหลังจากนั้นทำการ Detach IP Public จากนั้นผู้ใช้บริการสามารถดำเนินการทำ Snapshot จาก Instance และนำ Snapshot ที่ได้ไปสร้าง Instance ใหม่ และ External IP ให้เลือก Select from existing ทั้งนี้ Password ของ Instance จะถูกส่งไปยัง Email และระบบแจ้งเตือน Notifications
+            refs:
+              - title: "การจัดการ Network / IP"
+                url: "https://blog.openlandscape.cloud/network-ip"
+              - title: "การสร้าง Snapshot"
+                url: "https://blog.openlandscape.cloud/take-snapshot/"
+              - title: "ระบบแจ้งเตือน Notifications"
+                url: "https://blog.openlandscape.cloud/notification-feature/"

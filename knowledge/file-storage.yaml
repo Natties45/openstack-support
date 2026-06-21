@@ -1,0 +1,91 @@
+categories:
+  file-storage:
+    name: "File Storage"
+    sections:
+      file-storage-faq:
+        name: "File Storage FAQ"
+        entries:
+          - id: fs-intro
+            keywords: [File Storage, Object Storage, Swift, Bucket, ไฟล์สตอเรจ, ที่เก็บไฟล์]
+            intent: request
+            answer: |
+              เรียน ผู้ใช้บริการ
+              File Storage คือบริการเก็บไฟล์บนคลาวด์ของ OpenLandscape (Object Storage / Swift) ผู้ใช้บริการสามารถอัปโหลด จัดการ และแชร์ไฟล์ผ่านหน้า Gate ได้ครับ
+              รายละเอียดตามลิงก์แนบ:
+              https://blog.openlandscape.cloud/file-storage-feature/
+              ขอบคุณครับ
+            refs:
+              - title: "File Storage Feature"
+                url: "https://blog.openlandscape.cloud/file-storage-feature/"
+          - id: fs-public-access
+            keywords: [Public Access, เผยแพร่สาธารณะ, เปิด public, แชร์ไฟล์, public url, Container]
+            intent: request
+            answer: |
+              เรียน ผู้ใช้บริการ
+              ผู้ใช้บริการสามารถตั้งค่า Public Access ให้ Bucket/Container ได้ตามต้องการครับ
+              แนะนำให้เปิด Public Access เฉพาะไฟล์ที่ต้องการเผยแพร่จริง และปิดการเข้าถึงสาธารณะสำหรับไฟล์ที่ไม่จำเป็น
+              เพื่อความปลอดภัยของข้อมูลครับ
+              รายละเอียดตามลิงก์แนบ:
+              https://blog.openlandscape.cloud/file-storage-feature/
+              ขอบคุณครับ
+            refs:
+              - title: "File Storage Feature"
+                url: "https://blog.openlandscape.cloud/file-storage-feature/"
+          - id: fs-bucket-security
+            keywords: [ความปลอดภัย Bucket, secure bucket, ปิด public, ไฟล์ไม่พึงประสงค์, malware, redirect, enigma]
+            intent: incident
+            answer: |
+              เรียน ผู้ใช้บริการ
+              หากพบไฟล์หรือ Bucket ที่เข้าข่ายไม่พึงประสงค์ (เช่น Malware, Phishing, Redirect อันตราย) รบกวนตรวจสอบและลบ/แก้ไขไฟล์ที่เกี่ยวข้องโดยเร็ว
+              รวมถึงปิดการเผยแพร่สาธารณะสำหรับส่วนที่ไม่จำเป็นครับ
+              หากตรวจพบพฤติกรรมที่ขัดต่อข้อกำหนด อาจถูกระงับการใช้งานตามข้อตกลงและเงื่อนไขการให้บริการ
+              อ้างอิง: https://openlandscape.cloud/policy/term_and_condition
+              ขอบคุณครับ
+            refs:
+              - title: "ข้อตกลงและเงื่อนไขการให้บริการ"
+                url: "https://openlandscape.cloud/policy/term_and_condition"
+          - id: fs-mount
+            keywords: [Mount, เชื่อมต่อ, แชร์ไฟล์, Windows, Linux, mount storage, เข้าถึงไฟล์]
+            intent: request
+            answer: |
+              เรียน ผู้ใช้บริการ
+              ผู้ใช้บริการสามารถเชื่อมต่อ File Storage จาก Instance ได้ผ่านโปรโตคอลมาตรฐาน (เช่น S3 API, Swift API)
+              หากผู้ใช้บริการแจ้งระบบปฏิบัติการและวิธีการเชื่อมต่อที่ต้องการ ทางทีมจะช่วยแนะนำแนวทางที่เหมาะสมให้ครับ
+              ขอบคุณครับ
+            refs:
+              - title: "File Storage Feature"
+                url: "https://blog.openlandscape.cloud/file-storage-feature/"
+          - id: fs-abuse-redirect
+            keywords: [abuse, redirect, enigma, url อันตราย, โดนแจ้งเตือน, swift redirect]
+            intent: incident
+            answer: |
+              เรียน ผู้ใช้บริการ
+              ทางทีมตรวจพบการใช้งาน URL ภายใต้โดเมน enigma.openlandscape.cloud ที่เชื่อมโยงไปยังบริการ Object Storage (Swift) ของผู้ใช้บริการ และมีพฤติกรรมเข้าข่าย Redirect ที่อาจเป็นอันตราย
+              
+              เพื่อความปลอดภัยของระบบ รบกวนตรวจสอบและลบ/แก้ไขไฟล์ที่เกี่ยวข้องที่มีโค้ด redirect/โค้ดไม่พึงประสงค์ ตรวจสอบการตั้งค่า Public Access ของ Bucket/ไฟล์ และปิดการเผยแพร่สาธารณะสำหรับส่วนที่ไม่จำเป็น
+              
+              หลังดำเนินการแล้ว รบกวนแจ้งกลับทางทีมว่าแก้ไขเรียบร้อย เพื่อให้ทางทีมตรวจสอบยืนยันเพิ่มเติมครับ
+              
+              หากตรวจพบพฤติกรรมในลักษณะเดียวกันซ้ำอีก ทางทีมจะดำเนินการระงับบัญชีและปิดการใช้งาน Bucket เป็นระยะเวลา 7 วัน
+              
+              อ้างอิงข้อกำหนดการให้บริการ: https://openlandscape.cloud/policy/term_and_condition
+              ขอบคุณครับ
+            refs:
+              - title: "ข้อตกลงและเงื่อนไขการให้บริการ"
+                url: "https://openlandscape.cloud/policy/term_and_condition"
+          - id: fs-suspension-7-days
+            keywords: [ระงับการใช้งาน, 7 วัน, suspension, ผิดเงื่อนไข, object storage, bucket ban, ระงับถาวร]
+            intent: info
+            answer: |
+              เรียน ผู้ใช้บริการ
+
+              ทางทีมตรวจพบการใช้งานบริการ Object Storage ภายใต้บัญชีของท่าน เข้าข่ายการใช้งานที่ผิดเงื่อนไข/อาจก่อให้เกิดความเสียหายต่อผู้อื่น (เช่น Redirect/Phishing/ไฟล์ไม่พึงประสงค์)
+
+              เพื่อความปลอดภัยของระบบและป้องกันผลกระทบต่อผู้ใช้บริการรายอื่น ทางทีมจึงได้ดำเนินการระงับการใช้งานบัญชี/บริการที่เกี่ยวข้องเป็นเวลา 7 วัน และระงับการใช้งาน Bucket/Container ข้างต้นเป็นการถาวร
+
+              อ้างอิงข้อกำหนดและเงื่อนไขการให้บริการ: https://openlandscape.cloud/policy/term_and_condition
+
+              ขอบคุณครับ
+            refs:
+              - title: "ข้อตกลงและเงื่อนไขการให้บริการ"
+                url: "https://openlandscape.cloud/policy/term_and_condition"

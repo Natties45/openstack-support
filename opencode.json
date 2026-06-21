@@ -1,0 +1,65 @@
+{
+  "$schema": "https://opencode.ai/config.json",
+  "shell": "pwsh",
+  "instructions": ["./AGENTS.md"],
+  "agent": {
+    "dante": {
+      "mode": "primary",
+      "hidden": true,
+      "description": "Dante — OLS Customer Support Reply Agent ตอบคำถามลูกค้าด้วย DNA จาก OpenLandscape Cloud FAQ",
+      "model": "anthropic/claude-sonnet-4-20250514",
+      "temperature": 0.2,
+      "prompt": "{file:./.opencode/agents/ols-reply.md}",
+      "permission": {
+        "read": "allow",
+        "skill": "allow",
+        "webfetch": "allow",
+        "websearch": "allow",
+        "edit": "ask",
+        "bash": "deny",
+        "task": {
+          "*": "deny",
+          "nero": "allow",
+          "vergil": "allow"
+        }
+      }
+    },
+    "nero": {
+      "mode": "subagent",
+      "hidden": true,
+      "model": "anthropic/claude-haiku-4-20250514",
+      "prompt": "{file:./.opencode/agents/ols-research.md}"
+    },
+    "vergil": {
+      "mode": "subagent",
+      "hidden": true,
+      "model": "anthropic/claude-haiku-4-20250514",
+      "prompt": "{file:./.opencode/agents/ols-learn.md}"
+    }
+  },
+  "mcp": {
+    "context7": {
+      "type": "remote",
+      "url": "https://mcp.context7.com/mcp",
+      "enabled": true
+    },
+    "puppeteer": {
+      "type": "local",
+      "command": ["npx", "-y", "@modelcontextprotocol/server-puppeteer"],
+      "enabled": true,
+      "timeout": 120000
+    }
+  },
+  "command": {
+    "vergil": {
+      "template": "บันทึกความรู้ใหม่ที่ค้นพบจาก research ครั้งล่าสุด โดยจัดหมวดหมู่และเพิ่ม keywords ภาษาไทย $ARGUMENTS",
+      "description": "Save new knowledge from research into knowledge/ directory",
+      "agent": "vergil"
+    }
+  },
+  "permission": {
+    "bash": {
+      "*": "deny"
+    }
+  }
+}

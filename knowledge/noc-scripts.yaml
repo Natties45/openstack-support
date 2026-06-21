@@ -1,0 +1,107 @@
+categories:
+  noc-scripts:
+    name: "NOC/Call Center Scripts"
+    sections:
+      customer:
+        name: "ลูกค้า (Customer)"
+        entries:
+          - id: noc-customer-incident
+            keywords:
+              - NOC
+              - call center
+              - incident
+              - ส่งต่อ
+              - OP ตอบกลับ
+              - ผู้ใช้บริการติดต่อ
+            intent: incident
+            answer: |
+              [NOC] ทาง NOC ขอส่งต่อข้อมูลจากผู้ใช้บริการที่ติดต่อผ่าน Call Center (incident) เพื่อให้ทีม OP ดำเนินการตอบกลับผู้ใช้บริการต่อไป
+
+              ข้อมูลผู้ใช้บริการ:
+              - ชื่อผู้ใช้บริการ, เบอร์ติดต่อ, อีเมล
+              - รายละเอียดคำขอ: หัวข้อ, รายละเอียด
+            refs: []
+          - id: noc-customer-request
+            keywords:
+              - NOC
+              - call center
+              - request
+              - ticket
+              - คำแนะนำ
+              - แนวทาง
+            intent: request
+            answer: |
+              [NOC] เปิด Ticket ประเภท Request จากผู้ใช้บริการ (Call Center)
+
+              ข้อมูลผู้ใช้บริการ:
+              - ชื่อ, เฮอร์, อีเมล
+              - รายละเอียดคำขอ: หัวข้อ, รายละเอียด
+              - การดำเนินการเบื้องต้นโดย NOC: แนวทาง/คำแนะนำที่แจ้งผู้ใช้บริการ
+            refs: []
+      non-customer:
+        name: "ไม่ใช่ลูกค้า (Non-Customer)"
+        entries:
+          - id: noc-non-customer-request
+            keywords:
+              - NOC
+              - non-customer
+              - request
+              - email
+              - ไม่ใช่ลูกค้า
+            intent: request
+            answer: |
+              [NOC] เปิด Ticket ประเภท Request จากผู้ใช้บริการ (Call Center)
+
+              ข้อมูลผู้ใช้บริการ:
+              - ชื่อ, เฮอร์, อีเมล
+              - รายละเอียดคำขอ: หัวข้อ, รายละเอียด
+              - การดำเนินการเบื้องต้น: แนวทาง/คำแนะนำ
+            refs: []
+          - id: noc-non-customer-not-answer
+            keywords:
+              - NOC
+              - non-customer
+              - not answer
+              - ส่งต่อ
+              - OP ตอบกลับ
+              - ไม่ใช่ลูกค้า
+            intent: info
+            answer: |
+              [NOC] ส่งต่อข้อมูลผู้ใช้บริการ (Request) เพื่อให้ OP ตอบกลับผู้ใช้บริการ
+
+              ข้อมูลผู้ใช้บริการ:
+              - ชื่อ, เฮอร์, อีเมล
+              - รายละเอียดคำขอ
+            refs: []
+      claim-customer:
+        name: "Claim Customer"
+        entries:
+          - id: noc-claim-verify-portal
+            keywords:
+              - NOC
+              - claim customer
+              - verify portal
+              - ไม่พบข้อมูล
+              - gate
+              - technical ตรวจสอบ
+            intent: request
+            answer: |
+              [NOC] Claim customer แต่ไม่พบข้อมูลใน gate – ขอให้ Technical ตรวจสอบ
+
+              มีผู้ติดต่อโทรเข้าผ่าน Call Center แจ้งว่าเป็นลูกค้า OLS แต่ทาง NOC ตรวจสอบในระบบ gate แล้วไม่พบข้อมูล
+              รบกวนทีม Technical ช่วยตรวจสอบ/ยืนยัน Portal ที่เกี่ยวข้อง
+            refs: []
+      callback-policy:
+        name: "นโยบายการโทรกลับ"
+        entries:
+          - id: noc-callback-policy
+            keywords:
+              - โทรกลับ
+              - callback
+              - ตอบกลับผ่าน ticket
+              - ติดตามสถานะ
+            intent: info
+            answer: |
+              ณ ปัจจุบันการตอบกลับปัญหากับผู้ใช้บริการจะเป็นการตอบกลับผ่าน ticket และอีเมลทุกครั้ง
+              เพื่อติดตามสถานะและส่งข้อมูลให้ลูกค้าได้อย่างครบถ้วนถูกต้อง
+            refs: []

@@ -1,0 +1,154 @@
+categories:
+  abuse:
+    name: "Abuse Response Templates"
+    sections:
+      brute-force:
+        name: "Brute Force"
+        entries:
+          - id: abuse-brute-force-vm
+            keywords:
+              - brute force
+              - brute-force
+              - VM
+              - พยายามเข้าสู่ระบบ
+              - ทดสอบรหัสผ่าน
+              - ระงับชั่วคราว
+            intent: info
+            answer: |
+              เรียน ผู้ใช้บริการ
+
+              ทางทีมตรวจสอบพบพฤติกรรมการใช้งานที่เข้าข่าย Brute-force (มีการพยายามเข้าสู่ระบบ/ทดสอบรหัสผ่านจำนวนมากผิดปกติ) จากทรัพยากรของผู้ใช้บริการ
+
+              เพื่อความปลอดภัยของระบบและป้องกันผลกระทบต่อผู้ใช้บริการรายอื่น ทางทีมขอความร่วมมือให้ผู้ใช้บริการตรวจสอบและดำเนินการแก้ไขโดยเร็ว เช่น
+              - เปลี่ยนรหัสผ่าน/ปิดบัญชีที่ไม่ใช้งาน
+              - อัปเดตแพตช์ระบบ/บริการที่เกี่ยวข้อง
+              - ตรวจสอบการถูกบุกรุก (SSH/RDP/Web/App logs)
+              - จำกัดการเข้าถึงด้วย Firewall/Security Group (แนะนำ Whitelist เฉพาะ IP ที่จำเป็น)
+
+              ทั้งนี้ หากตรวจพบพฤติกรรมดังกล่าวเกิดขึ้นซ้ำอีกครั้ง ทางทีมขอสงวนสิทธิ์ในการระงับ/จำกัดการให้บริการเป็นการชั่วคราว ตามมาตรการของระบบ เพื่อควบคุมความเสี่ยงและรักษาคุณภาพบริการ
+
+              อ้างอิงข้อกำหนด/เงื่อนไขการให้บริการ: https://openlandscape.cloud/policy/term_and_condition
+
+              ขอบคุณครับ
+            refs:
+              - title: "ข้อตกลงและเงื่อนไขการให้บริการ"
+                url: "https://openlandscape.cloud/policy/term_and_condition"
+          - id: abuse-ref-file-storage
+            keywords:
+              - file storage
+              - object storage
+              - swift
+              - bucket redirect
+              - enigma
+            intent: info
+            answer: |
+              เรียน ผู้ใช้บริการ
+              กรณีการแจ้งเตือนที่เกี่ยวข้องกับ File Storage / Object Storage / Bucket / Enigma Redirect
+              ทางทีมขอให้ตรวจสอบรายละเอียดเพิ่มเติมได้ที่ knowledge/file-storage.yaml ครับ
+              อ้างอิงข้อกำหนดการให้บริการ: https://openlandscape.cloud/policy/term_and_condition
+              ขอบคุณครับ
+            refs:
+              - title: "ข้อตกลงและเงื่อนไขการให้บริการ"
+                url: "https://openlandscape.cloud/policy/term_and_condition"
+          - id: abuse-scan-detected
+            keywords:
+              - scan
+              - scan detected
+              - สแกน
+              - port scan
+              - hetzner
+              - network abuse
+            intent: info
+            answer: |
+              เรียน ผู้ใช้บริการ
+
+              ทางทีมได้รับการแจ้งเตือนจากภายนอก เรื่องตรวจพบการสแกน (Scan)
+              จากเซิร์ฟเวอร์ภายใต้บัญชีของท่าน
+
+              รายละเอียด:
+              - Abuse ID: [Abuse ID]
+              - Instance/IP ต้นทาง: [IP ต้นทาง]
+              - ลักษณะ: Scan detected (การสแกนเครือข่าย/พอร์ตไปยังเซิร์ฟเวอร์ผู้อื่น)
+
+              ทางทีมขอความร่วมมือให้ผู้ใช้บริการดำเนินการตรวจสอบและแก้ไขโดยเร็ว เช่น
+              - ตรวจสอบ Instance ว่ามีบริการหรือสคริปต์ใดที่ทำการสแกนโดยไม่ได้รับอนุญาต
+              - เปลี่ยนรหัสผ่าน/ปิดบัญชีที่ไม่ใช้งาน
+              - อัปเดตแพตช์ระบบและตรวจสอบการถูกบุกรุก (SSH/RDP/Logs)
+              - จำกัดการเข้าถึงด้วย Firewall/Security Group (แนะนำ Whitelist เฉพาะ IP ที่จำเป็น)
+
+              ทั้งนี้ หากตรวจพบพฤติกรรมในลักษณะเดียวกันเกิดขึ้นซ้ำอีก ทางทีมขอสงวนสิทธิ์
+              ในการระงับ/จำกัดการให้บริการเป็นการชั่วคราว ตามมาตรการความปลอดภัยของระบบ
+
+              อ้างอิงข้อกำหนดและเงื่อนไขการให้บริการ:
+              https://openlandscape.cloud/policy/term_and_condition
+
+              ขอบคุณครับ
+            refs:
+              - title: "ข้อตกลงและเงื่อนไขการให้บริการ"
+                url: "https://openlandscape.cloud/policy/term_and_condition"
+      phishing:
+        name: "Phishing"
+        entries:
+          - id: abuse-phishing-unblock
+            keywords:
+              - phishing
+              - ปลดบล็อก
+              - ปลด block
+              - ฟิชชิ่ง
+              - ระงับบัญชี
+            intent: info
+            answer: |
+              ทางทีมได้ดำเนินการปลดบล็อกบัญชีผู้ใช้เรียบร้อยแล้วครับ
+
+              ทั้งนี้ หากตรวจพบการใช้งานที่เข้าข่ายการทำ Phishing อีกครั้ง ทางทีมขอสงวนสิทธิ์ในการระงับ/ปิดการใช้งานบัญชีผู้ใช้อีกครั้งเพื่อความปลอดภัยของระบบครับ
+
+              ขอบคุณครับ
+            refs: []
+          - id: abuse-phishing-repeat-warning
+            keywords:
+              - phishing
+              - ฟิชชิ่ง
+              - ซ้ำ
+              - 30 วัน
+              - ระงับ 7 วัน
+              - hosting หลอกลวง
+              - redirect อันตราย
+            intent: info
+            answer: |
+              เรียน ผู้ใช้บริการ
+
+              ทางทีมตรวจพบการใช้งานทรัพยากรภายใต้บัญชีของท่านที่เข้าข่ายการทำ Phishing/Hosting เว็บไซต์หลอกลวง หรือ Redirect ที่เป็นอันตราย
+
+              ขอความร่วมมือให้ผู้ใช้บริการดำเนินการตรวจสอบและลบคอนเทนต์/ไฟล์/สคริปต์ที่เกี่ยวข้องกับ Phishing/Redirect ทั้งหมด ตรวจสอบความปลอดภัยของระบบ:
+              - เปลี่ยนรหัสผ่าน, อัปเดตแพตช์, ตรวจสอบ Logs, ปิดบริการที่ไม่จำเป็น
+              - จำกัดการเข้าถึงด้วย Firewall/Security Group และเปิดใช้งานเฉพาะพอร์ต/ต้นทางที่จำเป็น
+
+              หากทางทีมตรวจพบพฤติกรรมในลักษณะเดียวกันซ้ำอีกภายใน 30 วันนับจากวันที่แจ้งเตือนนี้ ทางทีมจะดำเนินการระงับการใช้งานบัญชีผู้ใช้บริการเป็นเวลา 7 วัน ตามมาตรการความปลอดภัยของระบบ
+
+              อ้างอิงข้อกำหนดและเงื่อนไขการให้บริการ: https://openlandscape.cloud/policy/term_and_condition
+
+              ขอบคุณครับ
+            refs:
+              - title: "ข้อตกลงและเงื่อนไขการให้บริการ"
+                url: "https://openlandscape.cloud/policy/term_and_condition"
+      account-suspension:
+        name: "Account Suspension"
+        entries:
+          - id: abuse-ref-file-storage-suspend
+            keywords:
+              - ระงับการใช้งาน
+              - 7 วัน
+              - suspension
+              - object storage
+              - bucket
+              - ผิดเงื่อนไข
+            intent: info
+            answer: |
+              เรียน ผู้ใช้บริการ
+              กรณีการระงับการใช้งานที่เกี่ยวข้องกับ Object Storage / Bucket (7 วัน / ถาวร)
+              ทางทีมขอให้ตรวจสอบรายละเอียดเพิ่มเติมได้ที่ knowledge/file-storage.yaml (fs-suspension-7-days) ครับ
+              อ้างอิงข้อกำหนดและเงื่อนไขการให้บริการ: https://openlandscape.cloud/policy/term_and_condition
+              ขอบคุณครับ
+            refs:
+              - title: "ข้อตกลงและเงื่อนไขการให้บริการ"
+                url: "https://openlandscape.cloud/policy/term_and_condition"

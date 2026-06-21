@@ -1,0 +1,111 @@
+categories:
+  ssl:
+    name: "SSL Certificate"
+    sections:
+      ssl-faq:
+        name: "SSL FAQ"
+        entries:
+          - id: ssl-purchase
+            keywords: [ซื้อ SSL, สั่งซื้อ SSL, SSL Certificate, ซื้อใบรับรอง SSL, ซื้อ Certificate]
+            intent: request
+            answer: |
+              เรียน ผู้ใช้บริการ หากต้องการสั่งซื้อ SSL Certificate ผู้ใช้บริการสามารถดำเนินการผ่านหน้า gate.openlandscape.cloud และทำรายการตามขั้นตอนที่ระบบแนะนำครับ
+            refs:
+              - title: "การสั่งซื้อและจัดการ SSL Certificate"
+                url: "https://blog.openlandscape.cloud/ssl-certificate-registration/"
+
+          - id: ssl-packages
+            keywords: [SSL แบบไหนดี, SSL ต่างกันอย่างไร, แพ็กเกจ SSL, Single SSL, Wildcard SSL, Multi-domain SSL, เปรียบเทียบ SSL]
+            intent: request
+            answer: |
+              เรียน ผู้ใช้บริการ ผู้ใช้บริการสามารถตรวจสอบรายละเอียดแพ็กเกจ SSL Certificate และเลือกให้เหมาะกับการใช้งาน (เช่น Single / Wildcard / Multi-domain) ได้ตามลิงก์แนบครับ
+            refs:
+              - title: "การสั่งซื้อและจัดการ SSL Certificate"
+                url: "https://blog.openlandscape.cloud/ssl-certificate-registration/"
+
+          - id: ssl-create-csr
+            keywords: [สร้าง CSR, Generate CSR, สร้าง Certificate Signing Request, CSR]
+            intent: request
+            answer: |
+              เรียน ผู้ใช้บริการ หากต้องการสร้าง CSR ผู้ใช้บริการสามารถสร้างผ่านหน้า gate.openlandscape.cloud ตามขั้นตอนในระบบได้เลยครับ
+            refs:
+              - title: "การสั่งซื้อและจัดการ SSL Certificate"
+                url: "https://blog.openlandscape.cloud/ssl-certificate-registration/"
+
+          - id: ssl-csr-self-gen
+            keywords: [CSR Gen เอง, CSR สร้างเองใช้ได้ไหม, CSR เอง, สร้าง CSR เอง, SAN, Subject Alternative Name]
+            intent: incident
+            answer: |
+              เรียน ผู้ใช้บริการ โดยทั่วไป CSR สามารถสร้างเองได้ครับ แต่ต้องระบุข้อมูลให้ครบถ้วน โดยเฉพาะ SAN (Subject Alternative Name) ซึ่งเป็นรายการโดเมนที่ต้องการให้ใบรับรองครอบคลุม หาก CSR ไม่มี SAN อาจทำให้ยืนยัน/ออกใบรับรองไม่ครบตามโดเมนที่ใช้งาน แนะนำให้สร้าง CSR ใหม่ให้มี SAN ครบ หรือสร้าง CSR ผ่านหน้า Gate เพื่อให้ข้อมูลครบถ้วนครับ
+            refs: []
+
+          - id: ssl-activate
+            keywords: [Activate SSL, ยืนยันโดเมน SSL, Domain Validation, เปิดใช้งาน SSL, Activate Certificate]
+            intent: request
+            answer: |
+              เรียน ผู้ใช้บริการ หากต้องการ Activate SSL ผู้ใช้บริการสามารถดำเนินการตามขั้นตอนยืนยันโดเมน (Domain Validation) ที่ระบบกำหนด เช่น Email / DNS / HTTP File โดยทำตามวิธีที่เลือกให้ครบถ้วนครับ
+            refs:
+              - title: "การสั่งซื้อและจัดการ SSL Certificate"
+                url: "https://blog.openlandscape.cloud/ssl-certificate-registration/"
+
+          - id: ssl-validation-methods
+            keywords: [ยืนยันโดเมน Email, ยืนยันโดเมน DNS, ยืนยันโดเมน HTTP File, Domain Validation ต่างกัน, วิธี Verify โดเมน]
+            intent: request
+            answer: |
+              เรียน ผู้ใช้บริการ ทั้ง 3 วิธีเป็นการยืนยันสิทธิ์โดเมนเหมือนกัน ต่างกันที่วิธีดำเนินการครับ Email: ยืนยันผ่านอีเมลผู้ดูแลโดเมน / DNS: เพิ่ม Record ตามค่าที่ระบบให้ / HTTP File: วางไฟล์ยืนยันในเว็บตามพาธที่กำหนด ผู้ใช้บริการสามารถเลือกวิธีที่สะดวกและทำได้ในระบบของผู้ใช้บริการครับ (DNS มักนิยมเพราะไม่ต้องผูกกับเว็บเซิร์ฟเวอร์โดยตรง)
+            refs: []
+
+          - id: ssl-reissue
+            keywords: [Reissue SSL, ออก SSL ใหม่, Reissue Certificate, ทำ SSL ใหม่]
+            intent: request
+            answer: |
+              เรียน ผู้ใช้บริการ หากต้องการ Reissue SSL ผู้ใช้บริการสามารถทำรายการ Reissue จากเมนู SSL บนหน้า Gate และดำเนินการตามขั้นตอน (อัปโหลด/กรอก CSR และยืนยันโดเมนตามที่ระบบแจ้ง) ครับ
+            refs:
+              - title: "การสั่งซื้อและจัดการ SSL Certificate"
+                url: "https://blog.openlandscape.cloud/ssl-certificate-registration/"
+
+          - id: ssl-change-csr-new-server
+            keywords: [เปลี่ยน CSR, ย้าย SSL ไปเครื่องใหม่, ติดตั้ง SSL เครื่องใหม่, เปลี่ยนเซิร์ฟเวอร์, CSR ใหม่]
+            intent: request
+            answer: |
+              เรียน ผู้ใช้บริการ หากต้องการเปลี่ยน CSR หรือย้ายไปติดตั้งบนเครื่อง/เซิร์ฟเวอร์ใหม่ ผู้ใช้บริการสามารถดำเนินการ Reissue เพื่อออกใบรับรองใหม่ตาม CSR ชุดใหม่ได้ครับ
+            refs:
+              - title: "การสั่งซื้อและจัดการ SSL Certificate"
+                url: "https://blog.openlandscape.cloud/ssl-certificate-registration/"
+
+          - id: ssl-install-guide
+            keywords: [ติดตั้ง SSL, ติดตั้ง Certificate, Apache SSL, Nginx SSL, IIS SSL, Web Server SSL, ติดตั้ง SSL อย่างไร]
+            intent: request
+            answer: |
+              เรียน ผู้ใช้บริการ หลังได้รับไฟล์ Certificate แล้ว ผู้ใช้บริการสามารถนำไปติดตั้งบน Web Server ที่ใช้งาน (เช่น Apache/Nginx/IIS) ได้ครับ หากผู้ใช้บริการแจ้งประเภท Web Server และระบบปฏิบัติการที่ใช้งาน ทางทีมจะช่วยแนะนำแนวทางการติดตั้งให้ตรงจุดได้ครับ
+            refs: []
+
+          - id: ssl-install-error
+            keywords: [SSL Error, ติดตั้ง SSL ไม่สมบูรณ์, Chain ไม่ครบ, SSL ไม่ปลอดภัย, Certificate ไม่สมบูรณ์, Intermediate CA]
+            intent: incident
+            answer: |
+              เรียน ผู้ใช้บริการ อาการดังกล่าวมักเกิดจากการติดตั้งไฟล์ CA/Intermediate (Chain) ไม่ครบ หรือกำหนดไฟล์ Certificate ไม่ถูกต้องใน Web Server ครับ แนะนำตรวจสอบว่าได้ติดตั้งไฟล์ Certificate พร้อมไฟล์ Chain ครบถ้วน และชี้พาธถูกต้องแล้ว จากนั้นทดสอบอีกครั้งครับ หากยังพบปัญหา รบกวนแนบภาพ Error และระบุ Web Server ที่ใช้งานผ่าน Ticket เพื่อให้ทางทีมตรวจสอบเพิ่มเติมครับ
+            refs: []
+
+          - id: ssl-domain-www
+            keywords: [ใส่โดเมน SSL, www หรือไม่ www, โดเมนในใบรับรอง, SSL ครอบคลุม, www SSL, non-www SSL]
+            intent: request
+            answer: |
+              เรียน ผู้ใช้บริการ แนะนำให้ระบุโดเมนให้ตรงกับการใช้งานจริงครับ เช่น หากใช้งานทั้ง example.com และ www.example.com ควรให้ใบรับรองครอบคลุมทั้ง 2 ชื่อ (หรือเลือกแพ็กเกจให้เหมาะสม เช่น Multi-domain หรือ Wildcard) เพื่อป้องกันปัญหา Browser แจ้งไม่ปลอดภัยครับ
+            refs: []
+
+          - id: ssl-add-domain-later
+            keywords: [เพิ่มโดเมนใน SSL, เพิ่มโดเมนทีหลัง, SSL เพิ่มชื่อ, เพิ่ม SAN ทีหลัง]
+            intent: request
+            answer: |
+              เรียน ผู้ใช้บริการ การเพิ่มโดเมนในใบรับรองขึ้นอยู่กับประเภทแพ็กเกจ SSL ที่ผู้ใช้บริการใช้งานครับ หากต้องการให้ทางทีมตรวจสอบความเป็นไปได้ รบกวนแจ้งชื่อแพ็กเกจ SSL + รายการโดเมนที่ต้องการเพิ่ม ผ่าน Ticket ครับ
+            refs: []
+
+          - id: ssl-renew
+            keywords: [ต่ออายุ SSL, Renew SSL, SSL หมดอายุ, ต่ออายุ Certificate, Renew Certificate]
+            intent: request
+            answer: |
+              เรียน ผู้ใช้บริการ หากต้องการต่ออายุ SSL ผู้ใช้บริการสามารถดำเนินการได้ผ่านเมนู SSL บนหน้า Gate และทำรายการตามขั้นตอนที่ระบบแนะนำครับ
+            refs:
+              - title: "การสั่งซื้อและจัดการ SSL Certificate"
+                url: "https://blog.openlandscape.cloud/ssl-certificate-registration/"

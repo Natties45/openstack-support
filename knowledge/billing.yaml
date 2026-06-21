@@ -1,0 +1,296 @@
+categories:
+  billing:
+    name: "Billing & Payment"
+    sections:
+      top-up:
+        name: "การเติมเครดิต (Top-Up)"
+        entries:
+          - id: bill-topup-how
+            keywords: [เติมเครดิต, เติมเงิน, วิธีเติมเงิน, top-up, เติมเงินเข้าระบบ]
+            intent: request
+            answer: |
+              เรียน ผู้ใช้บริการ ทาง Openlandscape ขออนุญาตนำส่งวิธีการเติมเครดิต สามารถดูรายละเอียดตามลิงก์แนบครับ:
+              https://blog.openlandscape.cloud/top-up/
+              ขอบคุณครับ
+            refs:
+              - title: "วิธีการเติมเครดิต"
+                url: "https://blog.openlandscape.cloud/top-up/"
+          - id: bill-topup-duration
+            keywords: [เติมเงิน, เงินเข้า, ใช้เวลานาน, top-up duration, เครดิตยังไม่เข้า, โอนเงิน, bank transfer, credit card, internet banking]
+            intent: request
+            answer: |
+              เรียน ผู้ใช้บริการ
+              หากเป็นการเติมเงินผ่านช่องทางโอนเงิน (Bank Transfer) จะมีระยะเวลาในการตรวจสอบและเติมเครดิตภายในเวลาทำการ (จันทร์–ศุกร์ 08:30–17:30 น.) ครับ
+              แต่หากเป็นช่องทาง Credit/Debit Card หรือ Internet Banking ระบบจะดำเนินการโดยปกติไม่เกิน 1 ชั่วโมงครับ
+              ทั้งนี้หากผู้ใช้บริการพบปัญหาเพิ่มเติม สามารถแจ้งผ่าน Ticket Support ได้เลยครับ
+              ขอบคุณครับ
+            refs: []
+          - id: bill-topup-afterhours
+            keywords: [เติมเงินนอกเวลา, นอกเวลาทำการ, เงินเข้าช้า, bank transfer นอกเวลา, เติมเงินวันหยุด, off-hours, working hours]
+            intent: request
+            answer: |
+              เรียน ผู้ใช้บริการ
+              หากผู้ใช้บริการชำระค่าบริการผ่านช่องทาง Bank Transfer นอกเวลาทำการ จะต้องรอเจ้าหน้าที่ตรวจสอบในเวลาทำการ
+              (จันทร์–ศุกร์ 08:30–17:30 น. ยกเว้นวันหยุดนักขัตฤกษ์) ครับ
+              หากต้องการให้เครดิตเข้าระบบทันที แนะนำช่องทาง Credit Card / Debit Card หรือ QR Payment ที่สามารถใช้งานได้ตลอด 24 ชั่วโมงครับ
+              ขอบคุณครับ
+            refs: []
+          - id: bill-topup-qr-delay
+            keywords: [QR, qr payment, เติมเงิน qr, เครดิตไม่เข้า, สลิป, qr code, จ่ายผ่าน qr, ตรวจสอบยอด]
+            intent: request
+            answer: |
+              เรียน ผู้ใช้บริการ
+              โดยทั่วไป QR Payment จะเป็นระบบอัตโนมัติและใช้เวลาประมาณ 15–30 นาทีครับ
+              หากผู้ใช้บริการยังไม่เห็นยอดเครดิตอัปเดต รบกวนแนบสลิปและแจ้งอีเมลบัญชีผู้ใช้บริการผ่าน Ticket
+              เพื่อให้ทางทีมตรวจสอบเพิ่มเติมครับ
+              ขอบคุณครับ
+            refs:
+              - title: "วิธีการเติมเครดิต"
+                url: "https://blog.openlandscape.cloud/top-up/"
+          - id: bill-topup-otp-locked
+            keywords: [OTP, otp ผิด, กรอกรหัสผิด, ธนาคาร, ล็อก, locked, one time password, ไม่สามารถเติมเงินได้]
+            intent: request
+            answer: |
+              เรียน ผู้ใช้บริการ
+              กรณีดังกล่าวมักเกิดจากการกรอกรหัส OTP ผิดเกินจำนวนครั้งที่ธนาคารกำหนดไว้ครับ
+              แนะนำให้ติดต่อธนาคารเพื่อปลดล็อก/ดำเนินการแก้ไขในส่วนนี้ แล้วลองทำรายการใหม่อีกครั้งครับ
+              ขอบคุณครับ
+            refs: []
+      payment-issues:
+        name: "ปัญหาการชำระเงิน"
+        entries:
+          - id: bill-no-slip
+            keywords: [ไม่มีสลิป, หลักฐานการชำระเงิน, payment evidence, slip, receipt, ไม่มีหลักฐาน, แนบสลิป]
+            intent: incident
+            answer: |
+              เรียน ผู้ใช้บริการ
+              เพื่อความรวดเร็วในการตรวจสอบ รบกวนผู้ใช้บริการแนบสลิป/หลักฐานการชำระเงินผ่าน Ticket อีกครั้งครับ
+              ขอบคุณครับ
+            refs: []
+          - id: bill-slip-mismatch
+            keywords: [สลิปไม่ถูกต้อง, ยอดไม่ตรง, ตรวจสอบสลิป, ส่งสลิปแล้ว, หลักฐานไม่ตรง, ยอดเงินไม่ตรง, จำนวนเงินไม่ถูกต้อง]
+            intent: incident
+            answer: |
+              เรียน ผู้ใช้บริการ
+              ทางทีมตรวจสอบพบหลักฐานการชำระค่าบริการไม่ถูกต้อง/ยอดไม่ตรงครับ
+              รบกวนส่งสลิปที่ถูกต้องหรือหลักฐานเพิ่มเติมผ่าน Ticket เพื่อให้ทางทีมดำเนินการตรวจสอบและเติมเครดิตให้ได้ครับ
+              ขอบคุณครับ
+            refs: []
+
+      quotation:
+        name: "ใบเสนอราคา (Quotation)"
+        entries:
+          - id: tax-quotation-request
+            keywords: [ใบเสนอราคา, quotation, ใบเสนอราคา, ขอใบเสนอราคา, quote, ราคา]
+            intent: request
+            answer: |
+              เรียน ผู้ใช้บริการ ทาง Openlandscape ขออนุญาตนำส่งวิธีการขอใบเสนอราคา
+              รายละเอียดตามลิงก์แนบครับ:
+              https://blog.openlandscape.cloud/request-for-quotation/
+              ขอบคุณครับ
+            refs:
+              - title: "วิธีการขอใบเสนอราคา"
+                url: "https://blog.openlandscape.cloud/request-for-quotation/"
+          - id: tax-quotation-address
+            keywords: [แก้ไขที่อยู่, เพิ่มที่อยู่, ใบเสนอราคา, ใบกำกับภาษี, address, quotation, ที่อยู่, เปลี่ยนที่อยู่]
+            intent: request
+            answer: |
+              เรียน ผู้ใช้บริการ
+              ผู้ใช้บริการสามารถเพิ่ม/แก้ไขข้อมูลที่อยู่สำหรับเอกสารได้ตามคู่มือครับ
+              รายละเอียดตามลิงก์แนบ:
+              https://blog.openlandscape.cloud/address-quotation/
+              ขอบคุณครับ
+            refs:
+              - title: "การเพิ่ม/แก้ไขที่อยู่ในใบเสนอราคา"
+                url: "https://blog.openlandscape.cloud/address-quotation/"
+      e-tax:
+        name: "ใบกำกับภาษี (e-Tax)"
+        entries:
+          - id: tax-etax-request
+            keywords: [e-tax, e-tax invoice, ใบกำกับภาษี, ขอใบกำกับภาษี, etax, tax invoice, ภาษี, ขอ e-tax]
+            intent: request
+            answer: |
+              เรียน ผู้ใช้บริการ ทาง Openlandscape ขออนุญาตนำส่งวิธีการขอใบกำกับภาษี (e-Tax)
+              รายละเอียดตามลิงก์แนบครับ:
+              https://blog.openlandscape.cloud/e-tax
+              ขอบคุณครับ
+            refs:
+              - title: "วิธีการขอใบกำกับภาษี (e-Tax)"
+                url: "https://blog.openlandscape.cloud/e-tax"
+          - id: tax-etax-backdate
+            keywords: [ใบกำกับภาษีย้อนหลัง, ขอย้อนหลัง, e-tax ย้อนหลัง, ย้อนหลัง, เดือนก่อน, ปิดบัญชี, backdate]
+            intent: request
+            answer: |
+              เรียน ผู้ใช้บริการ
+              โดยปกติการขอใบกำกับภาษีสามารถขอได้ไม่เกินวันที่ 5 ของเดือนถัดไปครับ
+              กรณีต้องการขอย้อนหลังของเดือนก่อนหน้าอาจไม่สามารถดำเนินการได้
+              เนื่องจากมีการปิดบัญชีและนำส่งข้อมูลตามรอบแล้ว ขออภัยในความไม่สะดวกครับ
+              ขอบคุณครับ
+            refs:
+              - title: "วิธีการขอใบกำกับภาษี (e-Tax)"
+                url: "https://blog.openlandscape.cloud/e-tax"
+
+      wht-general:
+        name: "ภาษีหัก ณ ที่จ่าย (WHT)"
+        entries:
+          - id: wht-corporate-eligible
+            keywords: [หักภาษี ณ ที่จ่าย, นิติบุคคล, บริษัท, ใบเสร็จ, withholding tax, WHT, หัก ณ ที่จ่าย]
+            intent: request
+            answer: |
+              เรียน ผู้ใช้บริการ
+              ลูกค้านิติบุคคล/บริษัท สามารถหักภาษี ณ ที่จ่ายได้ครับ
+              โดยการหักภาษีจะคำนวณจากยอดก่อน VAT (และหลังหักส่วนลดถ้ามี)
+              ทั้งนี้หลังหักภาษีแล้ว รบกวนผู้ใช้บริการจัดส่งใบหักภาษี ณ ที่จ่าย (ตัวจริง) มาที่บริษัท
+              เพื่อดำเนินการโอนคืนส่วนที่ถูกหักภาษีตามเงื่อนไขครับ
+              ขอบคุณครับ
+            refs:
+              - title: "ข้อตกลงและเงื่อนไขการให้บริการ"
+                url: "https://openlandscape.cloud/policy/term_and_condition"
+          - id: wht-percentage
+            keywords: [หัก ณ ที่จ่ายกี่เปอร์เซ็นต์, WHT rate, หักกี่เปอร์เซ็นต์, 3%, 1%, withholding tax rate, อัตราหักภาษี]
+            intent: request
+            answer: |
+              เรียน ผู้ใช้บริการ
+              โดยทั่วไปนิติบุคคลสามารถหักภาษี ณ ที่จ่ายได้ 3%
+              และหน่วยงานราชการ/องค์กรบางประเภทอาจหัก 1% (ตามหลักเกณฑ์ภาษี) ครับ
+              ทั้งนี้รบกวนผู้ใช้บริการตรวจสอบกับฝ่ายบัญชีของผู้ใช้บริการประกอบอีกครั้งครับ
+              ขอบคุณครับ
+            refs: []
+          - id: wht-refund-timeline
+            keywords: [ส่งใบหัก ณ ที่จ่ายแล้ว, โอนเงินคืน, เมื่อไหร่, refund, WHT refund, เงินคืน, ใบหักภาษี, โอนคืน, วันทำการ]
+            intent: request
+            answer: |
+              เรียน ผู้ใช้บริการ
+              โดยทั่วไปบริษัทจะดำเนินการโอนคืนภายใน 15–20 วันทำการ
+              หลังจากได้รับเอกสารใบหักภาษี ณ ที่จ่าย (ตัวจริง) เรียบร้อยแล้วครับ
+              ทั้งนี้เมื่อดำเนินการโอนคืนแล้ว ทางทีมจะแจ้งหลักฐานการโอนให้ผู้ใช้บริการทราบอีกครั้งครับ
+              ขอบคุณครับ
+            refs: []
+          - id: wht-document-reviewing
+            keywords: [ส่งหนังสือรับรองหักภาษี ณ ที่จ่าย, อยู่ระหว่างตรวจสอบ, WHT document, ตรวจสอบเอกสาร, หนังสือรับรอง, pending review]
+            intent: request
+            answer: |
+              เรียน ผู้ใช้บริการ
+              ทาง Openlandscape รับทราบข้อมูลและอยู่ระหว่างเจ้าหน้าที่ตรวจสอบเอกสารครับ
+              หากมีความคืบหน้าจะแจ้งให้ทราบโดยทันทีครับ
+              ขอบคุณครับ
+            refs: []
+          - id: wht-document-approved
+            keywords: [ตรวจสอบเอกสารหักภาษี ณ ที่จ่ายแล้ว, เรียบร้อย, เอกสารครบ, approved, WHT approved, รับเอกสารแล้ว]
+            intent: request
+            answer: |
+              เรียน ผู้ใช้บริการ
+              ทาง Openlandscape ดำเนินการตรวจสอบ ได้รับเอกสารใบหักภาษี ณ ที่จ่ายเรียบร้อยแล้วครับ
+              และจะดำเนินการโอนคืนส่วนต่างภายในวันที่กำหนดครับ
+              ขอบคุณครับ
+            refs: []
+          - id: wht-before-topup
+            keywords: [หัก ณ ที่จ่ายก่อนเติมเงิน, WHT before topup, คำนวณ WHT, ยอดโอนสุทธิ, bank transfer only, ต้องการหักก่อน]
+            intent: incident
+            answer: |
+              เรียน ผู้ใช้บริการ
+              ขอแจ้งรายละเอียดการชำระเงิน โดยสามารถคำนวณได้ดังนี้:
+              VAT = 7% ของยอดก่อน VAT
+              WHT = คำนวณจากยอดก่อน VAT
+              ยอดโอนสุทธิ = (ยอดก่อน VAT + VAT) − WHT
+              รบกวนดำเนินการโอนผ่าน Bank Transfer เท่านั้น
+              และส่งเอกสารใบหักภาษี ณ ที่จ่าย (ตัวจริง) มาที่บริษัท
+              ขอบคุณครับ
+            refs: []
+
+      refund:
+        name: "การขอคืนเงิน"
+        entries:
+          - id: refund-request
+            keywords: [ขอคืนเงิน, refund, ขอเงินคืน, คืนเงิน, นโยบายคืนเงิน, refund policy, ขอยกเลิก, cancel payment]
+            intent: request
+            answer: |
+              เรียน ผู้ใช้บริการ
+              ตามข้อตกลงและเงื่อนไขการให้บริการ ผู้ใช้บริการไม่สามารถทำการขอคืนเงินสำหรับรายการที่ชำระสำเร็จแล้วได้ครับ
+              รายละเอียดตามลิงก์แนบ:
+              https://openlandscape.cloud/policy/term_and_condition
+              ขออภัยในความไม่สะดวกครับ
+              ขอบคุณครับ
+            refs:
+              - title: "ข้อตกลงและเงื่อนไขการให้บริการ"
+                url: "https://openlandscape.cloud/policy/term_and_condition"
+
+      usage-billing:
+        name: "ประวัติการใช้งานและการหักเครดิต"
+        entries:
+          - id: gate-usage-history
+            keywords: [ประวัติการใช้งาน, usage history, หักเครดิต, billing history, ดูประวัติ, รายเดือน, payment history, detail, usage]
+            intent: request
+            answer: |
+              เรียน ผู้ใช้บริการ
+              ผู้ใช้บริการสามารถตรวจสอบได้ที่เมนู Billing > Payment > Usage History > Detail ภายในหน้า Gate ครับ
+              ขอบคุณครับ
+            refs: []
+      gift-code:
+        name: "Gift Code"
+        entries:
+          - id: gate-gift-code
+            keywords: [gift code, กิฟโค้ด, ใส่โค้ด, redeem code, โค้ดส่วนลด, giftcode, วิธีใช้โค้ด, voucher]
+            intent: request
+            answer: |
+              เรียน ผู้ใช้บริการ
+              ผู้ใช้บริการสามารถดูวิธีการใช้งาน Gift Code ได้ตามลิงก์แนบครับ:
+              https://blog.openlandscape.cloud/gift-code
+              ขอบคุณครับ
+            refs:
+              - title: "วิธีใช้งาน Gift Code"
+                url: "https://blog.openlandscape.cloud/gift-code"
+      schedule-topup:
+        name: "Schedule Top-Up"
+        entries:
+          - id: gate-schedule-topup
+            keywords: [schedule top-up, เติมเงินอัตโนมัติ, ตั้งค่าเติมเงิน, auto top-up, automatic, กำหนดเวลาเติมเงิน, recurring]
+            intent: request
+            answer: |
+              เรียน ผู้ใช้บริการ
+              ผู้ใช้บริการสามารถตั้งค่าเติมเครดิตอัตโนมัติ (Schedule Top-up) ได้ตามคู่มือครับ
+              รายละเอียดตามลิงก์แนบ:
+              https://blog.openlandscape.cloud/schedule-top-up
+              ขอบคุณครับ
+            refs:
+              - title: "การตั้งค่า Schedule Top-up"
+                url: "https://blog.openlandscape.cloud/schedule-top-up"
+      credit-lifecycle:
+        name: "เครดิตและวงจร VM"
+        entries:
+          - id: bill-credit-exhausted
+            keywords: [เครดิตหมด, shutoff เอง, เติมเงิน, top-up]
+            intent: request
+            answer: |
+              เรียน ผู้ใช้บริการ เมื่อเครดิตหมด ระบบจะ Shutoff Instance อัตโนมัติครับ ผู้ใช้บริการสามารถเติมเครดิตเข้าระบบ จากนั้นกด Start Instance ได้ด้วยตนเอง และแนะนำตั้ง Schedule Top-up เพื่อป้องกันเครดิตหมดครับ
+            refs:
+              - title: "Top Up"
+                url: "https://blog.openlandscape.cloud/top-up/"
+              - title: "Schedule Top-up"
+                url: "https://blog.openlandscape.cloud/schedule-top-up"
+          - id: bill-shutoff-still-charged
+            keywords: [shutoff โดนหักเงิน, ปิดเครื่องแล้วเสียตัง, ค่าบริการ]
+            intent: request
+            answer: |
+              เรียน ผู้ใช้บริการ กรณี Shutoff ระบบยังคิดค่าบริการตามอัตราที่กำหนดครับ โดยจะหยุดคิดค่าใช้จ่ายเมื่อผู้ใช้บริการลบ Instance ออกจากระบบเท่านั้น
+            refs:
+              - title: "Service Charge"
+                url: "https://blog.openlandscape.cloud/service-charge/"
+          - id: bill-deleted-still-charged
+            keywords: [ลบเครื่องแล้วโดนหักเงิน, ลบแล้วเสียตัง, ตรวจสอบการลบ]
+            intent: request
+            answer: |
+              เรียน ผู้ใช้บริการ เบื้องต้นรบกวนตรวจสอบว่า Instance ถูกลบออกจากระบบเรียบร้อยแล้วหรือไม่ครับ โดยระบบจะหยุดคิดค่าใช้จ่ายเมื่อมีการลบ Instance สำเร็จเท่านั้น
+            refs:
+              - title: "Service Charge"
+                url: "https://blog.openlandscape.cloud/service-charge/"
+          - id: bill-deleted-by-credit
+            keywords: [เครื่องถูกลบ, เครดิตหมด, กู้ข้อมูล, ขอคืน]
+            intent: incident
+            answer: |
+              เรียน ผู้ใช้บริการ ทางทีมขอเรียนแจ้งว่า บริการไม่มี Daily Backup รายเครื่อง จึงไม่สามารถกู้คืน Instance ที่ถูกลบไปแล้วได้ครับ ทั้งนี้แนะนำให้ทำ Snapshot สำรองไว้เป็นระยะ และตั้ง Schedule Top-up เพื่อป้องกันเครดิตหมดในอนาคตครับ
+            refs:
+              - title: "Take Snapshot"
+                url: "https://blog.openlandscape.cloud/take-snapshot/"
+              - title: "Schedule Top-up"
+                url: "https://blog.openlandscape.cloud/schedule-top-up"

@@ -1,0 +1,130 @@
+categories:
+  domain:
+    name: "โดเมน"
+    sections:
+      domain-faq:
+        name: "Domain FAQ"
+        entries:
+          - id: dom-register
+            keywords: [จดทะเบียนโดเมน, จดโดเมน, สั่งซื้อโดเมน, โดเมนใหม่, Register domain]
+            intent: request
+            answer: |
+              เรียน ผู้ใช้บริการ หากต้องการจดทะเบียนโดเมน ผู้ใช้บริการสามารถดำเนินการได้ผ่านหน้า gate.openlandscape.cloud เมนู Domain และทำรายการตามขั้นตอนที่ระบบแนะนำครับ
+            refs:
+              - title: "การจดทะเบียนและจัดการโดเมน"
+                url: "https://blog.openlandscape.cloud/domain-name-registration"
+
+          - id: dom-th-documents
+            keywords: [โดเมน .th, เอกสารจดโดเมน, เอกสาร .th, เอกสารประกอบ, จด .th]
+            intent: request
+            answer: |
+              เรียน ผู้ใช้บริการ กรณีจดโดเมน .th จะมีเอกสารประกอบตามประเภทผู้ถือครอง (บุคคลธรรมดา/นิติบุคคล) ผู้ใช้บริการสามารถตรวจสอบรายการเอกสารได้ตามลิงก์แนบครับ
+            refs:
+              - title: "เอกสารประกอบการจดโดเมน .th"
+                url: "https://blog.openlandscape.cloud/domain-document-ref/"
+
+          - id: dom-renew
+            keywords: [ต่ออายุโดเมน, Renew domain, ต่ออายุ, domain renewal]
+            intent: request
+            answer: |
+              เรียน ผู้ใช้บริการ ผู้ใช้บริการสามารถต่ออายุโดเมนได้ที่หน้า gate.openlandscape.cloud เมนู Domain (สามารถต่ออายุล่วงหน้าได้)
+            refs:
+              - title: "การจดทะเบียนและจัดการโดเมน"
+                url: "https://blog.openlandscape.cloud/domain-name-registration"
+
+          - id: dom-change-ns
+            keywords: [แก้ไข Name Server, เปลี่ยน NS, Nameserver, แก้ NS, เปลี่ยน Name Server]
+            intent: request
+            answer: |
+              เรียน ผู้ใช้บริการ ผู้ใช้บริการสามารถแก้ไข Nameserver ได้ที่หน้า gate.openlandscape.cloud เมนู Domain แล้วบันทึกค่า Nameserver ใหม่ได้เลยครับ
+            refs:
+              - title: "การจดทะเบียนและจัดการโดเมน"
+                url: "https://blog.openlandscape.cloud/domain-name-registration"
+
+          - id: dom-add-subdomain
+            keywords: [เพิ่ม Subdomain, สร้าง Subdomain, Subdomain, โดเมนย่อย]
+            intent: request
+            answer: |
+              เรียน ผู้ใช้บริการ หากต้องการเพิ่ม Subdomain ผู้ใช้บริการสามารถเพิ่ม DNS Record ของ Subdomain (เช่น A/CNAME) ได้ที่หน้า gate.openlandscape.cloud เมนู Domain ครับ
+            refs:
+              - title: "การจดทะเบียนและจัดการโดเมน"
+                url: "https://blog.openlandscape.cloud/domain-name-registration"
+
+          - id: dom-manage-dns-record
+            keywords: [เพิ่ม DNS Record, แก้ไข DNS Record, A Record, CNAME, MX, TXT, DNS]
+            intent: request
+            answer: |
+              เรียน ผู้ใช้บริการ ผู้ใช้บริการสามารถจัดการ DNS Record ได้ที่หน้า gate.openlandscape.cloud เมนู Domain โดยเพิ่ม/แก้ไข Record ตามประเภทที่ต้องการครับ
+            refs:
+              - title: "การจดทะเบียนและจัดการโดเมน"
+                url: "https://blog.openlandscape.cloud/domain-name-registration"
+
+          - id: dom-dns-not-updating
+            keywords: [แก้ DNS แล้วไม่เปลี่ยน, DNS ยังไม่เปลี่ยน, DNS Propagation, เว็บยังไม่เปลี่ยน, DNS Cache]
+            intent: request
+            answer: |
+              เรียน ผู้ใช้บริการ อาการดังกล่าวมักเกิดจาก DNS Propagation และ DNS Cache ตามค่า TTL ครับ แนะนำให้ผู้ใช้บริการรอสักระยะและทดสอบใหม่อีกครั้ง หากยังไม่อัปเดต รบกวนผู้ใช้บริการแจ้งชื่อโดเมน + Record ที่แก้ไข + เวลาที่แก้ไขโดยประมาณ ผ่าน Ticket เพื่อให้ทางทีมตรวจสอบเพิ่มเติมครับ
+            refs: []
+
+          - id: dom-transfer-in
+            keywords: [ย้ายโดเมนมา, Transfer in, ย้ายเข้ามา, AUTH-ID, EPP Code, ย้ายผู้ให้บริการ]
+            intent: request
+            answer: |
+              เรียน ผู้ใช้บริการ สามารถย้ายโดเมนมายัง OpenLandscape ได้ครับ โดยทั่วไปจะต้องใช้รหัสย้ายโดเมน (AUTH-ID/EPP Code) จากผู้ให้บริการเดิม และโดเมนต้องเข้าเงื่อนไขการย้ายตามมาตรฐาน หากต้องการให้ทางทีมตรวจสอบก่อน รบกวนผู้ใช้บริการแจ้งชื่อโดเมน + นามสกุลโดเมน (.com/.th ฯลฯ) ผ่าน Ticket ครับ
+            refs: []
+
+          - id: dom-transfer-out
+            keywords: [ย้ายโดเมนออก, Transfer out, ย้ายออกไป, AUTH-ID, EPP Code, ย้ายไปผู้ให้บริการอื่น]
+            intent: request
+            answer: |
+              เรียน ผู้ใช้บริการ สามารถย้ายโดเมนออกไปผู้ให้บริการรายอื่นได้ครับ โดยปลายทางจะมีขั้นตอนให้ดำเนินการ และโดยทั่วไปต้องใช้ AUTH-ID/EPP Code (ขึ้นอยู่กับนามสกุลโดเมน) หากต้องการให้ทางทีมช่วยตรวจสอบเงื่อนไข/สถานะก่อนย้าย รบกวนผู้ใช้บริการแจ้งชื่อโดเมน + ผู้ให้บริการปลายทาง ผ่าน Ticket ครับ
+            refs: []
+
+          - id: dom-auth-id-epp
+            keywords: [AUTH-ID, EPP Code, รหัสย้ายโดเมน, Transfer code, รหัสยืนยัน]
+            intent: request
+            answer: |
+              เรียน ผู้ใช้บริการ AUTH-ID/EPP Code คือรหัสยืนยันสำหรับการย้ายโดเมน (Transfer) ระหว่างผู้ให้บริการโดเมน โดยผู้ใช้บริการสามารถขอรหัสดังกล่าวจากผู้ให้บริการเดิมที่โดเมนจดทะเบียนอยู่ครับ
+            refs: []
+
+          - id: dom-edit-registrant
+            keywords: [แก้ไขข้อมูลผู้ถือครอง, Registrant, เปลี่ยนเจ้าของโดเมน, แก้ไขเจ้าของ]
+            intent: request
+            answer: |
+              เรียน ผู้ใช้บริการ สามารถดำเนินการได้ในบางกรณี (โดยเฉพาะโดเมน .th อาจต้องใช้เอกสารประกอบ) หากต้องการให้ทางทีมตรวจสอบและดำเนินการ รบกวนผู้ใช้บริการแจ้งชื่อโดเมน + รายการข้อมูลที่ต้องการแก้ไข ผ่าน Ticket ครับ
+            refs: []
+
+          - id: dom-pending-inactive
+            keywords: [โดเมน Pending, โดเมน Inactive, โดเมนไม่ active, สถานะโดเมน, โดเมนใช้ไม่ได้]
+            intent: incident
+            answer: |
+              เรียน ผู้ใช้บริการ หากต้องการให้ทางทีมตรวจสอบ รบกวนผู้ใช้บริการแนบชื่อโดเมน + สถานะที่แสดงในหน้า Domain + ภาพหน้าจอประกอบ ผ่าน Ticket เพื่อให้ทางทีมตรวจสอบและแนะนำแนวทางแก้ไขให้ครับ
+            refs: []
+
+          - id: dom-zone-file
+            keywords: [Zone file, ขอ Zone file, สร้าง Zone file, DNS Zone, ไฟล์ Zone]
+            intent: request
+            answer: |
+              เรียน ผู้ใช้บริการ หากต้องการให้ทางทีมดำเนินการ รบกวนผู้ใช้บริการส่งรายการ DNS Record ที่ต้องการ (หรือแนบข้อมูลเดิมจากผู้ให้บริการเดิม/ภาพหน้าจอ) พร้อมระบุชื่อโดเมน ผ่าน Ticket ทางทีมจะช่วยตรวจสอบและดำเนินการให้ครับ
+            refs: []
+
+          - id: dom-reverse-dns-ptr
+            keywords: [Reverse DNS, PTR, PTR Record, IP to Domain, Reverse lookup]
+            intent: request
+            answer: |
+              เรียน ผู้ใช้บริการ PTR (Reverse DNS) คือการผูก IP → ชื่อโดเมน ครับ หากผู้ใช้บริการต้องการให้ตรวจสอบ/ปรับค่า Reverse DNS (PTR) รบกวนแจ้ง Public IP และโดเมนที่ต้องการให้ชี้ ผ่าน Ticket เพื่อให้ทางทีมตรวจสอบและดำเนินการให้ครับ
+            refs: []
+
+          - id: dom-restore
+            keywords: [กู้โดเมนคืน, Restore domain, โดเมนหมดอายุ, กู้คืน, ต่ออายุไม่ได้]
+            intent: incident
+            answer: |
+              เรียน ผู้ใช้บริการ จากที่ตรวจสอบโดเมนอยู่ในสถานะหมดอายุและอยู่ช่วงกู้คืนโดเมน (Restore) จึงไม่สามารถต่ออายุแบบปกติได้ จำเป็นต้องดำเนินการ Restore ก่อน แล้วจึงต่ออายุ 1 ปี อัตราค่าบริการ: ค่ากู้คืนโดเมน + ค่าต่ออายุ หากผู้ใช้บริการประสงค์ให้ดำเนินการ รบกวน Top up เครดิตตามยอดข้างต้น และตอบกลับใน Ticket เพื่อยืนยันให้ทางทีมดำเนินการ Restore/ต่ออายุให้ได้ทันทีเมื่อเครดิตพร้อมครับ
+            refs: []
+
+          - id: dom-renew-over-10-years
+            keywords: [ต่ออายุเกิน 10 ปี, ต่ออายุสูงสุด, อายุเกิน 10 ปี, domain max years, ต่ออายุหลายปี]
+            intent: incident
+            answer: |
+              เรียน ผู้ใช้บริการ จากการตรวจสอบ สาเหตุที่ระบบแจ้งข้อผิดพลาด เนื่องจากการต่ออายุโดเมนรวมทั้งหมดจะต้องมีอายุไม่เกิน 10 ปี ตามข้อกำหนดของผู้ให้บริการโดเมนครับ ปัจจุบันโดเมนของท่านถูกต่ออายุไปแล้ว จึงสามารถต่ออายุเพิ่มได้อีกสูงสุดตามจำนวนปีที่เหลือในรอบนี้เท่านั้น เพื่อไม่ให้ระยะเวลารวมเกิน 10 ปี หากผู้ใช้บริการต้องการต่ออายุให้ครบ 10 ปี จำเป็นต้องดำเนินการต่ออายุเป็น 2 รอบครับ
+            refs: []

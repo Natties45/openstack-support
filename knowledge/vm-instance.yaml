@@ -1,0 +1,450 @@
+categories:
+  vm-instance:
+    name: "VM & Instance"
+    sections:
+      access-password:
+        name: "Access & Password"
+        entries:
+          - id: vm-access-forgot-password
+            keywords:
+              - ลืมรหัสผ่าน
+              - reset password
+              - ขอรหัสผ่านใหม่
+              - ไม่ได้รับรหัสผ่าน
+              - Instance
+              - VM
+              - รหัสเครื่อง
+              - เข้าเครื่อง
+              - server
+            intent: request
+            answer: |
+              เรียน ผู้ใช้บริการ ทางทีมขอเรียนแจ้งว่า ระบบไม่สามารถ Reset Password ของ Instance เดิมให้ได้โดยตรงครับ เบื้องต้นผู้ใช้บริการสามารถทำ Snapshot จาก Instance เดิม และนำ Snapshot ไปสร้าง Instance ใหม่เพื่อรับรหัสผ่านชุดใหม่แทนได้ครับ
+            refs:
+              - title: "Take Snapshot"
+                url: "https://blog.openlandscape.cloud/take-snapshot/"
+              - title: "วิธีใช้ระบบแจ้งเตือน"
+                url: "https://blog.openlandscape.cloud/notification-feature/"
+          - id: vm-access-no-password-email
+            keywords:
+              - ไม่เห็นรหัสผ่าน
+              - ไม่มีอีเมล
+              - หารหัสผ่านไม่เจอ
+              - สร้างเครื่องใหม่
+            intent: request
+            answer: |
+              เรียน ผู้ใช้บริการ เบื้องต้นรบกวนตรวจสอบอีเมลในกล่อง Junk/Spam และตรวจสอบที่เมนู Notifications ภายในระบบ (ระบบจะแจ้งข้อมูลรหัสผ่านไว้) ครับ
+            refs:
+              - title: "วิธีใช้ระบบแจ้งเตือน"
+                url: "https://blog.openlandscape.cloud/notification-feature/"
+          - id: vm-access-view-credentials
+            keywords:
+              - ดู username
+              - ดู password
+              - หารหัสผ่าน
+              - ข้อมูลเข้าเครื่อง
+            intent: request
+            answer: |
+              เรียน ผู้ใช้บริการ Username และ Password ของ Instance จะแจ้งผ่านอีเมลที่ใช้สมัคร และสามารถตรวจสอบซ้ำได้จากเมนู Notifications ภายในระบบครับ
+            refs:
+              - title: "วิธีใช้ระบบแจ้งเตือน"
+                url: "https://blog.openlandscape.cloud/notification-feature/"
+          - id: vm-access-windows-rdp-fail
+            keywords:
+              - Windows Remote ไม่ได้
+              - RDP ไม่ผ่าน
+              - เปลี่ยนรหัสแล้วเข้าไม่ได้
+              - พอร์ต RDP
+            intent: incident
+            answer: |
+              เรียน ผู้ใช้บริการ เบื้องต้นแนะนำให้ Reboot Instance 1 ครั้ง และตรวจสอบว่าได้เปิดพอร์ต RDP (ปกติ TCP/3389) ใน Security Group แล้วครับ หากยัง Remote ไม่ได้ รบกวนแนบภาพ Error ที่ขึ้นบนหน้าจอ Remote เพื่อให้ทางทีมช่วยตรวจสอบเพิ่มเติมครับ
+            refs:
+              - title: "Password Windows"
+                url: "https://blog.openlandscape.cloud/password-windows"
+              - title: "Add Port"
+                url: "https://blog.openlandscape.cloud/add-port/"
+          - id: vm-access-windows-new-boot
+            keywords:
+              - Windows เข้าไม่ได้
+              - เพิ่งสร้างเครื่อง
+              - รหัสถูกแต่เข้าไม่ได้
+              - รอ boot
+            intent: request
+            answer: |
+              เรียน ผู้ใช้บริการ กรณี Windows Server เพิ่งสร้างใหม่ ระบบอาจใช้เวลา Boot/เตรียม Service ประมาณ 5 นาที ก่อนเข้าใช้งานได้ครับ แนะนำรอสักครู่แล้วลองใหม่อีกครั้ง หากยังไม่ได้ผลให้ Reboot 1 ครั้งครับ
+            refs:
+              - title: "Password Windows"
+                url: "https://blog.openlandscape.cloud/password-windows"
+          - id: vm-access-linux-ssh-denied
+            keywords:
+              - SSH ไม่ได้
+              - permission denied
+              - key ไม่ตรง
+              - Linux เข้าไม่ได้
+            intent: incident
+            answer: |
+              เรียน ผู้ใช้บริการ เบื้องต้นให้ตรวจสอบว่าได้เปิด Inbound ใน Security Group สำหรับพอร์ตที่ใช้งาน (ปกติ TCP/22) แล้ว และตรวจสอบว่าใช้ Key pair/Password ถูกต้องครับ หากยังเข้าไม่ได้ รบกวนแนบภาพ Error ที่พบเพื่อให้ทางทีมช่วยตรวจสอบเพิ่มเติมครับ
+            refs:
+              - title: "Add Port"
+                url: "https://blog.openlandscape.cloud/add-port/"
+              - title: "SSH ด้วย PuTTY"
+                url: "https://blog.openlandscape.cloud/remote-linux-server-window/"
+              - title: "Remote SSH (MobaXterm)"
+                url: "https://blog.openlandscape.cloud/remote-ssh-mobaxterm/"
+          - id: vm-access-change-ssh-method
+            keywords:
+              - เปลี่ยน SSH
+              - Key Pair
+              - Password
+              - เปลี่ยนรูปแบบล็อกอิน
+            intent: request
+            answer: |
+              เรียน ผู้ใช้บริการ ผู้ใช้บริการสามารถเปลี่ยนรูปแบบการเข้าใช้งาน SSH ได้ตามคู่มือครับ
+            refs:
+              - title: "Change SSH (Key to Password)"
+                url: "https://blog.openlandscape.cloud/change-ssh/"
+              - title: "SSH Password to Key Pair"
+                url: "https://blog.openlandscape.cloud/ssh-password-to-key-pair/"
+          - id: vm-access-remote-client-guide
+            keywords:
+              - PuTTY
+              - MobaXterm
+              - RDP
+              - เข้าเครื่อง
+              - โปรแกรม remote
+            intent: request
+            answer: |
+              เรียน ผู้ใช้บริการ ทางทีมขออนุญาตแนบคู่มือการเข้าใช้งาน Instance ผ่านโปรแกรมครับ
+            refs:
+              - title: "SSH ด้วย PuTTY"
+                url: "https://blog.openlandscape.cloud/remote-linux-server-window/"
+              - title: "Remote SSH (MobaXterm)"
+                url: "https://blog.openlandscape.cloud/remote-ssh-mobaxterm/"
+              - title: "Password Windows"
+                url: "https://blog.openlandscape.cloud/password-windows"
+          - id: vm-access-manage-user
+            keywords:
+              - เพิ่ม user
+              - จัดการ user
+              - สร้าง user ใหม่
+              - ภายใน VM
+            intent: request
+            answer: |
+              เรียน ผู้ใช้บริการ การเพิ่ม/จัดการ User ภายใน Instance เป็นการตั้งค่าภายในระบบปฏิบัติการ (ภายใน VM) ซึ่งผู้ใช้บริการเป็นผู้ดูแลโดยตรงครับ หากต้องการทำการเปลี่ยนแปลงที่มีความเสี่ยง แนะนำให้ทำ Snapshot ก่อนดำเนินการครับ
+            refs:
+              - title: "Take Snapshot"
+                url: "https://blog.openlandscape.cloud/take-snapshot/"
+      lifecycle:
+        name: "Lifecycle"
+        entries:
+          - id: vm-lifecycle-start-slow
+            keywords:
+              - start นาน
+              - สถานะไม่ขึ้น
+              - ค้าง
+              - Active ไม่ขึ้น
+            intent: incident
+            answer: |
+              เรียน ผู้ใช้บริการ ในบางกรณีการ Start อาจใช้เวลาประมาณ 10–15 นาที (ขึ้นกับขนาดแพ็กเกจและภาระงาน) รบกวนรอสักครู่และตรวจสอบสถานะอีกครั้งครับ หากเกินเวลาดังกล่าวแล้วยังไม่ขึ้น Active รบกวนแนบภาพหน้าจอสถานะที่พบผ่าน Ticket เพื่อให้ทางทีมตรวจสอบเพิ่มเติมครับ
+            refs: []
+          - id: vm-lifecycle-shutoff-slow
+            keywords:
+              - shutoff นาน
+              - ปิดไม่ลง
+              - สถานะไม่เปลี่ยน
+            intent: incident
+            answer: |
+              เรียน ผู้ใช้บริการ การ Shutoff อาจใช้เวลาประมาณ 10–15 นาทีในบางกรณีครับ รบกวนรอสักครู่และตรวจสอบใหม่ หากเกินเวลาดังกล่าว รบกวนแนบภาพหน้าจอสถานะที่พบผ่าน Ticket เพื่อให้ทางทีมตรวจสอบเพิ่มเติมครับ
+            refs: []
+          - id: vm-lifecycle-reboot-types
+            keywords:
+              - hard reboot
+              - soft reboot
+              - restart
+              - ต่างกันอย่างไร
+            intent: request
+            answer: |
+              เรียน ผู้ใช้บริการ Soft Reboot คือ Restart ระบบปฏิบัติการตามปกติ เหมาะกับอาการหน่วง/บริการค้าง ส่วน Hard Reboot คือ Power off/on เสมือนถอดปลั๊ก เหมาะกับกรณีเครื่องค้างหนัก/ไม่ตอบสนอง แนะนำให้เริ่มจาก Soft ก่อน หากยังไม่หายค่อยใช้ Hard ครับ
+            refs: []
+          - id: vm-lifecycle-new-instance-wait
+            keywords:
+              - สร้างเครื่องใหม่
+              - เข้าไม่ได้ทันที
+              - ใช้งานไม่ได้
+              - รอ boot
+            intent: request
+            answer: |
+              เรียน ผู้ใช้บริการ หลังสร้างเครื่อง ระบบอาจใช้เวลา Boot/เตรียม Service ช่วงแรก รบกวนรอ 5–15 นาที (ขึ้นกับ OS/แพ็กเกจ) แล้วทดสอบใหม่ครับ
+            refs:
+              - title: "วิธีใช้ระบบแจ้งเตือน"
+                url: "https://blog.openlandscape.cloud/notification-feature/"
+              - title: "Add Port"
+                url: "https://blog.openlandscape.cloud/add-port/"
+          - id: vm-lifecycle-cannot-delete
+            keywords:
+              - ลบไม่ได้
+              - delete ไม่ได้
+              - ลบ instance
+            intent: incident
+            answer: |
+              เรียน ผู้ใช้บริการ เบื้องต้นแนะนำให้ Logout แล้ว Login ใหม่ จากนั้นลองลบ Instance ที่ต้องการอีกครั้งครับ หากยังไม่สามารถลบได้ รบกวนแนบภาพหน้าจอ Error/สถานะที่พบผ่าน Ticket เพื่อให้ทางทีมตรวจสอบเพิ่มเติมครับ
+            refs: []
+          - id: vm-lifecycle-migrate-host
+            keywords:
+              - ย้าย host
+              - utilization สูง
+              - network loss
+              - host มีปัญหา
+            intent: incident
+            answer: |
+              เรียน ผู้ใช้บริการ ผู้ใช้บริการไม่สามารถย้าย Instance ไป Host อื่นได้ด้วยตนเองครับ หากสงสัยว่าได้รับผลกระทบจาก Host/Network รบกวนแนบอาการที่พบ (เช่น Ping/SSH/RDP) และช่วงเวลาที่เกิดปัญหา ผ่าน Ticket เพื่อให้ทางทีมตรวจสอบและดำเนินการตามความเหมาะสมครับ
+            refs: []
+          - id: vm-lifecycle-kernel-panic
+            keywords:
+              - kernel panic
+              - บูตไม่ขึ้น
+              - boot ไม่ได้
+              - เครื่องพัง
+            intent: incident
+            answer: |
+              เรียน ผู้ใช้บริการ เบื้องต้นแนะนำกู้คืนข้อมูลกลับไปยังช่วงเวลาก่อนเกิดเหตุด้วย Snapshot (หากมี) และตรวจสอบการเปลี่ยนแปลงล่าสุดภายในเครื่องครับ หากยังพบอาการ รบกวนแนบภาพ Error ที่หน้าจอผ่าน Ticket เพื่อให้ทางทีมตรวจสอบเพิ่มเติมครับ
+            refs:
+              - title: "Take Snapshot"
+                url: "https://blog.openlandscape.cloud/take-snapshot/"
+      resize-spec:
+        name: "Resize & Spec"
+        entries:
+          - id: vm-resize-upsize
+            keywords:
+              - resize
+              - เพิ่มสเปก
+              - CPU
+              - RAM
+              - อัปเกรด
+            intent: request
+            answer: |
+              เรียน ผู้ใช้บริการ ผู้ใช้บริการสามารถ Resize เพิ่มสเปกได้ตามขั้นตอนในระบบครับ
+            refs:
+              - title: "Resize Instance"
+                url: "https://blog.openlandscape.cloud/resize-instance/"
+          - id: vm-resize-downsize
+            keywords:
+              - downsize
+              - ลดสเปก
+              - ลด CPU
+              - ลด RAM
+            intent: request
+            answer: |
+              เรียน ผู้ใช้บริการ การ Resize สามารถปรับเพิ่มได้ แต่ไม่สามารถปรับลดสเปกลงได้ครับ หากต้องการลดสเปก แนะนำให้ทำ Snapshot แล้วสร้าง Instance ใหม่ด้วยแพ็กเกจที่ต้องการแทนครับ
+            refs:
+              - title: "Resize Instance"
+                url: "https://blog.openlandscape.cloud/resize-instance/"
+              - title: "Take Snapshot"
+                url: "https://blog.openlandscape.cloud/take-snapshot/"
+          - id: vm-resize-cross-package
+            keywords:
+              - เปลี่ยนแพ็กเกจ
+              - ข้ามสาย
+              - CO
+              - MO
+              - resize ไม่ได้
+            intent: request
+            answer: |
+              เรียน ผู้ใช้บริการ หากแพ็กเกจใหม่มีสเปกต่ำกว่าปัจจุบัน จะไม่สามารถ Resize ไปแพ็กเกจดังกล่าวได้ครับ ผู้ใช้บริการสามารถตรวจสอบเงื่อนไขและขั้นตอนการ Resize ได้ตามคู่มือครับ
+            refs:
+              - title: "Resize Instance"
+                url: "https://blog.openlandscape.cloud/resize-instance/"
+      disk-volume:
+        name: "Disk & Volume"
+        entries:
+          - id: vm-disk-resize-not-reflected
+            keywords:
+              - resize แล้ว disk ไม่เพิ่ม
+              - ขยาย partition
+              - disk ไม่ขยาย
+            intent: request
+            answer: |
+              เรียน ผู้ใช้บริการ กรณี Resize แล้วขนาด Disk ในระบบปฏิบัติการไม่เพิ่ม ผู้ใช้บริการต้องขยาย Partition/Volume ภายใน OS เพิ่มเติมครับ
+            refs:
+              - title: "Take Snapshot"
+                url: "https://blog.openlandscape.cloud/take-snapshot/"
+          - id: vm-disk-mount-volume
+            keywords:
+              - เพิ่ม volume
+              - มองไม่เห็น
+              - mount
+              - disk ใหม่
+            intent: request
+            answer: |
+              เรียน ผู้ใช้บริการ หลังเพิ่ม Volume ผู้ใช้บริการต้อง Mount Volume ภายในระบบปฏิบัติการก่อนจึงจะใช้งานได้ครับ
+            refs:
+              - title: "Mount Volume"
+                url: "https://blog.openlandscape.cloud/mount-volume"
+      snapshot-backup:
+        name: "Snapshot & Backup"
+        entries:
+          - id: vm-snapshot-backup-available
+            keywords:
+              - backup
+              - กู้ข้อมูล
+              - สำรองข้อมูล
+              - ย้อนหลัง
+            intent: request
+            answer: |
+              เรียน ผู้ใช้บริการ ในส่วนของ Backup แนะนำให้ทำ Snapshot Instance แทนครับ ผู้ใช้บริการสามารถดำเนินการตามคู่มือได้เลยครับ
+            refs:
+              - title: "Take Snapshot"
+                url: "https://blog.openlandscape.cloud/take-snapshot/"
+          - id: vm-snapshot-how-to
+            keywords:
+              - ทำ snapshot
+              - restore
+              - clone
+              - สร้างเครื่องใหม่จาก snapshot
+            intent: request
+            answer: |
+              เรียน ผู้ใช้บริการ ผู้ใช้บริการสามารถทำ Snapshot เพื่อสำรองข้อมูล และนำ Snapshot ไปสร้าง Instance ใหม่ (Restore/Clone) ได้ตามคู่มือครับ
+            refs:
+              - title: "Take Snapshot"
+                url: "https://blog.openlandscape.cloud/take-snapshot/"
+          - id: vm-snapshot-cost
+            keywords:
+              - snapshot ค่าใช้จ่าย
+              - ค่า snapshot
+              - เก็บ snapshot
+              - ลบ snapshot
+            intent: request
+            answer: |
+              เรียน ผู้ใช้บริการ ค่าใช้จ่ายของ Snapshot จะขึ้นกับพื้นที่จัดเก็บที่ใช้งานจริงครับ แนะนำให้ลบ Snapshot ที่ไม่จำเป็น และกำหนดรอบ Snapshot ให้เหมาะสมกับการใช้งานครับ
+            refs: []
+      annual-plan:
+        name: "Annual Plan"
+        entries:
+          - id: vm-annualplan-payperuse-to-annual
+            keywords:
+              - pay-per-use
+              - annual plan
+              - ย้ายแพ็กเกจ
+              - เปลี่ยนเป็นรายปี
+            intent: request
+            answer: |
+              เรียน ผู้ใช้บริการ สามารถย้ายได้ครับ โดยแนะนำให้ทำ Snapshot จากเครื่อง Pay-per-use แล้วนำ Snapshot ไปสร้างเครื่องใหม่โดยเลือกแพ็กเกจแบบ Annual Plan ครับ
+            refs:
+              - title: "Take Snapshot"
+                url: "https://blog.openlandscape.cloud/take-snapshot/"
+          - id: vm-annualplan-resize
+            keywords:
+              - annual plan resize
+              - ปรับสเปกรายปี
+              - ขยาย annual plan
+            intent: request
+            answer: |
+              เรียน ผู้ใช้บริการ หากต้องการ Resize แพ็กเกจรายปีและไม่สามารถทำผ่านหน้าเว็บได้ ผู้ใช้บริการสามารถแจ้งความประสงค์ผ่าน Ticket เพื่อให้ทางทีมช่วยตรวจสอบและดำเนินการให้ได้ครับ
+            refs: []
+          - id: vm-annualplan-vs-payperuse
+            keywords:
+              - annual plan ต่างกับ pay-per-use
+              - รายปี vs รายชั่วโมง
+              - เปรียบเทียบแพ็กเกจ
+            intent: request
+            answer: |
+              เรียน ผู้ใช้บริการ Pay-per-use คิดรายชั่วโมง ยืดหยุ่น สร้าง-ลบเครื่องได้ตามต้องการ ส่วน Annual Plan เหมาจ่ายรายปี เหมาะกับงานที่ต้องใช้งานต่อเนื่องและต้องการความคุ้มค่าครับ
+            refs: []
+          - id: vm-annualplan-expiry
+            keywords:
+              - วันหมดอายุ
+              - annual plan หมดอายุ
+              - ตรวจสอบอายุ
+            intent: request
+            answer: |
+              เรียน ผู้ใช้บริการ จากการตรวจสอบ มีการใช้งาน annual plan package ซึ่งหมดอายุตามลำดับ หากผู้ใช้บริการประสงค์จะต่ออายุ annual plan ผู้ใช้บริการสามารถเติมเงินเข้ามาได้เลยครับ ทางทีมจะทำการต่ออายุให้
+            refs: []
+          - id: vm-annualplan-renewal
+            keywords:
+              - ต่ออายุ annual plan
+              - renew
+              - เดิมมี annual plan อยู่แล้ว
+            intent: request
+            answer: |
+              เรียน ผู้ใช้บริการ รบกวนยืนยันอีกครั้งในการดำเนินการต่ออายุ annual plan ของ instance หลังจากยืนยันทางทีมจะดำเนินการต่ออายุ annual plan ให้ครับ
+            refs: []
+      limits-policy:
+        name: "Limits & Policy"
+        entries:
+          - id: vm-limits-export-vm
+            keywords:
+              - export VM
+              - VMware
+              - VirtualBox
+              - ย้ายลง local
+            intent: request
+            answer: |
+              เรียน ผู้ใช้บริการ ปัจจุบันระบบยังไม่รองรับการ Export Instance ออกไปใช้งานบน Local Host (เช่น VMware/VirtualBox) โดยตรงครับ หากต้องการทดสอบ แนะนำให้ทำ Snapshot ก่อนเพื่อความปลอดภัยครับ
+            refs:
+              - title: "Take Snapshot"
+                url: "https://blog.openlandscape.cloud/take-snapshot/"
+          - id: vm-limits-migrate-account
+            keywords:
+              - ย้าย account
+              - ย้าย instance ข้ามบัญชี
+              - เปลี่ยนเจ้าของ
+            intent: request
+            answer: |
+              เรียน ผู้ใช้บริการ ปัจจุบันระบบยังไม่รองรับการย้าย Instance ไปยังบัญชีผู้ใช้ใหม่โดยตรงครับ ขออภัยในความไม่สะดวก
+            refs: []
+          - id: vm-limits-daily-backup
+            keywords:
+              - daily backup
+              - backup รายเครื่อง
+              - backup อัตโนมัติ
+            intent: request
+            answer: |
+              เรียน ผู้ใช้บริการ บริการไม่มี Daily Backup รายเครื่องครับ แนะนำให้ผู้ใช้บริการทำ Snapshot เป็นระยะเพื่อสำรองข้อมูลแทนครับ
+            refs:
+              - title: "Take Snapshot"
+                url: "https://blog.openlandscape.cloud/take-snapshot/"
+          - id: vm-limits-dns-server-name
+            keywords:
+              - DNS server name
+              - ขอ DNS
+              - domain
+            intent: request
+            answer: |
+              เรียน ผู้ใช้บริการ ในส่วนข้อมูล DNS server name ทางบริษัทขอสงวนสิทธิ์ในการให้บริการครับ ขออภัยในความไม่สะดวก
+            refs: []
+      vm-service:
+        name: "VM/Service"
+        entries:
+          - id: vm-service-high-utilize
+            keywords:
+              - utilization สูง
+              - CPU สูง
+              - RAM สูง
+              - ตรวจสอบ utilize
+            intent: incident
+            answer: |
+              เรียน ผู้ใช้บริการจากการตรวจสอบย้อนหลังพบว่า Utilize Instance มีการใช้งาน (CPU or Ram) สูง โดยมีรายละเอียดตามรูปภาพที่ได้แนบมาทั้งนี้ ขอแนะนำให้ผู้ใช้บริการเช็ค Utilize Instance เบื้องต้นครับ
+            refs:
+              - title: "How to Check Utilize"
+                url: "https://blog.openlandscape.cloud/how-to-check-utilize"
+          - id: vm-service-internal-fix
+            keywords:
+              - แก้ service ภายใน
+              - ช่วยดู service
+              - service ในเครื่อง
+              - ภายใน VM
+            intent: incident
+            answer: |
+              เรียน ผู้ใช้บริการ คำขอให้ทางทีมเข้าไปตรวจสอบ Service ภายในเครื่อง เป็นการจัดการภายใน Instance ของผู้ใช้บริการ ซึ่งอยู่นอกขอบเขตการให้บริการ อย่างไรก็ตาม ทางทีมสามารถช่วยตรวจสอบได้ เฉพาะระดับ VM/Platform เช่น สถานะ Instance, Network/Public IP, Security Group/Port และสถานะ Storage/IO ฝั่งระบบ เพื่อให้ตรวจสอบได้ถูกต้อง รบกวนแจ้งข้อมูลดังนี้ Instance name, Public IP, ช่วงเวลาที่พบปัญหา, อาการ/ข้อความ Error
+            refs: []
+          - id: vm-service-clear-cache
+            keywords:
+              - clear cache
+              - ล้างแคช
+              - เว็บค้าง
+              - ข้อมูลไม่อัปเดต
+            intent: incident
+            answer: |
+              เรียน ผู้ใช้บริการ ทางทีมขอแนะนำวิธีเคลียร์แคช (Clear Cache) เพื่อแก้ปัญหาหน้าเว็บค้าง/ข้อมูลไม่อัปเดต หรือใช้งานแล้วแสดงผลผิดปกติ โดยสามารถทำตามขั้นตอนได้จากคู่มือด้านล่างนี้
+            refs:
+              - title: "เช็ค Cached & ปัญหา Linux ช้า"
+                url: "https://blog.openlandscape.cloud/cached"

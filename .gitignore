@@ -1,5 +1,5 @@
 # OpenCode
-#.opencode/state/
+.opencode/state/
 
 # OS files
 .DS_Store

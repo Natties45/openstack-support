@@ -80,9 +80,26 @@ categories:
               - permission denied
               - key ไม่ตรง
               - Linux เข้าไม่ได้
+              - root เข้าไม่ได้
+              - ssh error
+              - password authentication failed
+              - publickey denied
             intent: incident
             answer: |
-              เรียน ผู้ใช้บริการ เบื้องต้นให้ตรวจสอบว่าได้เปิด Inbound ใน Security Group สำหรับพอร์ตที่ใช้งาน (ปกติ TCP/22) แล้ว และตรวจสอบว่าใช้ Key pair/Password ถูกต้องครับ หากยังเข้าไม่ได้ รบกวนแนบภาพ Error ที่พบเพื่อให้ทางทีมช่วยตรวจสอบเพิ่มเติมครับ
+              เรียน ผู้ใช้บริการ
+
+              กรณี SSH ไม่ได้ขึ้น "Permission denied" ให้ตรวจสอบตามลำดับดังนี้ครับ:
+
+              1. ตรวจสอบ Username — บาง Image ไม่อนุญาต root โดยตรง (Ubuntu=ubuntu, Debian=debian, CentOS/Rocky/Alma=centos/rocky/alma, อื่นๆ=admin) ตรวจสอบ username ที่ถูกต้องได้จาก Notifications
+              2. ตรวจสอบพอร์ต TCP/22 ใน Security Group ว่าเปิดอยู่
+              3. Reboot Instance 1 ครั้ง แล้วลองใหม่
+              4. ดูข้อความ Error ให้ละเอียด:
+                 - (publickey) → Key ไม่ตรง, ตรวจสอบ ~/.ssh/authorized_keys (chmod 600) และ ~/.ssh (chmod 700)
+                 - (password) → Password ไม่ถูกต้อง หรือหมดอายุ (ดู entry กรณี password expire)
+                 - (publickey,password) → ทั้งสองทางใช้ไม่ได้
+              5. ตรวจสอบ /var/log/auth.log หรือ /var/log/secure ดูสาเหตุเพิ่มเติม
+
+              หากยังเข้าไม่ได้ รบกวนแนบ Error message หรือ Screenshot ผ่าน Ticket เพื่อให้ทีมตรวจสอบครับ
             refs:
               - title: "Add Port"
                 url: "https://blog.openlandscape.cloud/add-port/"
@@ -90,6 +107,33 @@ categories:
                 url: "https://blog.openlandscape.cloud/remote-linux-server-window/"
               - title: "Remote SSH (MobaXterm)"
                 url: "https://blog.openlandscape.cloud/remote-ssh-mobaxterm/"
+          - id: vm-access-password-expire
+            keywords:
+              - password หมดอายุ
+              - ตั้งรหัสใหม่แล้วเข้าไม่ได้
+              - first login
+              - cloud-init
+              - chpasswd expire
+              - เปลี่ยนรหัสครั้งแรก
+              - กรอกรหัสไม่ผ่าน
+              - password expired
+            intent: request
+            answer: |
+              เรียน ผู้ใช้บริการ
+
+              กรณีสร้าง Instance ใหม่ต้องตั้ง Password ครั้งแรก แล้วกลับมาใช้ Password เดิมไม่ได้ มักเกิดจาก Cloud-init ตั้งค่าให้รหัสผ่านหมดอายุ (chpasswd: { expire: True }) หลังจาก Login ครั้งแรกหรือหลังจาก Reboot ครับ
+
+              เบื้องต้นแนะนำ:
+              1. Reboot Instance 1 ครั้ง แล้วลองใหม่
+              2. ตรวจสอบ Username ที่ถูกต้องจาก Notifications (root อาจใช้ไม่ได้)
+              3. หากยังเข้าไม่ได้ — ทำ Snapshot แล้วสร้าง Instance ใหม่เพื่อรับรหัสผ่านชุดใหม่
+
+              *ระบบ Gate ไม่สามารถ Reset Password Instance เดิมให้ได้โดยตรง*
+            refs:
+              - title: "Take Snapshot"
+                url: "https://blog.openlandscape.cloud/take-snapshot/"
+              - title: "Notification"
+                url: "https://blog.openlandscape.cloud/notification-feature/"
           - id: vm-access-change-ssh-method
             keywords:
               - เปลี่ยน SSH
@@ -316,6 +360,29 @@ categories:
             answer: |
               เรียน ผู้ใช้บริการ ค่าใช้จ่ายของ Snapshot จะขึ้นกับพื้นที่จัดเก็บที่ใช้งานจริงครับ แนะนำให้ลบ Snapshot ที่ไม่จำเป็น และกำหนดรอบ Snapshot ให้เหมาะสมกับการใช้งานครับ
             refs: []
+          - id: vm-snapshot-auto-schedule
+            keywords:
+              - snapshot อัตโนมัติ
+              - auto snapshot
+              - schedule snapshot
+              - ตั้งเวลา snapshot
+              - auto backup
+              - snapshot ตามเวลา
+              - ตั้งรอบ snapshot
+              - snapshot รายวัน
+            intent: request
+            answer: |
+              เรียน ผู้ใช้บริการ
+
+              ปัจจุบันระบบ Gate ไม่มีฟีเจอร์ตั้ง Snapshot อัตโนมัติตามวันเวลาที่ต้องการครับ ผู้ใช้บริการต้องทำ Snapshot ด้วยตนเองผ่านหน้าเว็บตามรอบที่ต้องการ
+
+              หรือผู้ใช้บริการสามารถตั้งการแจ้งเตือนเตือนตัวเองเพื่อมาทำ Snapshot ตามรอบที่ต้องการแทนได้ครับ
+
+              รายละเอียดตามคู่มือ:
+              https://blog.openlandscape.cloud/take-snapshot/
+            refs:
+              - title: "Take Snapshot"
+                url: "https://blog.openlandscape.cloud/take-snapshot/"
       annual-plan:
         name: "Annual Plan"
         entries:

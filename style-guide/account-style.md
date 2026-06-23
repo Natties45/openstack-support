@@ -26,6 +26,19 @@
 - Login issues → แนะนำ Clear Cache, Incognito, ลอง Browser อื่น
 - Quota → https://form.typeform.com/to/ge5RrIh8
 
+## Variant: Ticket Reply Mode (ในระบบ internal.openlandscape.cloud)
+
+เมื่อตอบใน Ticket (threaded) ให้ปรับรูปแบบดังนี้:
+
+| สถานะ | รูปแบบ |
+|---|---|
+| **Reply แรก** (ไม่มีประวัติ) | ใช้ "เรียน ผู้ใช้บริการ" + ปิด "ขอบคุณครับ" ได้ |
+| **Reply ถัดไป** (ใน thread เดียวกัน) | **ไม่ต้อง** ขึ้น "เรียน ผู้ใช้บริการ" และ **ไม่ต้อง** ปิด "ขอบคุณครับ" — ตอบตรงประเด็น |
+| **Reply แจ้ง progress** | ปิดด้วย "ครับ/ค่ะ — หากมีความคืบหน้าจะแจ้งให้ทราบอีกครั้งครับ" |
+| **Gender particle** | ใช้ "ครับ" หรือ "ค่ะ" ตามเพศเจ้าหน้าที่ผู้ตอบ |
+
+> หมายเหตุ: ใน Ticket system จะมี Timestamp + Email sender กำกับอยู่แล้ว ไม่ต้องใส่ชื่อตัวเอง
+
 ## Key Phrases
 - "ผู้ใช้บริการสามารถตรวจสอบได้ที่เมนู..."
 - "เบื้องต้นแนะนำให้ Logout แล้ว Login ใหม่ และลองล้าง Cache/Cookies"

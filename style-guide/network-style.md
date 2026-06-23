@@ -22,6 +22,19 @@
 - Incident → ขอ instance name, public IP, เวลา, port
 - DNS question → แนบ https://blog.openlandscape.cloud/scheduler-flushdns
 
+## Variant: Ticket Reply Mode (ในระบบ internal.openlandscape.cloud)
+
+เมื่อตอบใน Ticket (threaded) ให้ปรับรูปแบบดังนี้:
+
+| สถานะ | รูปแบบ |
+|---|---|
+| **Reply แรก** (ไม่มีประวัติ) | ใช้ "เรียน ผู้ใช้บริการ" + ปิด "ขอบคุณครับ" ได้ |
+| **Reply ถัดไป** (ใน thread เดียวกัน) | **ไม่ต้อง** ขึ้น "เรียน ผู้ใช้บริการ" และ **ไม่ต้อง** ปิด "ขอบคุณครับ" — ตอบตรงประเด็น |
+| **Reply แจ้ง progress** | ปิดด้วย "ครับ/ค่ะ — หากมีความคืบหน้าจะแจ้งให้ทราบอีกครั้งครับ" |
+| **Gender particle** | ใช้ "ครับ" หรือ "ค่ะ" ตามเพศเจ้าหน้าที่ผู้ตอบ |
+
+> หมายเหตุ: ใน Ticket system จะมี Timestamp + Email sender กำกับอยู่แล้ว ไม่ต้องใส่ชื่อตัวเอง
+
 ## Key Phrases
 - "เบื้องต้นแนะนำให้ตรวจสอบว่าได้เปิดพอร์ตที่ใช้งานใน Security Group และกำหนด Source ถูกต้องหรือไม่"
 - "รบกวนแนบภาพผล Ping และ Tracert พร้อมระบุพอร์ตที่ใช้งาน และช่วงเวลาที่พบปัญหา"

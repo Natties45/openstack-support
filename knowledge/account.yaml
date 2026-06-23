@@ -287,3 +287,31 @@ categories:
               ทั้งนี้ Package อื่นในกลุ่ม Starter เช่น S.C ยังสามารถใช้งานได้ตามปกติครับ
               ขออภัยในความไม่สะดวกครับ
             refs: []
+          - id: acc-package-annual-unavailable
+            keywords:
+              - package รายปี
+              - annual plan เลือกไม่ได้
+              - annual เป็นสีเทา
+              - เลือก package ไม่ได้
+              - package เริ่มต้น
+              - package ข้อมูลหาย
+              - เลือกแผนรายปีไม่ได้
+              - package greyed out
+              - one id
+            intent: incident
+            answer: |
+              เรียน ผู้ใช้บริการ
+
+              กรณีเลือก Package รายปีเริ่มต้นไม่ได้ (ขึ้นเป็นสีเทา/ไม่สามารถคลิกได้) มักเกิดจากข้อมูล Account (ONE ID) ไม่สมบูรณ์ หรือสิทธิ์ Package ไม่ตรงกับบัญชี
+
+              เบื้องต้นแนะนำ:
+              1. Logout แล้ว Login ใหม่ + ล้าง Cache/Cookies Browser
+              2. ลองใช้ Browser อื่น หรือเปิดในโหมด Incognito/Private
+              3. ตรวจสอบ Notifications ว่ามี Package ใดถูก Assign แล้วหรือไม่
+
+              หากยังไม่หาย รบกวนแนบ Screenshot พร้อมแจ้งอีเมลบัญชีผ่าน Ticket เพื่อให้ทีมตรวจสอบ ONE ID และ Package mapping ให้ครับ
+            refs:
+              - title: "วิธีใช้งานหน้า Gate รูปแบบใหม่"
+                url: "https://blog.openlandscape.cloud/how-to-use-the-new-gate"
+              - title: "Notification"
+                url: "https://blog.openlandscape.cloud/notification-feature/"

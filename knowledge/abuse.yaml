@@ -2,6 +2,348 @@ categories:
   abuse:
     name: "Abuse Response Templates"
     sections:
+      abuse-intake-flow:
+        name: "Abuse Intake Workflow — Dante Auto-Process"
+        entries:
+          - id: abuse-intake-process
+            keywords:
+              - abuse
+              - intake
+              - workflow
+              - process
+              - ขั้นตอน
+              - abuse report
+            intent: info
+            answer: |
+              ## Abuse Intake Workflow (Dante Auto-Process)
+
+              เมื่อ Admin ส่ง Abuse Report (external) มาให้ Dante:
+
+              1. **Dante ตรวจสอบ IP** — เทียบกับ `knowledge/ip-ranges.yaml`
+                 - ถ้า **Commercial** (ไม่ใช่ Gate/Kory) → Admin ส่งต่อ `noc@inet.co.th` จบ
+                 - ถ้า **Gate / Kory** → Dante วิเคราะห์ประเภทต่อ
+              2. **Dante วิเคราะห์เนื้อหา Report** ว่าอยู่ประเภทใด (Spam, Brute Force, Scan, Phishing, Malware, DDoS, Open Proxy, Crypto Miner, Illegal Content)
+              3. **Admin หาลูกค้า** — จาก IP → Instance → Owner (internal tool)
+              4. **Admin ตรวจสอบประวัติลูกค้า** — GG Sheet แจ้ง Dante ว่า repeat ครั้งที่เท่าไหร่
+              5. **Dante Compose Reply** ตาม escalation level
+              6. **ส่งถึง Admin ตรวจสอบ** ก่อนส่งถึงลูกค้า
+            refs:
+              - title: "ข้อตกลงและเงื่อนไขการให้บริการ"
+                url: "https://openlandscape.cloud/policy/term_and_condition"
+      abuse-escalation:
+        name: "Escalation Policy"
+        entries:
+          - id: abuse-escalation-levels
+            keywords:
+              - escalation
+              - repeat
+              - ซ้ำ
+              - 30 วัน
+              - ระงับ
+              - suspend
+              - ban
+              - permanent
+            intent: info
+            answer: |
+              ## Escalation Policy
+
+              | ครั้งที่ | การดำเนินการ | รายละเอียด |
+              |---|---|---|
+              | 1 (First offense) | **Warning** | แจ้งเตือน + ขอให้แก้ไขตามประเภท abuse |
+              | 2 (Repeat) | **Suspend 7 วัน** | ระงับการใช้งานบัญชี 7 วัน + แจ้งเตือน |
+              | 3+ (Repeat ครั้งที่ 3 ขึ้นไป) | **Permanent Ban** | ปิดการใช้งานบัญชีถาวร |
+
+              - Repeat window: 30 วัน (นับจากวันที่แจ้งเตือนครั้งล่าสุด)
+              - Admin เป็นผู้ตรวจสอบประวัติจาก GG Sheet และแจ้ง Dante ว่าเป็นครั้งที่เท่าไหร่
+            refs:
+              - title: "ข้อตกลงและเงื่อนไขการให้บริการ"
+                url: "https://openlandscape.cloud/policy/term_and_condition"
+      abuse-analysis:
+        name: "Abuse Type Analysis & Remediation Guide"
+        entries:
+          - id: abuse-analysis-spam
+            keywords:
+              - spam
+              - email
+              - smtp
+              - postfix
+              - mail
+              - RCPT
+              - helo
+              - relay
+              - สแปม
+            intent: info
+            answer: |
+              ## Type: SMTP Spam / Email Abuse
+
+              ### Indicators จาก Report
+              - `postfix/smtpd`, `sendmail`, `exim`
+              - `RCPT TO:` ไปยังปลายทางที่ไม่รู้จัก
+              - `helo=` ปลอมแปลง (เช่น helo=tiktok.com, helo=google.com)
+              - `450 4.7.1 Client host rejected` หรือ `554 5.7.1`
+              - logs แสดง outgoing SMTP connection ไปยัง mail server อื่น
+
+              ### Remediation สำหรับลูกค้า
+              1. ตรวจสอบว่ามีบริการส่งอีเมลที่จำเป็นจริงหรือไม่ ถ้าไม่ → ปิด port 25 outbound
+              2. เปลี่ยน SMTP credentials (ถ้ามี) ทันที
+              3. ตรวจสอบ contact form / PHP mailer / web application ว่าถูกใช้ส่ง spam หรือไม่ → เพิ่ม CAPTCHA
+              4. ตรวจสอบ cron jobs — malware มักตั้ง cron สำหรับ spam
+              5. ดู `/var/log/mail.log` หรือ `/var/log/maillog` เพื่อหารายละเอียด
+              6. ถ้าสงสัยถูก compromize → Reinstall OS
+              7. ติดตั้ง Fail2ban, ใช้ Authenticated SMTP relay (SendGrid, Mailgun, ฯลฯ)
+            refs:
+              - title: "ข้อตกลงและเงื่อนไขการให้บริการ"
+                url: "https://openlandscape.cloud/policy/term_and_condition"
+          - id: abuse-analysis-brute-force
+            keywords:
+              - brute force
+              - brute-force
+              - ssh
+              - rdp
+              - authentication
+              - login
+              - password
+              - เข้าสู่ระบบ
+              - ทดสอบรหัสผ่าน
+            intent: info
+            answer: |
+              ## Type: Brute Force
+
+              ### Indicators จาก Report
+              - `Failed password for`, `Invalid user`, `authentication failure`
+              - หลายรายการจาก IP เดียว ในช่วงเวลาสั้นๆ
+              - พยายาม login SSH (port 22), RDP (3389), หรือ web login
+              - Pattern: connection attempts ไปยัง port ทั่วไปจำนวนมาก
+              - Abuse report จาก Hetzner, DigitalOcean หรือผู้ให้บริการอื่นแจ้ง brute force activity
+
+              ### Remediation สำหรับลูกค้า
+              1. เปลี่ยนรหัสผ่านทันที (SSH, RDP, Database, Admin panels)
+              2. ใช้ SSH key authentication แทน password
+              3. เปลี่ยน SSH port จาก 22 เป็น port อื่น
+              4. Disable root login (`PermitRootLogin no`)
+              5. ติดตั้ง Fail2ban หรือ DenyHosts
+              6. จำกัดการเข้าถึงด้วย Security Group (Whitelist เฉพาะ IP ที่จำเป็น)
+              7. ตรวจสอบ logs: `/var/log/auth.log` หรือ `/var/log/secure`
+              8. ถ้าถูกเจาะแล้ว → Reinstall OS ทันที
+            refs:
+              - title: "ข้อตกลงและเงื่อนไขการให้บริการ"
+                url: "https://openlandscape.cloud/policy/term_and_condition"
+          - id: abuse-analysis-scan
+            keywords:
+              - scan
+              - scanning
+              - heztner
+              - abuse
+              - สแกน
+              - port scan
+              - network scan
+              - nmap
+            intent: info
+            answer: |
+              ## Type: Port Scan / Network Scan
+
+              ### Indicators จาก Report
+              - `Scan detected` — จาก Hetzner หรือ provider อื่น
+              - หลาย connection ไปยัง IP ปลายทางต่างๆ ใน port ต่างๆ
+              - Pattern: sequential port / IP scanning
+              - Abuse report แจ้งว่า IP ต้นทางมีการสแกน network
+
+              ### Remediation สำหรับลูกค้า
+              1. ตรวจสอบว่ามีการติดตั้ง tools สำหรับ scan หรือไม่ (nmap, masscan, zmap)
+              2. ตรวจสอบ cron jobs, background processes
+              3. ตรวจสอบ logs: `/var/log/syslog`, `/var/log/auth.log`
+              4. ปิด port และบริการที่ไม่จำเป็น
+              5. ตั้งค่า Firewall / Security Group ให้ restrict outbound traffic
+              6. ถ้าเป็น compromised → Reinstall OS
+            refs:
+              - title: "ข้อตกลงและเงื่อนไขการให้บริการ"
+                url: "https://openlandscape.cloud/policy/term_and_condition"
+          - id: abuse-analysis-phishing
+            keywords:
+              - phishing
+              - ฟิชชิ่ง
+              - fake login
+              - impersonate
+              - หลอกลวง
+              - bank
+              - facebook
+              - paypal
+              - ปลอม
+            intent: info
+            answer: |
+              ## Type: Phishing
+
+              ### Indicators จาก Report
+              - URL ชี้ไปที่หน้า login ปลอม (เลียนแบบธนาคาร, Facebook, ระบบ email)
+              - โดเมน/URL รูปแบบ: ดูคล้ายของจริงแต่ผิด (เช่น faceb00k, bankscb)
+              - รายงานจากผู้ให้บริการด้านความปลอดภัย (PhishTank, Netcraft, Sucuri)
+              - เนื้อหามีฟอร์มรับข้อมูล username/password
+
+              ### Remediation สำหรับลูกค้า
+              1. ลบไฟล์/สคริปต์/โฟลเดอร์ที่เกี่ยวข้องกับ phishing ทันที
+              2. ตรวจสอบ WordPress / CMS — อัปเดต plugins, themes, core
+              3. เปลี่ยนรหัสผ่านทั้งหมด (DB, admin, FTP)
+              4. ตรวจสอบว่ามี plugin หรือ add-on ที่ไม่รู้จัก
+              5. scan malware ด้วย ClamAV, Wordfence, หรือเครื่องมืออื่น
+              6. ถ้าถูก compromise → Reinstall OS + เปลี่ยน credentials ทั้งหมด
+              7. จำกัด file permissions (เช่น 644 สำหรับไฟล์, 755 สำหรับ directory)
+            refs:
+              - title: "ข้อตกลงและเงื่อนไขการให้บริการ"
+                url: "https://openlandscape.cloud/policy/term_and_condition"
+          - id: abuse-analysis-malware
+            keywords:
+              - malware
+              - botnet
+              - virus
+              - ไวรัส
+              - backdoor
+              - shell
+              - webshell
+              - trojan
+              - compromised
+              - hack
+              - แฮก
+            intent: info
+            answer: |
+              ## Type: Malware / Botnet / Compromised
+
+              ### Indicators จาก Report
+              - Blacklist รายงาน (Spamhaus, AbuseIPDB, ฯลฯ)
+              - Outbound traffic ผิดปกติ (ไปยัง C&C server)
+              - มี process/connection ที่ไม่รู้จัก
+              - Web shell หรือ backdoor ถูกพบใน web directory
+              - CPU/Memory สูงผิดปกติ (crypto miner / botnet)
+
+              ### Remediation สำหรับลูกค้า
+              1. **แนะนำ Reinstall OS** — เมื่อถูก compromise จริง ไม่แนะนำ patch ทับ
+              2. Backup เฉพาะ data ที่จำเป็น (scan ก่อน restore)
+              3. เปลี่ยนรหัสผ่านทั้งหมดบนเครื่องใหม่
+              4. อัปเดต OS + application packages
+              5. ติดตั้ง security tools (Fail2ban, ClamAV, rkhunter)
+              6. ตั้งค่า Firewall / Security Group ให้รัดกุม
+              7. ตรวจสอบ cron jobs, SSH authorized_keys, users
+            refs:
+              - title: "ข้อตกลงและเงื่อนไขการให้บริการ"
+                url: "https://openlandscape.cloud/policy/term_and_condition"
+          - id: abuse-analysis-ddos
+            keywords:
+              - ddos
+              - dos
+              - amplification
+              - outbound
+              - udp
+              - flood
+              - booter
+              - stresser
+            intent: info
+            answer: |
+              ## Type: Outbound DDoS / Amplification Attack
+
+              ### Indicators จาก Report
+              - Outbound traffic ปริมาณสูงผิดปกติ
+              - Protocol amplification (DNS, NTP, SSDP, Memcached, CharGen)
+              - UDP flood ไปยัง target IP
+              - รายงานจาก upstream provider หรือ DDoS mitigation service
+              - Logs แสดงการส่ง packet ไปยัง port 53, 123, 1900, 11211
+
+              ### Remediation สำหรับลูกค้า
+              1. ปิด service ที่ใช้ amplification: DNS recursive, NTP monlist, Memcached, CharGen
+              2. ตั้ง Firewall egress — block port 53, 123, 1900, 11211, 17 (qotd) outbound ถ้าไม่จำเป็น
+              3. ตรวจสอบ cron jobs และ processes
+              4. ตรวจสอบว่ามี iptables/nftables rules ผิดปกติ
+              5. ถ้าถูก compromise → Reinstall OS
+            refs:
+              - title: "ข้อตกลงและเงื่อนไขการให้บริการ"
+                url: "https://openlandscape.cloud/policy/term_and_condition"
+          - id: abuse-analysis-openproxy
+            keywords:
+              - proxy
+              - open proxy
+              - open relay
+              - socks
+              - squid
+              - 3proxy
+              - tunnel
+              - forward
+            intent: info
+            answer: |
+              ## Type: Open Proxy / Open Relay
+
+              ### Indicators จาก Report
+              - IP ถูกใช้เป็น proxy ไปยัง target อื่น
+              - Connection มาจากหลาย source IP แล้วไปต่อยัง target
+              - Misconfigured Squid, SOCKS, 3proxy, HTTP proxy
+              - SMTP open relay — ส่ง email โดยไม่ต้อง authenticate
+
+              ### Remediation สำหรับลูกค้า
+              1. ตั้งค่า proxy/relay ให้ require authentication
+              2. หรือปิดบริการ proxy ที่ไม่จำเป็น
+              3. จำกัดการเข้าถึงด้วย Firewall — allow เฉพาะ IP ที่จำเป็น
+              4. สำหรับ SMTP — ตั้งค่า authentication, disable open relay
+              5. ตรวจสอบ logs ว่าถูกใช้ไปเท่าไหร่
+            refs:
+              - title: "ข้อตกลงและเงื่อนไขการให้บริการ"
+                url: "https://openlandscape.cloud/policy/term_and_condition"
+          - id: abuse-analysis-cryptominer
+            keywords:
+              - crypto
+              - miner
+              - mining
+              - bitcoin
+              - monero
+              - xmrig
+              - cpu
+              - 100%
+              - ขุด
+            intent: info
+            answer: |
+              ## Type: Crypto Miner
+
+              ### Indicators จาก Report
+              - CPU/Memory ใช้งานสูงผิดปกติตลอดเวลา
+              - Process ที่ไม่รู้จัก (xmrig, miner, ฯลฯ)
+              - Outbound connection ไปยัง mining pool (pool.minexmr.com, ฯลฯ)
+              - Abuse report แจ้งว่ามี crypto miner activity
+
+              ### Remediation สำหรับลูกค้า
+              1. Kill process mining, remove binary
+              2. ตรวจสอบ cron jobs, systemd services (mining มักตั้ง auto-start)
+              3. ตรวจสอบ `/etc/cron*`, `/var/spool/cron`
+              4. scan system ด้วย ClamAV, rkhunter
+              5. แนะนำ Reinstall OS ถ้าไม่แน่ใจว่าลบเรียบร้อย
+            refs:
+              - title: "ข้อตกลงและเงื่อนไขการให้บริการ"
+                url: "https://openlandscape.cloud/policy/term_and_condition"
+          - id: abuse-analysis-illegal-content
+            keywords:
+              - illegal
+              - dmca
+              - copyright
+              - ลิขสิทธิ์
+              - ละเมิด
+              - ผิดกฎหมาย
+              - child
+              - csam
+              - เนื้อหา
+            intent: info
+            answer: |
+              ## Type: Illegal Content / DMCA / Copyright
+
+              ### Indicators จาก Report
+              - URL + description ของเนื้อหาผิดกฎหมาย
+              - DMCA takedown notice
+              - รายงานจากเจ้าของลิขสิทธิ์หรือหน่วยงานรัฐ
+              - เนื้อหารูปภาพ/วิดีโอ/ไฟล์ ที่ผิดกฎหมาย
+
+              ### Remediation สำหรับลูกค้า
+              1. ลบ content ที่ถูกร้องเรียนทันที
+              2. ตรวจสอบระบบ upload/file management ให้รัดกุม
+              3. ตั้งค่า file permissions, disable directory listing
+              4. ตรวจสอบว่าไม่มี backdoor หรือ unauthorized file
+              5. แจ้ง Admin ว่าเนื้อหาถูกลบแล้ว
+            refs:
+              - title: "ข้อตกลงและเงื่อนไขการให้บริการ"
+                url: "https://openlandscape.cloud/policy/term_and_condition"
       brute-force:
         name: "Brute Force"
         entries:
@@ -126,6 +468,61 @@ categories:
               หากทางทีมตรวจพบพฤติกรรมในลักษณะเดียวกันซ้ำอีกภายใน 30 วันนับจากวันที่แจ้งเตือนนี้ ทางทีมจะดำเนินการระงับการใช้งานบัญชีผู้ใช้บริการเป็นเวลา 7 วัน ตามมาตรการความปลอดภัยของระบบ
 
               อ้างอิงข้อกำหนดและเงื่อนไขการให้บริการ: https://openlandscape.cloud/policy/term_and_condition
+
+              ขอบคุณครับ
+            refs:
+              - title: "ข้อตกลงและเงื่อนไขการให้บริการ"
+                url: "https://openlandscape.cloud/policy/term_and_condition"
+      abuse-spam-repeat-suspend:
+        name: "SMTP Spam — Repeat (Suspend 7 Days)"
+        entries:
+          - id: abuse-spam-repeat-suspend
+            keywords:
+              - spam
+              - smtp
+              - postfix
+              - helo spoofing
+              - repeat
+              - ซ้ำ
+              - ระงับ 7 วัน
+              - suspend 7 วัน
+              - ครั้งที่ 2
+              - สแปมซ้ำ
+            intent: info
+            answer: |
+              Subject: แจ้งระงับการใช้งานชั่วคราว — Abuse Report: SMTP Spam ([Instance Name])
+
+              เรียน ผู้ใช้บริการ
+
+              ทางทีมได้รับการแจ้งเตือนจากภายนอก เรื่องตรวจพบพฤติกรรมการใช้งานที่เข้าข่าย
+              การส่ง Spam / Email Abuse จากเซิร์ฟเวอร์ภายใต้บัญชีของท่านอีกครั้ง
+
+              รายละเอียด:
+              - Instance: [Instance Name]
+              - IP ต้นทาง: [IP Address]
+              - ลักษณะ: SMTP Spam — พยายามส่งอีเมลโดยไม่ได้รับอนุญาต (helo spoofing, postfix smtpd)
+              - วันที่ตรวจพบ: [วันที่]
+
+              ทั้งนี้ ทางทีมเคยแจ้งเตือนพฤติกรรมดังกล่าวครั้งแรกเมื่อวันที่ [วันที่แจ้งครั้งแรก]
+
+              เนื่องจากเป็นการตรวจพบพฤติกรรมดังกล่าวซ้ำอีกครั้ง ทางทีมมีความจำเป็นต้องดำเนินการ
+              ระงับการใช้งานบัญชีผู้ใช้บริการเป็นการชั่วคราวเป็นเวลา 7 วัน (Suspend 7 วัน)
+              ตามมาตรการความปลอดภัยของระบบ
+
+              หลังจากครบกำหนด ทางทีมขอแนะนำให้ดำเนินการแก้ไขดังนี้ก่อนกลับมาใช้งาน:
+              - ตรวจสอบว่ามีบริการส่งอีเมลที่จำเป็นจริงหรือไม่ ถ้าไม่ → ปิด port 25 outbound
+              - เปลี่ยน SMTP credentials (ถ้ามี) ทันที
+              - ตรวจสอบ contact form / PHP mailer / web application ว่าถูกใช้ส่ง spam หรือไม่
+              - ตรวจสอบ cron jobs และ background processes
+              - ตรวจสอบ /var/log/mail.log หรือ /var/log/maillog เพื่อหารายละเอียด
+              - หากสงสัยว่าถูก compromise → Reinstall OS
+              - ติดตั้ง Fail2ban และใช้ Authenticated SMTP relay (SendGrid, Mailgun ฯลฯ)
+
+              หากตรวจพบพฤติกรรมดังกล่าวอีกครั้งหลังกลับมาใช้งาน ทางทีมขอสงวนสิทธิ์
+              ในการปิดการใช้งานบัญชีผู้ใช้บริการถาวร (Permanent Ban)
+
+              อ้างอิงข้อกำหนดและเงื่อนไขการให้บริการ:
+              https://openlandscape.cloud/policy/term_and_condition
 
               ขอบคุณครับ
             refs:

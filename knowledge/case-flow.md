@@ -14,6 +14,10 @@ case → Classify Type:
 ├── Request
 │   → Select answer from Q&A knowledge base
 │   → Reply to customer → end
+├── Abuse Report (external)
+│   → Dante ตรวจสอบ IP (รู้เทียบ ip-ranges.yaml)
+│   ├── Commercial → Admin forward noc@inet.co.th → end
+│   └── Gate/Kory → Dante วิเคราะห์ประเภท + compose reply → Admin ตรวจสอบ → Reply
 └── Policy / Compliance
     → Check for T&C violation on Gate platform
     → Reply to customer → end

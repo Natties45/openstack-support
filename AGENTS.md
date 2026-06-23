@@ -39,6 +39,31 @@
 - ใช้ composer skill เพื่อรวมคำตอบ
 - เปิด-ปิดครั้งเดียว (ไม่ซ้ำ "เรียน ผู้ใช้บริการ" ต่อเรื่อง)
 
+## Case Auto-Processing (Skill Auto-Load)
+เมื่อ admin paste ข้อความที่มี pattern เคส:
+  OLS2606xxxxx
+  [Category / หมวดหมู่]
+  [เนื้อหา]
+→ auto-detect category และโหลด skill ที่ตรงกันโดยอัตโนมัติ
+
+### Category → Skill Mapping
+| Category ในเคส | Skill ให้โหลด |
+|---|---|
+| Instance / Snapshot | vm-instance |
+| Account / ONE ID | account |
+| Network / Security / Port | network-security |
+| Billing / Payment | billing |
+| Domain / DNS | domain |
+| SSL Certificate | ssl |
+| File Storage / Bucket | file-storage |
+| Abuse | abuse |
+| อื่นๆ / ไม่ตรง pattern | generic |
+
+### Auto-Load Workflow
+1. Detect pattern → map category → load skill → read knowledge/{cat}.yaml
+2. Compose draft reply ตาม style guide
+3. แสดง draft ให้ admin ตรวจสอบ (ไม่ต้องรอ approve ก่อน load)
+
 ## Response Priority
 1. Template จาก knowledge/ (Sheet A) → ใช้ทันที
 2. Blog link จาก blog-index.yaml → แนบลิงก์
@@ -59,6 +84,11 @@
 - คู่มือ VM ใน knowledge/vm-instance.yaml ใช้ร่วมกันทั้ง Gate และ Kory
 - Kory ยังไม่มีคู่มือ platform เฉพาะ — ใช้คู่มือ Gate เป็นหลักไปก่อน
 - ดู blog-index-kory.yaml สำหรับ blog ของ Kory (รอข้อมูล)
+
+### ห้ามเด็ดขาด (Platform Communication)
+- ห้ามอ้างอิง OpenStack, API, CLI, หรือ backend mechanism ใดๆ กับลูกค้าโดยเด็ดขาด
+- ลูกค้าไม่ทราบว่าระบบทำงานบน OpenStack — ให้อ้างอิงแค่ "ระบบ Gate" หรือ "ระบบ" เท่านั้น
+- หากระบบ Gate ไม่มีฟีเจอร์ใด = ไม่มีทางเลือกอื่นให้ลูกค้าทำเอง อย่าแนะนำ API หรือ CLI workaround
 
 ## Admin Context
 - Admin ดูแล Self Service Cloud (Gate + Kory) เท่านั้น

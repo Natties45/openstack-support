@@ -21,8 +21,10 @@
 - ต้องระบุ instance name + public IP (ตัวแปร)
 - ต้องระบุช่วงเวลาที่ตรวจพบ (ตัวแปร)
 - ต้องแจ้งบทลงโทษที่จะเกิดขึ้นหากเกิดซ้ำ
+- กรณี Repeat — ต้องระบุวันที่แจ้งเตือนครั้งแรกในข้อความ
+- ต้องมีหัวข้ออีเมล (Subject) ใน template
 
 ## Escalation Levels
 1. First offense → Warning + ขอให้แก้ไข
-2. Repeat within 30 days → Suspend 7 days
+2. Repeat (ภายใน 30 วัน) → Suspend 7 วัน + ระบุวันที่แจ้งเตือนครั้งแรกในข้อความ
 3. Severe/Permanent → Ban account + bucket

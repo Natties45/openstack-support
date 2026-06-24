@@ -64,12 +64,6 @@ ols-support-agent/
 | abuse-style | แจ้งเตือน, ระงับบัญชี |
 | generic-style | คำตอบทั่วไป |
 
-## MCP Tools
-
-- **context7** — ค้น tech docs/articles (ติดตั้งแล้ว)
-- **webfetch** — built-in ดึงหน้าเว็บ
-- **blog.openlandscape.cloud** — ยังติด Cloudflare → แผนภายหลัง
-
 ## Self-Learning
 
 - คำถามที่ไม่มีใน knowledge → nero ค้น web → staff approve → `/vergil` บันทึก

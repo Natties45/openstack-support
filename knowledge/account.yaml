@@ -1,6 +1,8 @@
 categories:
   account:
     name: "Gate & Account"
+    triggers: |
+      Customer asks about: สมัครสมาชิก, ลงทะเบียน; Login ไม่ได้, ลืมรหัสผ่าน Gate; เปลี่ยนอีเมล, แก้ไขโปรไฟล์; Notifications, ระบบแจ้งเตือน; ระดับสมาชิก, Ranking, Upgrade, ลด Rank; ขอเพิ่ม Quota Instance; eKYC, ยืนยันตัวตน; Package Not Available, Starter S.A/S.B; เปิด Ticket, Report a problem; คู่มือการใช้งานหน้า Gate
     sections:
       registration:
         name: "การสมัครสมาชิก (Registration)"

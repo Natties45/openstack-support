@@ -1,6 +1,8 @@
 categories:
   noc-scripts:
     name: "NOC/Call Center Scripts"
+    triggers: |
+      Staff is handling: เปิด Ticket จาก Call Center; Claim customer (verify in gate); ส่งต่อ incident/request ไป OP; Non-customer email handling; แจ้งนโยบายการโทรกลับ; Escalation แบบมีโครงสร้าง
     sections:
       customer:
         name: "ลูกค้า (Customer)"

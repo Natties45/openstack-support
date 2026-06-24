@@ -1,6 +1,8 @@
 categories:
   generic:
     name: "Generic Reply Templates"
+    triggers: |
+      Acknowledge receipt of problem; Notify customer issue is resolved; Follow up on old tickets; Request additional contact info; Notify customer of callback; Closing tickets politely
     sections:
       acknowledgment:
         name: "Acknowledgment & Follow-up"

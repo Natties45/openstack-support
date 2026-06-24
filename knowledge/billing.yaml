@@ -1,6 +1,8 @@
 categories:
   billing:
     name: "Billing & Payment"
+    triggers: |
+      Customer asks about: เติมเครดิต, เติมเงิน, Top-up, QR Payment, Bank Transfer; ใบเสนอราคา, Quotation; ใบกำกับภาษี, e-Tax, ขอคืนภาษี; หัก ณ ที่จ่าย (WHT), หนังสือรับรองหักภาษี; ขอคืนเงิน, Refund; Usage History, ดูประวัติหักเครดิต; Gift Code, Schedule Top-up; OTP ผิด, เติมเงินไม่ได้
     sections:
       top-up:
         name: "การเติมเครดิต (Top-Up)"

@@ -1,6 +1,8 @@
 categories:
   ssl:
     name: "SSL Certificate"
+    triggers: |
+      Customer asks about: ซื้อ/สั่งซื้อ SSL Certificate; สร้าง CSR, CSR ใช้ไม่ได้, SAN; Activate SSL, ยืนยันโดเมน (Email/DNS/HTTP); Reissue SSL, เปลี่ยน CSR; ติดตั้ง SSL บน Apache/Nginx/IIS; SSL Error, Chain ไม่ครบ; www/non-www, Multi-domain, Wildcard; ต่ออายุ SSL
     sections:
       ssl-faq:
         name: "SSL FAQ"

@@ -1,6 +1,8 @@
 categories:
   network-security:
     name: "Network & Security"
+    triggers: |
+      Customer asks about: เปิด/ปิด Port, เพิ่ม Port, Security Group; Public IP, Private IP, Allocate/Attach/Detach; Ping, Tracert, Network troubleshooting; DNS, Flush DNS, DNS Cache; SSH Port เปลี่ยน, RDP Port เปลี่ยน; Whitelist IP, จำกัดการเข้าถึง; ออกเน็ตไม่ได้, Download/Upload ช้า; Ransomware, Malware
     sections:
       network-security:
         name: "Network & Security"

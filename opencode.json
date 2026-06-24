@@ -3,13 +3,13 @@
   "shell": "pwsh",
   "instructions": ["./AGENTS.md"],
   "agent": {
-    "dante": {
+    "rinoa": {
       "mode": "primary",
       "hidden": true,
-      "description": "Dante — OLS Customer Support Reply Agent ตอบคำถามลูกค้าด้วย DNA จาก OpenLandscape Cloud FAQ",
+      "description": "Rinoa — OLS Customer Support Reply Agent ตอบคำถามลูกค้าด้วย DNA จาก OpenLandscape Cloud FAQ",
       "model": "anthropic/claude-sonnet-4-20250514",
       "temperature": 0.2,
-      "prompt": "{file:./.opencode/agents/ols-reply.md}",
+      "prompt": "{file:./agents/rinoa-reply.md}",
       "permission": {
         "read": "allow",
         "skill": "allow",
@@ -19,42 +19,29 @@
         "bash": "deny",
         "task": {
           "*": "deny",
-          "nero": "allow",
-          "vergil": "allow"
+          "quistis": "allow",
+          "laguna": "allow"
         }
       }
     },
-    "nero": {
+    "quistis": {
       "mode": "subagent",
       "hidden": true,
       "model": "anthropic/claude-haiku-4-20250514",
-      "prompt": "{file:./.opencode/agents/ols-research.md}"
+      "prompt": "{file:./agents/quistis-research.md}"
     },
-    "vergil": {
+    "laguna": {
       "mode": "subagent",
       "hidden": true,
       "model": "anthropic/claude-haiku-4-20250514",
-      "prompt": "{file:./.opencode/agents/ols-learn.md}"
-    }
-  },
-  "mcp": {
-    "context7": {
-      "type": "remote",
-      "url": "https://mcp.context7.com/mcp",
-      "enabled": true
-    },
-    "puppeteer": {
-      "type": "local",
-      "command": ["npx", "-y", "@modelcontextprotocol/server-puppeteer"],
-      "enabled": true,
-      "timeout": 120000
+      "prompt": "{file:./agents/laguna-writer.md}"
     }
   },
   "command": {
-    "vergil": {
+    "laguna": {
       "template": "บันทึกความรู้ใหม่ที่ค้นพบจาก research ครั้งล่าสุด โดยจัดหมวดหมู่และเพิ่ม keywords ภาษาไทย $ARGUMENTS",
       "description": "Save new knowledge from research into knowledge/ directory",
-      "agent": "vergil"
+      "agent": "laguna"
     }
   },
   "permission": {

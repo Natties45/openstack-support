@@ -1,6 +1,8 @@
 categories:
   domain:
     name: "โดเมน"
+    triggers: |
+      Customer asks about: จดทะเบียนโดเมน, ต่ออายุโดเมน; .th domain เอกสาร; DNS Record (A, CNAME, MX, TXT); Name Server, Subdomain; ย้ายโดเมนเข้า/ออก OLS; AUTH-ID / EPP Code; โดเมนหมดอายุ, กู้โดเมน; ต่ออายุเกิน 10 ปี; Zone file, Reverse DNS (PTR)
     sections:
       domain-faq:
         name: "Domain FAQ"

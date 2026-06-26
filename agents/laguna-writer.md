@@ -44,3 +44,9 @@ You save new knowledge discovered by quistis into the appropriate `knowledge/{ca
 - Include all source URLs as refs
 - Place under correct section heading in the YAML file
 - Do NOT overwrite existing entries
+
+## Sphere Handbook (Optional)
+
+Extended methodology: `../sphere/agents/shared/writer-handbook.md`
+
+This agent is self-contained. If `../sphere/` does not exist, all functions continue normally.

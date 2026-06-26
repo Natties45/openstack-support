@@ -1,0 +1,946 @@
+<!doctype html>
+<html lang="th">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Self Service Call Flow App</title>
+  <!-- ใช้ Lucide Icons สำหรับ Visual Cues -->
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <style>
+    :root {
+      --bg: #f4f7fb;
+      --surface: #ffffff;
+      --ink: #152033;
+      --muted: #607089;
+      --line: #c8d3e3;
+      --kory: #6f42c1;
+      --kory-soft: #f1ebff;
+      --gate: #0d8f7b;
+      --gate-soft: #e7f8f3;
+      --email: #0f75bc;
+      --email-soft: #eaf7ff;
+      --legacy: #7756d9;
+      --legacy-soft: #f0ebff;
+      --warn: #c97813;
+      --warn-soft: #fff6e7;
+      --incident: #d95454;
+      --incident-soft: #fff0f0;
+      --request: #2f6eea;
+      --request-soft: #eef4ff;
+      --shadow: 0 18px 45px rgba(22, 35, 58, 0.10);
+      --radius: 22px;
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      font-family: "Noto Sans Thai", "Tahoma", "Arial", sans-serif;
+      background: radial-gradient(circle at top left, rgba(13, 143, 123, 0.08), transparent 40rem),
+                  linear-gradient(180deg, #f8fbff 0%, var(--bg) 100%);
+      color: var(--ink);
+      line-height: 1.55;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    h1, h2, h3, p { margin-top: 0; }
+    
+    .page-container {
+      width: min(1440px, calc(100% - 32px));
+      margin: 0 auto;
+      padding: 32px 0 56px;
+      flex-grow: 1;
+      display: flex;
+      flex-direction: column;
+    }
+
+    /* Utilities */
+    .hidden { display: none !important; }
+    .fade-in { animation: fadeIn 0.3s ease-in-out; }
+    @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+
+    /* Buttons & Cards */
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      padding: 12px 24px;
+      border-radius: 12px;
+      font-weight: 700;
+      cursor: pointer;
+      border: none;
+      transition: all 0.2s;
+      font-size: 16px;
+    }
+    .btn:hover { transform: translateY(-2px); }
+    .btn-outline { background: transparent; border: 2px solid var(--line); color: var(--muted); }
+    .btn-outline:hover { background: #e8edf5; color: var(--ink); }
+    
+    .card {
+      background: rgba(255, 255, 255, 0.95);
+      border: 1px solid rgba(200, 211, 227, 0.88);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      padding: 24px;
+    }
+    
+    .clickable-card {
+      cursor: pointer;
+      transition: all 0.2s;
+      border: 2px solid transparent;
+      display: flex;
+      flex-direction: column;
+      height: 100%;
+    }
+    .clickable-card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 24px 50px rgba(22, 35, 58, 0.15);
+    }
+    
+    /* Specific Colors */
+    .theme-kory { border-color: rgba(111, 66, 193, 0.3); background: var(--kory-soft); }
+    .theme-kory:hover { border-color: var(--kory); }
+    .theme-gate { border-color: rgba(13, 143, 123, 0.3); background: var(--gate-soft); }
+    .theme-gate:hover { border-color: var(--gate); }
+    .theme-legacy { border-color: rgba(119, 86, 217, 0.3); background: var(--legacy-soft); }
+    .theme-legacy:hover { border-color: var(--legacy); }
+    .theme-warn { border-color: rgba(201, 120, 19, 0.3); background: var(--warn-soft); }
+    .theme-warn:hover { border-color: var(--warn); }
+    .theme-incident { border-color: rgba(217, 84, 84, 0.3); background: var(--incident-soft); }
+    .theme-incident:hover { border-color: var(--incident); }
+    .theme-request { border-color: rgba(47, 110, 234, 0.3); background: var(--request-soft); }
+    .theme-request:hover { border-color: var(--request); }
+    
+    .icon-wrapper {
+      width: 48px;
+      height: 48px;
+      border-radius: 14px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 16px;
+    }
+    .theme-kory .icon-wrapper { background: var(--kory); color: white; }
+    .theme-gate .icon-wrapper { background: var(--gate); color: white; }
+    .theme-legacy .icon-wrapper { background: var(--legacy); color: white; }
+    .theme-warn .icon-wrapper { background: var(--warn); color: white; }
+    .theme-request .icon-wrapper { background: var(--request); color: white; }
+    .theme-incident .icon-wrapper { background: var(--incident); color: white; }
+
+    /* IP Lists */
+    .ip-list {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 6px;
+      margin-top: 16px;
+    }
+    code {
+      padding: 4px 8px;
+      border-radius: 6px;
+      background: rgba(255, 255, 255, 0.7);
+      color: var(--ink);
+      font-family: "Cascadia Mono", monospace;
+      font-size: 0.85em;
+      text-align: center;
+      border: 1px solid rgba(0,0,0,0.05);
+    }
+    .theme-warn code { background: rgba(0,0,0,0.04); }
+
+    /* Landing Split */
+    .split-screen {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 24px;
+      min-height: 60vh;
+      align-items: stretch;
+    }
+    .split-btn {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 48px;
+      border-radius: var(--radius);
+      font-size: 24px;
+      font-weight: 800;
+      cursor: pointer;
+      transition: all 0.3s;
+      border: 2px solid transparent;
+      box-shadow: var(--shadow);
+    }
+    .split-btn p { font-size: 16px; font-weight: 400; color: var(--muted); margin-top: 12px; }
+    .split-overview { background: #ffffff; border-color: var(--line); }
+    .split-overview:hover { border-color: var(--request); background: var(--request-soft); transform: scale(1.02); }
+    .split-interactive { background: var(--gate); color: white; }
+    .split-interactive p { color: rgba(255,255,255,0.8); }
+    .split-interactive:hover { background: #0b7a69; transform: scale(1.02); box-shadow: 0 24px 50px rgba(13, 143, 123, 0.3); }
+
+    /* Topbar Navigation */
+    .topbar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 24px;
+      padding-bottom: 16px;
+      border-bottom: 2px solid var(--line);
+    }
+
+    /* Grids */
+    .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+    .grid-4 { display: grid; grid-template-columns: repeat(4, 1fr); gap: 20px; }
+    
+    /* Lists & Scripts */
+    .tick-list { list-style: none; padding: 0; margin: 0; }
+    .tick-list li {
+      display: flex;
+      gap: 12px;
+      padding: 12px 0;
+      border-bottom: 1px solid rgba(200, 211, 227, 0.4);
+    }
+    .tick-list li:last-child { border-bottom: none; }
+    .tick {
+      width: 24px; height: 24px; flex-shrink: 0;
+      border-radius: 50%; background: var(--gate-soft); color: var(--gate);
+      display: flex; align-items: center; justify-content: center; font-size: 14px; font-weight: bold;
+    }
+    
+    .script-box {
+      margin-top: 8px;
+      padding: 16px;
+      border-radius: 12px;
+      background: #f7f9fc;
+      border-left: 4px solid var(--request);
+      color: #27364d;
+      white-space: pre-line;
+      font-size: 15px;
+    }
+    .script-box.warn { border-left-color: var(--warn); background: var(--warn-soft); }
+
+    /* Overview Styles (Re-used from old HTML) */
+    .badge {
+      display: inline-flex; align-items: center; justify-content: center;
+      padding: 6px 12px; border-radius: 999px; font-size: 13px; font-weight: 800;
+      background: #f2f6fb; border: 1px solid var(--line); color: #263851;
+    }
+    .badge.gate { background: var(--gate-soft); color: #076d5d; border-color: rgba(13,143,123,0.28); }
+    .badge.kory { background: var(--kory-soft); color: #5630a4; border-color: rgba(111,66,193,0.28); }
+    .note-box {
+      padding: 16px; border-radius: 12px; background: #fff8e9; border: 1px solid rgba(201, 120, 19, 0.25);
+      color: #65400e; font-weight: 600; font-size: 14px; margin-bottom: 24px;
+    }
+    .timeline { display: grid; grid-template-columns: repeat(4, 1fr); gap: 14px; margin-bottom: 32px; }
+    .step { padding: 16px; border-radius: 12px; background: #fff; border: 1px solid var(--line); position: relative; }
+    .step .dot { width: 28px; height: 28px; display: inline-flex; align-items: center; justify-content: center; background: #e8edf5; border-radius: 8px; font-weight: bold; margin-bottom: 8px;}
+    .diagram-box {
+      background: #0f172a;
+      color: #e2e8f0;
+      border-radius: 16px;
+      padding: 18px;
+      font-family: "Cascadia Mono", monospace;
+      font-size: 14px;
+      line-height: 1.65;
+      white-space: pre-wrap;
+      overflow-x: auto;
+      margin-bottom: 24px;
+    }
+    .standard-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 16px;
+      margin-bottom: 24px;
+    }
+
+    /* Action Dashboard Styles */
+    .action-box {
+      background: white;
+      border: 1px solid var(--line);
+      border-radius: 16px;
+      padding: 24px;
+      margin-bottom: 20px;
+    }
+    .action-box h3 {
+      font-size: 18px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      margin-bottom: 16px;
+      color: var(--ink);
+    }
+    .action-seq {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+    .seq-item {
+      display: flex;
+      gap: 16px;
+      align-items: flex-start;
+    }
+    .seq-num {
+      width: 28px;
+      height: 28px;
+      flex-shrink: 0;
+      background: var(--ink);
+      color: white;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: bold;
+      font-size: 14px;
+    }
+    .seq-content {
+      padding-top: 2px;
+    }
+    .template-box {
+      background: #f8fafc;
+      border: 1px solid #cbd5e1;
+      border-radius: 8px;
+      padding: 16px;
+      font-family: monospace;
+      font-size: 14px;
+      white-space: pre-wrap;
+      color: #334155;
+    }
+    .template-meta {
+      background: #e2e8f0;
+      padding: 8px 16px;
+      border-radius: 8px 8px 0 0;
+      font-weight: bold;
+      font-size: 13px;
+      border-bottom: 1px solid #cbd5e1;
+      margin: -16px -16px 16px -16px;
+    }
+    .danger-box {
+      background: #fef2f2;
+      border: 1px solid #fecaca;
+      border-radius: 12px;
+      padding: 16px;
+      color: #991b1b;
+      display: flex;
+      gap: 12px;
+      align-items: flex-start;
+    }
+
+    @media (max-width: 900px) {
+      .split-screen { grid-template-columns: 1fr; }
+      .grid-4, .grid-2, .timeline, .standard-grid { grid-template-columns: 1fr; }
+      .ip-list { grid-template-columns: 1fr 1fr; }
+    }
+  </style>
+</head>
+<body>
+  
+  <div class="page-container" id="app">
+    
+    <!-- ==================== VIEW: LANDING ==================== -->
+    <div id="view-landing" class="fade-in">
+      <div style="text-align: center; margin-bottom: 40px;">
+        <h1 style="font-size: 36px;">TTM/NOC Self Service Call Flow</h1>
+        <p style="color: var(--muted); font-size: 18px;">ระบบช่วยตัดสินใจเส้นทางการรับแจ้งปัญหาลูกค้า (Routing Tool)</p>
+      </div>
+      
+      <div class="split-screen">
+        <div class="split-btn split-overview" onclick="app.showView('overview')">
+          <i data-lucide="book-open" style="width: 64px; height: 64px; margin-bottom: 16px; color: var(--request);"></i>
+          ดูภาพรวม (Overview)
+          <p>เปิดอ่านคู่มือและแผนผังฉบับเต็ม<br>รวมตาราง IP Ranges ทั้งหมด</p>
+        </div>
+        
+        <div class="split-btn split-interactive" onclick="app.startFlow()">
+          <i data-lucide="play-circle" style="width: 64px; height: 64px; margin-bottom: 16px;"></i>
+          เริ่มคัดกรองสาย (Interactive)
+          <p>ระบบถาม-ตอบทีละขั้นตอน<br>เพื่อเปิดเคสและให้สคริปต์ที่ถูกต้อง</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- ==================== VIEW: INTERACTIVE FLOW ==================== -->
+    <div id="view-flow" class="hidden fade-in">
+      <div class="topbar">
+        <div>
+          <button id="btn-back" class="btn btn-outline" onclick="app.goBack()">
+            <i data-lucide="arrow-left" style="width: 18px;"></i> ย้อนกลับ
+          </button>
+        </div>
+        <div style="font-weight: bold; color: var(--muted);" id="flow-status">Step 1: Intake</div>
+        <div>
+          <button class="btn btn-outline" onclick="app.showView('landing')" style="border-color: transparent;">
+            <i data-lucide="home" style="width: 18px;"></i> หน้าแรก
+          </button>
+          <button class="btn" style="background: var(--line); color: var(--ink);" onclick="app.startFlow()">
+            <i data-lucide="rotate-ccw" style="width: 18px;"></i> เริ่มสายใหม่
+          </button>
+        </div>
+      </div>
+
+      <div id="flow-content-area">
+        <!-- Dynamic Content Injected Here by JS -->
+      </div>
+    </div>
+
+    <!-- ==================== VIEW: OVERVIEW ==================== -->
+    <div id="view-overview" class="hidden fade-in">
+      <div class="topbar">
+        <h2><i data-lucide="book-open" style="vertical-align: text-bottom; margin-right: 8px;"></i> ภาพรวมระบบ (Manual Overview)</h2>
+        <button class="btn btn-outline" onclick="app.showView('landing')">
+          <i data-lucide="arrow-left" style="width: 18px;"></i> กลับหน้าแรก
+        </button>
+      </div>
+      
+      <div class="card" style="margin-bottom: 24px;">
+        <p class="lead">Flow สำหรับรับสายลูกค้า Self Service โดยเริ่มจาก Intake, ระบุ Platform, ตรวจ Gate Domain/SSL ถ้าเกี่ยวข้อง, แยก Incident/Request, เปิด Ticket/Case, โทร Operation, Drop Line และปิดสายผ่าน Ticket/Email</p>
+        <div style="display: flex; gap: 8px; flex-wrap: wrap;">
+          <span class="badge kory">Kory</span> <span class="badge gate">Gate</span> <span class="badge">Commercial Route-Out</span> <span class="badge">Email / Verify</span>
+        </div>
+      </div>
+
+      <div class="note-box">
+        <strong>กฎสำคัญ:</strong> Email ไม่ใช่ตัวตัดสินว่าลูกค้าอยู่ฝั่ง Kory หรือ Gate ต้องถาม Portal ก่อนเสมอ และถ้าเป็นเคส Instance / VM / Network ให้ใช้ Public IP ช่วยยืนยันฝั่งบริการ หาก Portal และ Public IP ขัดกัน ให้ส่งเข้า Email / Verify เพื่อขอข้อมูลเพิ่มและตรวจสอบก่อนเปิดเคส<br><br>
+        <strong>Email-only last resort:</strong> ถ้ามีเพียง email และสุดวิสัยจริงๆ หลังพยายามขอ Portal/Public IP แล้ว ให้เปิดเคสไปที่ Kory ก่อน โดยระบุว่า platform ยังไม่ยืนยัน เพื่อให้ OP OLS ตรวจสอบต่อ
+      </div>
+
+      <h3>Main Intake Flow</h3>
+      <div class="timeline">
+        <div class="step"><span class="dot">1</span> <strong>Intake</strong><br><span style="font-size: 13px; color: var(--muted);">Portal, Email, Public IP, อาการ/คำขอ</span></div>
+        <div class="step" style="background: var(--warn-soft);"><span class="dot">2</span> <strong>Route Platform</strong><br><span style="font-size: 13px; color: var(--muted);">Kory, Gate, Commercial, Verify</span></div>
+        <div class="step"><span class="dot">3</span> <strong>Gate Pre-check</strong><br><span style="font-size: 13px; color: var(--muted);">Domain/SSL ถ้าเกี่ยวข้อง</span></div>
+        <div class="step"><span class="dot">4</span> <strong>Incident / Request</strong><br><span style="font-size: 13px; color: var(--muted);">แยกประเภทเคส</span></div>
+        <div class="step"><span class="dot">5</span> <strong>Open Case</strong><br><span style="font-size: 13px; color: var(--muted);">internal หรือ pro-tracker</span></div>
+        <div class="step" style="background: var(--warn-soft);"><span class="dot">6</span> <strong>Call Operation</strong><br><span style="font-size: 13px; color: var(--muted);">โทรแจ้งทุกเคสที่ลูกค้าโทรมา</span></div>
+        <div class="step" style="background: var(--warn-soft);"><span class="dot">7</span> <strong>Drop Line</strong><br><span style="font-size: 13px; color: var(--muted);">แจ้งทีมทุกเคสที่ลูกค้าโทรมา</span></div>
+        <div class="step"><span class="dot">8</span> <strong>Call Closing</strong><br><span style="font-size: 13px; color: var(--muted);">ติดตามผ่าน Ticket/Email</span></div>
+      </div>
+
+      <h3>Standard หลังเปิด Ticket/Case</h3>
+      <div class="standard-grid">
+        <div class="card" style="padding: 16px;">
+          <h4 style="margin-bottom: 8px;">Incident</h4>
+          <p style="color: var(--muted); font-size: 14px; margin-bottom: 0;">เปิด Ticket/Case, โทร Operation, Drop Line และแจ้งลูกค้าให้ติดตามผ่าน Ticket/Email ทุกครั้ง</p>
+        </div>
+        <div class="card" style="padding: 16px;">
+          <h4 style="margin-bottom: 8px;">Request</h4>
+          <p style="color: var(--muted); font-size: 14px; margin-bottom: 0;">ถ้าลูกค้าโทรมา ให้เปิด Ticket/Case, โทร Operation และ Drop Line ทุกเคส เป็น standard เดียวกัน</p>
+        </div>
+        <div class="card" style="padding: 16px;">
+          <h4 style="margin-bottom: 8px;">Commercial / Alpha</h4>
+          <p style="color: var(--muted); font-size: 14px; margin-bottom: 0;">ไม่เข้า Self Service flow ให้ Route-Out ไป noc@inet.co.th และปิดสายด้วย script เฉพาะ</p>
+        </div>
+      </div>
+
+      <h3>Gate Domain / SSL Pre-check</h3>
+      <div class="note-box" style="background: var(--gate-soft); color: #075f52; border-color: rgba(13,143,123,0.25);">
+        ถ้าเป็นเคส Domain / SSL ให้ค้นหาใน internal ก่อน หากพบ Domain/SSL ให้เข้า flow ปกติ หากไม่พบ Domain/SSL แต่ Account ตรง ให้เปิดผ่าน Account และเข้า flow ปกติ หากไม่พบทั้ง Domain/SSL และ Account ไม่ตรง ให้เข้า Email / Verify ไม่เปิด Gate Ticket
+      </div>
+
+      <h3>Compact Diagram</h3>
+      <div class="diagram-box">Intake
+  -> Platform?
+    -> Kory -> Type -> Open Case -> Call Operation -> Drop Line -> Closing
+    -> Gate -> Domain/SSL Check -> Type -> Open Ticket -> Call Operation -> Drop Line -> Closing
+    -> Commercial / Alpha -> Route-Out noc@inet.co.th -> Closing
+    -> Conflict / Email-only -> Email / Verify</div>
+
+      <h3>IP Ranges Reference</h3>
+      <div class="grid-3" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 16px; margin-bottom: 24px;">
+        <div class="card theme-kory" style="padding: 16px;">
+          <h4 style="margin-bottom: 8px;">Kory (pro-tracker)</h4>
+          <code>203.154.16.0/24</code>
+        </div>
+        <div class="card theme-gate" style="padding: 16px;">
+          <h4 style="margin-bottom: 8px;">Gate (internal)</h4>
+          <div class="ip-list" style="margin-top: 0;">
+            <code>203.150.243.0/24</code><code>203.154.83.0/24</code>
+            <code>203.150.107.0/24</code><code>203.154.82.0/24</code>
+            <code>203.151.144.0/24</code><code>203.154.91.0/24</code>
+          </div>
+        </div>
+        <div class="card theme-legacy" style="padding: 16px;">
+          <h4 style="margin-bottom: 8px;">Commercial (noc@inet.co.th)</h4>
+          <div class="ip-list" style="margin-top: 0; grid-template-columns: 1fr 1fr 1fr;">
+            <code>210.4.137.0/24</code><code>203.150.37.0/24</code><code>203.154.100.0/24</code>
+            <code>203.151.50.0/24</code><code>203.151.51.0/24</code><code>203.154.71.0/24</code>
+            <code>203.154.59.0/24</code><code>203.154.58.0/24</code><code>203.154.135.0/24</code>
+            <code>203.150.145.0/24</code><code>103.138.179.0/24</code><code>103.138.178.0/24</code>
+          </div>
+        </div>
+      </div>
+      <p style="text-align: center; color: var(--muted); font-size: 13px;">หมายเหตุ: IP ranges อ้างอิงจาก knowledge/ip-ranges.yaml อัปเดตล่าสุด 2026-06-24</p>
+    </div>
+    
+  </div>
+
+  <script>
+    // --- APP LOGIC & STATE ---
+    const app = {
+      views: {
+        landing: document.getElementById('view-landing'),
+        overview: document.getElementById('view-overview'),
+        flow: document.getElementById('view-flow')
+      },
+      contentArea: document.getElementById('flow-content-area'),
+      backBtn: document.getElementById('btn-back'),
+      statusText: document.getElementById('flow-status'),
+      
+      // State tracking
+      historyStack: [],
+      currentState: { step: 0, data: {} },
+
+      init: function() {
+        lucide.createIcons();
+      },
+
+      showView: function(viewName) {
+        Object.values(this.views).forEach(el => el.classList.add('hidden'));
+        this.views[viewName].classList.remove('hidden');
+        if(viewName === 'landing' || viewName === 'overview') {
+          this.historyStack = []; // clear history when exiting flow
+        }
+        lucide.createIcons();
+      },
+
+      startFlow: function() {
+        this.historyStack = [];
+        this.currentState = { step: 1, data: {} };
+        this.showView('flow');
+        this.renderStep();
+      },
+
+      goNext: function(nextStep, newData = {}) {
+        // Save current to history
+        this.historyStack.push(JSON.parse(JSON.stringify(this.currentState)));
+        
+        // Update state
+        this.currentState.step = nextStep;
+        this.currentState.data = { ...this.currentState.data, ...newData };
+        
+        this.renderStep();
+      },
+
+      goBack: function() {
+        if (this.historyStack.length > 0) {
+          this.currentState = this.historyStack.pop();
+          this.renderStep();
+        }
+      },
+
+      getPlatformMeta: function(data) {
+        if (data.platform === 'kory') {
+          return {
+            name: 'Kory',
+            theme: 'theme-kory',
+            system: 'pro-tracker.openlandscape.cloud',
+            caseWord: 'Case'
+          };
+        }
+
+        return {
+          name: 'Gate',
+          theme: 'theme-gate',
+          system: 'internal.openlandscape.cloud',
+          caseWord: 'Ticket'
+        };
+      },
+
+      getCaseTemplate: function(data) {
+        const meta = this.getPlatformMeta(data);
+        const platformNote = data.verifyResult === 'email_only_last_resort'
+          ? '\nหมายเหตุ: เปิดเป็น Kory ตาม last resort เนื่องจากยังไม่ยืนยัน Platform มีเพียง Email เท่านั้น'
+          : '';
+        const gateNote = data.gateCheck === 'found_domain_ssl'
+          ? '\nข้อมูล Gate Pre-check: พบ Domain/SSL ใน internal แล้ว'
+          : data.gateCheck === 'account_match'
+            ? '\nข้อมูล Gate Pre-check: ไม่พบ Domain/SSL แต่ Account ตรง เปิดผ่าน Account'
+            : '';
+
+        if (data.type === 'incident') {
+          return `[NOC] ทาง NOC ขอส่งต่อข้อมูลจากผู้ใช้บริการที่ติดต่อผ่าน Call Center (Incident) เพื่อให้ทีม OP ดำเนินการตรวจสอบต่อ
+
+ข้อมูลผู้ใช้บริการ:
+- ชื่อผู้ใช้บริการ: [ชื่อ]
+- เบอร์ติดต่อ: [เบอร์]
+- อีเมล: [อีเมล]
+
+ข้อมูลเคส:
+- Platform: ${meta.name}
+- ประเภท: Incident
+- หัวข้อ: [สรุปสั้น ๆ]
+- อาการ: [รายละเอียดอาการ]
+- Instance name / Public IP / Domain / SSL Order: [ข้อมูลที่เกี่ยวข้อง]
+- ช่วงเวลาที่พบปัญหา: [วันเวลา]
+- Error message / Screenshot: [ถ้ามี]
+${gateNote}${platformNote}`;
+        }
+
+        return `[NOC] เปิด ${meta.caseWord} ประเภท Request จากผู้ใช้บริการที่ติดต่อผ่าน Call Center
+
+ข้อมูลผู้ใช้บริการ:
+- ชื่อผู้ใช้บริการ: [ชื่อ]
+- เบอร์ติดต่อ: [เบอร์]
+- อีเมล: [อีเมล]
+
+รายละเอียดคำขอ:
+- Platform: ${meta.name}
+- ประเภท: Request
+- หัวข้อ: [สรุปสั้น ๆ]
+- รายละเอียด: [สิ่งที่ผู้ใช้บริการต้องการ/คำถามที่ถามมา]
+- ข้อมูลประกอบ: [Instance / Public IP / Domain / SSL Order / Payment slip ถ้ามี]
+
+การดำเนินการเบื้องต้นโดย NOC:
+- แนวทาง/คำแนะนำที่แจ้งผู้ใช้บริการ: [ถ้ามี]
+${gateNote}${platformNote}`;
+      },
+
+      getClosingScript: function(data) {
+        if (data.type === 'incident') {
+          return `ทางทีมได้บันทึกเคสและรายละเอียดเหตุขัดข้องเรียบร้อยแล้วครับ ขณะนี้อยู่ระหว่างส่งต่อให้ทีมที่เกี่ยวข้องตรวจสอบ รบกวนผู้ใช้บริการติดตามและส่งข้อมูลเพิ่มเติมผ่านเคสนี้ได้เลยครับ`;
+        }
+
+        return `ทางทีมได้บันทึกเคสและรายละเอียดคำขอเรียบร้อยแล้วครับ ขณะนี้อยู่ระหว่างดำเนินการต่อ หากมีข้อมูลเพิ่มเติมสามารถตอบกลับผ่านเคสนี้ได้เลยครับ`;
+      },
+
+      renderStep: function() {
+        const step = this.currentState.step;
+        const data = this.currentState.data;
+        
+        // Toggle Back Button visibility
+        this.backBtn.style.visibility = this.historyStack.length === 0 ? 'hidden' : 'visible';
+        
+        let html = '';
+        
+        // --- STEP 1: Intake ---
+        if (step === 1) {
+          this.statusText.innerText = "Step 1: สอบถามข้อมูลเบื้องต้น";
+          html = `
+            <div class="card fade-in" style="max-width: 800px; margin: 0 auto;">
+              <h2>รับสายลูกค้า</h2>
+              <div class="script-box">
+                <strong>[Script ทักทาย]:</strong><br>
+                "ขออนุญาตสอบถามก่อนนะครับ ปัจจุบันผู้ใช้บริการเข้าใช้งานผ่าน Portal ไหนครับ เช่น kory.openlandscape.cloud, gate.openlandscape.cloud, portal.openlandscape.cloud หรือ alpha.openlandscape.cloud<br><br>
+                รบกวนแจ้งอีเมล account ที่ใช้เข้าใช้งาน เพื่อให้ทางทีมเปิดเคสและตรวจสอบข้อมูลได้ถูกต้องครับ หากเป็นเคส Instance/Network รบกวนขอ Public IP เพิ่มเติมด้วยครับ"
+              </div>
+              
+              <h3 style="margin-top: 24px;">Checklist ข้อมูลที่ต้องได้</h3>
+              <ul class="tick-list">
+                <li><div class="tick">1</div> <div><strong>Portal:</strong> ลูกค้าใช้งานหน้าเว็บไหน?</div></li>
+                <li><div class="tick">2</div> <div><strong>Email:</strong> Account ที่ใช้งาน (ห้ามใช้อีเมลเดา Platform เอง)</div></li>
+                <li><div class="tick">3</div> <div><strong>Public IP:</strong> บังคับถามกรณีมีปัญหาเกี่ยวกับ VM / Network / Ping / SSH</div></li>
+              </ul>
+              
+              <div style="margin-top: 24px; text-align: right;">
+                <button class="btn" style="background: var(--gate); color: white;" onclick="app.goNext(2)">
+                  ถามข้อมูลครบแล้ว ไปต่อ <i data-lucide="arrow-right" style="width: 18px;"></i>
+                </button>
+              </div>
+            </div>
+          `;
+        }
+        
+        // --- STEP 2: Platform Selection ---
+        else if (step === 2) {
+          this.statusText.innerText = "Step 2: ระบุ Platform (ตรวจสอบ IP)";
+          html = `
+            <div class="fade-in">
+              <h2 style="text-align: center; margin-bottom: 24px;">สรุปข้อมูลลูกค้าตรงกับฝั่งไหน?</h2>
+              <div class="grid-4">
+                <div class="card clickable-card theme-gate" onclick="app.goNext(3, {platform: 'gate'})">
+                  <div class="icon-wrapper"><i data-lucide="shield"></i></div>
+                  <h3>Gate</h3>
+                  <p style="font-size: 14px; color: var(--muted); margin-bottom: 8px;">Portal: gate.openlandscape.cloud</p>
+                  <div class="ip-list">
+                    <code>203.150.243.0/24</code><code>203.154.83.0/24</code>
+                    <code>203.150.107.0/24</code><code>203.154.82.0/24</code>
+                    <code>203.151.144.0/24</code><code>203.154.91.0/24</code>
+                  </div>
+                </div>
+                <div class="card clickable-card theme-kory" onclick="app.goNext(4, {platform: 'kory'})">
+                  <div class="icon-wrapper"><i data-lucide="cloud"></i></div>
+                  <h3>Kory</h3>
+                  <p style="font-size: 14px; color: var(--muted); margin-bottom: 8px;">Portal: kory.openlandscape.cloud</p>
+                  <div class="ip-list"><code>203.154.16.0/24</code></div>
+                </div>
+                <div class="card clickable-card theme-legacy" onclick="app.goNext(9, {platform: 'commercial'})">
+                  <div class="icon-wrapper"><i data-lucide="building"></i></div>
+                  <h3>Commercial / Alpha</h3>
+                  <p style="font-size: 14px; color: var(--muted); margin-bottom: 8px;">Route-Out ไป noc@inet.co.th ไม่เข้า Self Service flow</p>
+                  <div class="ip-list" style="grid-template-columns: 1fr 1fr;">
+                     <code>210.4.137.0/24</code><code>203.150.37.0/24</code>
+                     <code>203.154.100.0/24</code><code>203.151.50.0/24</code>
+                     <code>203.151.51.0/24</code><code>203.154.71.0/24</code>
+                     <code>203.154.59.0/24</code><code>203.154.58.0/24</code>
+                     <code>203.154.135.0/24</code><code>203.150.145.0/24</code>
+                     <code>103.138.179.0/24</code><code>103.138.178.0/24</code>
+                  </div>
+                </div>
+                <div class="card clickable-card theme-warn" onclick="app.goNext(10, {platform: 'conflict'})">
+                  <div class="icon-wrapper"><i data-lucide="alert-triangle"></i></div>
+                  <h3>ข้อมูลขัดกัน / มีแค่ Email</h3>
+                  <p style="font-size: 14px; color: var(--muted);">Portal กับ IP อยู่คนละฝั่ง หรือยังยืนยัน Platform ไม่ได้</p>
+                </div>
+              </div>
+            </div>
+          `;
+        }
+
+        // --- STEP 3: Gate Domain/SSL Pre-check ---
+        else if (step === 3) {
+          this.statusText.innerText = "Step 3: Gate Domain/SSL Pre-check";
+          html = `
+            <div class="fade-in" style="max-width: 1000px; margin: 0 auto;">
+              <h2 style="text-align: center; margin-bottom: 12px;">Gate: เคสนี้เกี่ยวกับ Domain / SSL หรือไม่?</h2>
+              <p style="text-align: center; color: var(--muted); margin-bottom: 24px;">ถ้าเกี่ยวข้อง ให้ตรวจใน internal ก่อน ถ้าไม่เกี่ยวข้องให้เข้า flow ปกติได้เลย</p>
+              <div class="grid-4">
+                <div class="card clickable-card" style="border-color: var(--line);" onclick="app.goNext(4, {gateCheck: 'not_related'})">
+                  <div class="icon-wrapper" style="background: var(--muted); color: white;"><i data-lucide="server"></i></div>
+                  <h3>ไม่ใช่ Domain / SSL</h3>
+                  <p style="font-size: 13px; color: var(--muted);">เข้า Incident / Request ปกติ</p>
+                </div>
+                <div class="card clickable-card theme-gate" onclick="app.goNext(4, {gateCheck: 'found_domain_ssl'})">
+                  <div class="icon-wrapper"><i data-lucide="globe"></i></div>
+                  <h3>พบ Domain / SSL</h3>
+                  <p style="font-size: 13px; color: var(--muted);">เปิดผ่านข้อมูลที่พบ แล้วเข้า flow ปกติ</p>
+                </div>
+                <div class="card clickable-card theme-gate" onclick="app.goNext(4, {gateCheck: 'account_match'})">
+                  <div class="icon-wrapper"><i data-lucide="user-check"></i></div>
+                  <h3>ไม่พบ แต่ Account ตรง</h3>
+                  <p style="font-size: 13px; color: var(--muted);">เปิดผ่าน Account แล้วเข้า flow ปกติ</p>
+                </div>
+                <div class="card clickable-card theme-warn" onclick="app.goNext(10, {verifyReason: 'gate_domain_ssl_no_match'})">
+                  <div class="icon-wrapper"><i data-lucide="search-x"></i></div>
+                  <h3>ไม่พบทั้ง Domain/SSL และ Account</h3>
+                  <p style="font-size: 13px; color: var(--muted);">เข้า Email / Verify ไม่เปิด Gate Ticket</p>
+                </div>
+              </div>
+            </div>
+          `;
+        }
+
+        // --- STEP 4: Request vs Incident ---
+        else if (step === 4) {
+          this.statusText.innerText = "Step 4: แยกประเภทเคส";
+          html = `
+            <div class="fade-in" style="max-width: 720px; margin: 0 auto; text-align: center;">
+              <h2>ลูกค้าแจ้งปัญหาขัดข้อง หรือ ร้องขอข้อมูล/บริการ?</h2>
+              <p style="color: var(--muted);">ทั้ง Incident และ Request ที่มาจาก Call Center ต้องโทร Operation และ Drop Line ทุกเคส</p>
+              <div class="grid-2" style="margin-top: 24px;">
+                <div class="card clickable-card theme-incident" onclick="app.goNext(5, {type: 'incident'})">
+                  <div class="icon-wrapper" style="margin: 0 auto 16px;"><i data-lucide="flame"></i></div>
+                  <h3>Incident</h3>
+                  <p style="font-size: 13px; color: var(--muted);">เช่น เข้าเว็บไม่ได้, Ping ไม่เจอ, SSH/RDP ไม่ได้, Error หน้าเว็บ</p>
+                </div>
+                <div class="card clickable-card theme-request" onclick="app.goNext(5, {type: 'request'})">
+                  <div class="icon-wrapper" style="margin: 0 auto 16px;"><i data-lucide="clipboard-list"></i></div>
+                  <h3>Request</h3>
+                  <p style="font-size: 13px; color: var(--muted);">เช่น ถามวิธีใช้งาน, ขอเพิ่มสิทธิ์, ลืมรหัสผ่าน, Domain/SSL inquiry</p>
+                </div>
+              </div>
+            </div>
+          `;
+        }
+
+        // --- STEP 5: Open Ticket/Case ---
+        else if (step === 5) {
+          const meta = this.getPlatformMeta(data);
+          const typeLabel = data.type === 'incident' ? 'Incident' : 'Request';
+          this.statusText.innerText = `Step 5: เปิด Ticket/Case (${typeLabel})`;
+          html = `
+            <div class="fade-in ${meta.theme}" style="max-width: 900px; margin: 0 auto;">
+              <div class="action-box">
+                <h3><i data-lucide="file-plus"></i> เปิด ${meta.caseWord} ในระบบ ${meta.name}</h3>
+                <div style="font-size: 16px; margin-bottom: 16px;">ระบบที่ต้องใช้งาน: <span style="background: var(--line); padding: 4px 8px; border-radius: 6px; font-weight: bold;">${meta.system}</span></div>
+                <div class="template-box">
+                  <div class="template-meta">${typeLabel} Template</div>
+${this.getCaseTemplate(data)}
+                </div>
+              </div>
+              <div class="action-box">
+                <h3><i data-lucide="check-square"></i> Checklist ก่อนโทร Operation</h3>
+                <ul class="tick-list">
+                  <li><div class="tick">1</div><div>เปิด ${meta.caseWord} แล้ว และมี Ticket/Case ID</div></li>
+                  <li><div class="tick">2</div><div>กรอกชื่อ เบอร์ติดต่อ อีเมล และรายละเอียดอาการ/คำขอครบ</div></li>
+                  <li><div class="tick">3</div><div>ถ้าเป็น Instance/Network ให้ใส่ Instance name, Public IP, ช่วงเวลา และ error message</div></li>
+                </ul>
+              </div>
+              <div style="text-align: right;">
+                <button class="btn" style="background: var(--gate); color: white;" onclick="app.goNext(6)">เปิดเคสแล้ว ไปโทร Operation <i data-lucide="arrow-right" style="width: 18px;"></i></button>
+              </div>
+            </div>
+          `;
+        }
+
+        // --- STEP 6: Call Operation ---
+        else if (step === 6) {
+          const meta = this.getPlatformMeta(data);
+          const typeLabel = data.type === 'incident' ? 'Incident' : 'Request';
+          this.statusText.innerText = "Step 6: โทร Operation";
+          html = `
+            <div class="fade-in ${meta.theme}" style="max-width: 900px; margin: 0 auto;">
+              <div class="action-box">
+                <h3><i data-lucide="phone-call"></i> โทรหา Operation ทุกเคสที่ลูกค้าโทรมา</h3>
+                <div class="script-box" style="margin-top: 0; border-left-color: var(--incident);">
+                  <b>Call Operation Script:</b><br>
+                  "แจ้ง ${typeLabel} จาก Call Center ครับ มีผู้ใช้บริการติดต่อเข้ามาทางโทรศัพท์บน ${meta.name} เปิด ${meta.caseWord} เลขที่ [Ticket/Case ID] แล้วครับ รายละเอียดคือ [สรุปอาการหรือคำขอ] รบกวนทีม Operation ตรวจสอบ/รับทราบต่อครับ"
+                </div>
+              </div>
+              <div class="action-box">
+                <h3><i data-lucide="list-checks"></i> ข้อมูลที่ต้องแจ้งตอนโทร</h3>
+                <div class="action-seq">
+                  <div class="seq-item"><div class="seq-num">1</div><div class="seq-content">Platform: ${meta.name}</div></div>
+                  <div class="seq-item"><div class="seq-num">2</div><div class="seq-content">ประเภทเคส: ${typeLabel}</div></div>
+                  <div class="seq-item"><div class="seq-num">3</div><div class="seq-content">Ticket/Case ID: [เลขเคส]</div></div>
+                  <div class="seq-item"><div class="seq-num">4</div><div class="seq-content">สรุปอาการหรือคำขอแบบสั้น กระชับ</div></div>
+                </div>
+              </div>
+              <div style="text-align: right;">
+                <button class="btn" style="background: var(--gate); color: white;" onclick="app.goNext(7)">โทรแล้ว ไป Drop Line <i data-lucide="arrow-right" style="width: 18px;"></i></button>
+              </div>
+            </div>
+          `;
+        }
+
+        // --- STEP 7: Drop Line ---
+        else if (step === 7) {
+          const meta = this.getPlatformMeta(data);
+          const typeLabel = data.type === 'incident' ? 'Incident' : 'Request';
+          this.statusText.innerText = "Step 7: Drop Line";
+          html = `
+            <div class="fade-in ${meta.theme}" style="max-width: 900px; margin: 0 auto;">
+              <div class="action-box">
+                <h3><i data-lucide="message-square-text"></i> Drop Line แจ้งทีม</h3>
+                <div class="template-box">
+                  <div class="template-meta">Line Template</div>
+[NOC] ${typeLabel} from Call Center
+Platform: ${meta.name}
+Ticket/Case: [เลขเคส]
+Customer email: [อีเมล]
+Contact: [ชื่อ / เบอร์]
+${data.type === 'incident' ? 'Issue' : 'Request'}: [สรุปอาการหรือคำขอ]
+Public IP / Instance / Domain / SSL Order: [ข้อมูลที่เกี่ยวข้อง]
+Action: เปิด ${meta.caseWord} แล้ว และโทรแจ้ง Operation แล้ว
+                </div>
+              </div>
+              <div class="danger-box">
+                <i data-lucide="alert-octagon" style="width: 24px; height: 24px; flex-shrink: 0;"></i>
+                <div><strong>Standard:</strong> ถ้าลูกค้าโทรเข้ามา ทั้ง Incident และ Request ต้องโทร Operation และ Drop Line ทุกเคสก่อนปิดสาย</div>
+              </div>
+              <div style="text-align: right; margin-top: 20px;">
+                <button class="btn" style="background: var(--gate); color: white;" onclick="app.goNext(8)">Drop Line แล้ว ไปบทพูดจบสาย <i data-lucide="arrow-right" style="width: 18px;"></i></button>
+              </div>
+            </div>
+          `;
+        }
+
+        // --- STEP 8: Call Closing ---
+        else if (step === 8) {
+          const meta = this.getPlatformMeta(data);
+          this.statusText.innerText = "Step 8: Call Closing";
+          html = `
+            <div class="fade-in ${meta.theme}" style="max-width: 900px; margin: 0 auto;">
+              <div class="action-box">
+                <h3><i data-lucide="mic"></i> บทพูดจบสาย</h3>
+                <div class="script-box" style="margin-top: 0;">
+${this.getClosingScript(data)}
+                </div>
+              </div>
+              <div class="action-box">
+                <h3><i data-lucide="clock"></i> ข้อความนอกเวลาทำการ</h3>
+                <div class="script-box warn" style="margin-top: 0;">
+เนื่องจากเป็นช่วงนอกเวลาทำการ ทางทีมจะตรวจสอบและอัปเดตผ่านช่องทางเคสหรืออีเมลในวันทำการถัดไป จันทร์-ศุกร์ เวลา 09:00-18:00 น. ยกเว้นวันเสาร์-อาทิตย์ และวันหยุดนักขัตฤกษ์ ขออภัยในความไม่สะดวกครับ
+                </div>
+              </div>
+              <div class="danger-box">
+                <i data-lucide="alert-octagon" style="width: 24px; height: 24px; flex-shrink: 0;"></i>
+                <div>
+                  <strong>นโยบายการโทรกลับ</strong><br>
+                  ณ ปัจจุบันการตอบกลับปัญหากับผู้ใช้บริการจะเป็นการตอบกลับผ่าน Ticket และอีเมลทุกครั้ง เพื่อติดตามสถานะและส่งข้อมูลให้ลูกค้าได้ครบถ้วนถูกต้อง ไม่รับปากว่าจะโทรกลับ
+                </div>
+              </div>
+            </div>
+          `;
+        }
+
+        // --- STEP 9: Commercial Route-Out ---
+        else if (step === 9) {
+          this.statusText.innerText = "Commercial / Alpha Route-Out";
+          html = `
+            <div class="fade-in theme-legacy" style="max-width: 900px; margin: 0 auto;">
+              <div class="action-box">
+                <h3><i data-lucide="route"></i> Commercial / Alpha ไม่เข้า Self Service Case</h3>
+                <div class="action-seq">
+                  <div class="seq-item"><div class="seq-num">1</div><div class="seq-content">ไม่เปิด Ticket/Case ใน Gate หรือ Kory Self Service</div></div>
+                  <div class="seq-item"><div class="seq-num">2</div><div class="seq-content">แจ้งหรือส่งต่อไปที่ <b>noc@inet.co.th</b></div></div>
+                  <div class="seq-item"><div class="seq-num">3</div><div class="seq-content">ปิดสายด้วย script ด้านล่าง</div></div>
+                </div>
+              </div>
+              <div class="action-box">
+                <h3><i data-lucide="mic"></i> Commercial Call Closing</h3>
+                <div class="script-box" style="margin-top: 0;">
+จากข้อมูล Portal หรือ IP ที่แจ้งมา เคสนี้อยู่ในกลุ่ม Commercial Cloud ของ OpenLandscape รบกวนผู้ใช้บริการติดต่อผ่าน noc@inet.co.th เพื่อให้ทีมที่เกี่ยวข้องตรวจสอบต่อครับ
+                </div>
+              </div>
+            </div>
+          `;
+        }
+
+        // --- STEP 10: Email / Verify ---
+        else if (step === 10) {
+          this.statusText.innerText = "Email / Verify";
+          html = `
+            <div class="fade-in theme-warn" style="max-width: 980px; margin: 0 auto;">
+              <div class="action-box">
+                <h3><i data-lucide="search"></i> ข้อมูลยังไม่พอ หรือข้อมูลขัดกัน</h3>
+                <div class="script-box warn" style="margin-top: 0;">
+ขณะนี้ข้อมูลที่แจ้งมายังไม่สามารถยืนยันระบบที่ใช้งานได้ชัดเจน ทางทีมจะบันทึกข้อมูลและส่งตรวจสอบเพิ่มเติม หากมีความคืบหน้าจะแจ้งให้ทราบผ่านช่องทางที่เหมาะสมครับ
+                </div>
+              </div>
+              <div class="action-box">
+                <h3><i data-lucide="clipboard-check"></i> ขอข้อมูลเพิ่มก่อน Route</h3>
+                <ul class="tick-list">
+                  <li><div class="tick">1</div><div>Portal ที่ใช้งานจริง เช่น kory.openlandscape.cloud หรือ gate.openlandscape.cloud</div></li>
+                  <li><div class="tick">2</div><div>Account Email ที่ใช้เข้าใช้งาน</div></li>
+                  <li><div class="tick">3</div><div>Public IP ถ้าเกี่ยวกับ Instance / Network / Website / Port / Security Group</div></li>
+                  <li><div class="tick">4</div><div>Domain / SSL order ถ้าเกี่ยวกับ Domain หรือ SSL</div></li>
+                </ul>
+              </div>
+              <div class="grid-4">
+                <div class="card clickable-card theme-kory" onclick="app.goNext(4, {platform: 'kory', verifyResult: 'kory'})">
+                  <div class="icon-wrapper"><i data-lucide="cloud"></i></div>
+                  <h3>ยืนยันเป็น Kory</h3>
+                  <p style="font-size: 13px; color: var(--muted);">เข้า Incident / Request</p>
+                </div>
+                <div class="card clickable-card theme-gate" onclick="app.goNext(3, {platform: 'gate', verifyResult: 'gate'})">
+                  <div class="icon-wrapper"><i data-lucide="shield"></i></div>
+                  <h3>ยืนยันเป็น Gate</h3>
+                  <p style="font-size: 13px; color: var(--muted);">เข้า Gate Domain/SSL Pre-check</p>
+                </div>
+                <div class="card clickable-card theme-legacy" onclick="app.goNext(9, {platform: 'commercial', verifyResult: 'commercial'})">
+                  <div class="icon-wrapper"><i data-lucide="building"></i></div>
+                  <h3>ยืนยันเป็น Commercial</h3>
+                  <p style="font-size: 13px; color: var(--muted);">Route-Out ไป noc@inet.co.th</p>
+                </div>
+                <div class="card clickable-card theme-warn" onclick="app.goNext(4, {platform: 'kory', verifyResult: 'email_only_last_resort'})">
+                  <div class="icon-wrapper"><i data-lucide="mail-warning"></i></div>
+                  <h3>สุดวิสัยมีแค่ Email</h3>
+                  <p style="font-size: 13px; color: var(--muted);">เปิด Kory โดยระบุว่ายังไม่ยืนยัน Platform</p>
+                </div>
+              </div>
+            </div>
+          `;
+        }
+
+        this.contentArea.innerHTML = html;
+        lucide.createIcons(); // Re-initialize icons for newly injected HTML
+      }
+    };
+
+    // Initialize App
+    document.addEventListener("DOMContentLoaded", () => {
+      app.init();
+    });
+  </script>
+</body>
+</html>

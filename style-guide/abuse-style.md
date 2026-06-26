@@ -28,3 +28,8 @@
 1. First offense → Warning + ขอให้แก้ไข
 2. Repeat (ภายใน 30 วัน) → Suspend 7 วัน + ระบุวันที่แจ้งเตือนครั้งแรกในข้อความ
 3. Severe/Permanent → Ban account + bucket
+
+## Customer Communication Rules
+- กรณี 3rd offense (Permanent Ban) — ห้ามระบุว่า "ถาวร" ในอีเมลถึงลูกค้า
+  - แจ้งแค่ว่า "ระงับการใช้งานบัญชี"
+  - แนบข้อความ: "หากประสงค์จะขอปลดระงับ สามารถยื่นเรื่องพร้อมเหตุผลและแผนแก้ไขมายังทีมงาน"

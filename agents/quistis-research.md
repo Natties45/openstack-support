@@ -31,3 +31,9 @@ Return a structured answer:
 - Match OLS tone: "เรียน ผู้ใช้บริการ" ... "ขอบคุณครับ"
 - Include relevant URLs
 - Be concise but complete
+
+## Sphere Handbook (Optional)
+
+Extended methodology: `../sphere/agents/shared/research-handbook.md`
+
+This agent is self-contained. If `../sphere/` does not exist, all functions continue normally.

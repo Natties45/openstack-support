@@ -1,6 +1,14 @@
 {
   "$schema": "https://opencode.ai/config.json",
   "shell": "pwsh",
+  "skills": {
+    "paths": [
+      "../sphere/.opencode/skills",
+      "../../sphere/.opencode/skills",
+      "../../../sphere/.opencode/skills",
+      "../../../../sphere/.opencode/skills"
+    ]
+  },
   "instructions": ["./AGENTS.md"],
   "agent": {
     "rinoa": {
